@@ -240,7 +240,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="TD_Mgd">
-      <HintPath>..\..\..\..\..\Program Files (x86)\Bricsys\BricsCAD V13\TD_Mgd.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Bricsys\BricsCAD V13\TD_Mgd.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -250,6 +250,12 @@
     <Compile Include="CAD\ServiceSimpleElements.cs" />
     <Compile Include="Doc\LimitingOnUseLand.cs" />
     <Compile Include="EnumAttributes\BaseAttribute.cs" />
+    <Compile Include="Forms\FormAboutBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormAboutBox.Designer.cs">
+      <DependentUpon>FormAboutBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FormLand.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -344,6 +350,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Forms\FormAboutBox.resx">
+      <DependentUpon>FormAboutBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormLand.resx">
       <DependentUpon>FormLand.cs</DependentUpon>
     </EmbeddedResource>

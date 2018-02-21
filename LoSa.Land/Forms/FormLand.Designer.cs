@@ -64,10 +64,10 @@
             this.checkedListBox_TypeTable = new System.Windows.Forms.CheckedListBox();
             this.tabPageBoxDrawing = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.checkedListBoxTypeBoxDrawing = new System.Windows.Forms.CheckedListBox();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.btnBuildingBoxDrawing = new System.Windows.Forms.Button();
             this.btnEditTypeBoxDrawing = new System.Windows.Forms.Button();
-            this.checkedListBoxTypeBoxDrawing = new System.Windows.Forms.CheckedListBox();
             this.tabPageBreakdownPoints = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
@@ -90,10 +90,11 @@
             this.splitContainer = new System.Windows.Forms.SplitContainer();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.налаштуванняToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.m_item_TempDraw = new System.Windows.Forms.ToolStripMenuItem();
-            this.відображенняДілянкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.таблицToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.розбівочнеКресленняToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.item_TempDraw = new System.Windows.Forms.ToolStripMenuItem();
+            this.item_ParcelDraw = new System.Windows.Forms.ToolStripMenuItem();
+            this.item_TableParcel = new System.Windows.Forms.ToolStripMenuItem();
+            this.item_StakeoutParcel = new System.Windows.Forms.ToolStripMenuItem();
+            this.проПрограмуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl.SuspendLayout();
             this.tabPageInfoParcel.SuspendLayout();
             this.tabPagePlan.SuspendLayout();
@@ -593,6 +594,15 @@
             this.tableLayoutPanel3.Size = new System.Drawing.Size(501, 373);
             this.tableLayoutPanel3.TabIndex = 10;
             // 
+            // checkedListBoxTypeBoxDrawing
+            // 
+            this.checkedListBoxTypeBoxDrawing.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.checkedListBoxTypeBoxDrawing.FormattingEnabled = true;
+            this.checkedListBoxTypeBoxDrawing.Location = new System.Drawing.Point(3, 3);
+            this.checkedListBoxTypeBoxDrawing.Name = "checkedListBoxTypeBoxDrawing";
+            this.checkedListBoxTypeBoxDrawing.Size = new System.Drawing.Size(495, 321);
+            this.checkedListBoxTypeBoxDrawing.TabIndex = 5;
+            // 
             // flowLayoutPanel2
             // 
             this.flowLayoutPanel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -624,15 +634,6 @@
             this.btnEditTypeBoxDrawing.Text = "Редагувати типи таблиць";
             this.btnEditTypeBoxDrawing.UseVisualStyleBackColor = true;
             this.btnEditTypeBoxDrawing.Click += new System.EventHandler(this.btnEditTypeBoxDrawing_Click);
-            // 
-            // checkedListBoxTypeBoxDrawing
-            // 
-            this.checkedListBoxTypeBoxDrawing.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.checkedListBoxTypeBoxDrawing.FormattingEnabled = true;
-            this.checkedListBoxTypeBoxDrawing.Location = new System.Drawing.Point(3, 3);
-            this.checkedListBoxTypeBoxDrawing.Name = "checkedListBoxTypeBoxDrawing";
-            this.checkedListBoxTypeBoxDrawing.Size = new System.Drawing.Size(495, 321);
-            this.checkedListBoxTypeBoxDrawing.TabIndex = 5;
             // 
             // tabPageBreakdownPoints
             // 
@@ -885,7 +886,8 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.налаштуванняToolStripMenuItem});
+            this.налаштуванняToolStripMenuItem,
+            this.проПрограмуToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(513, 24);
@@ -895,38 +897,44 @@
             // налаштуванняToolStripMenuItem
             // 
             this.налаштуванняToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.m_item_TempDraw,
-            this.відображенняДілянкиToolStripMenuItem,
-            this.таблицToolStripMenuItem,
-            this.розбівочнеКресленняToolStripMenuItem});
+            this.item_TempDraw,
+            this.item_ParcelDraw,
+            this.item_TableParcel,
+            this.item_StakeoutParcel});
             this.налаштуванняToolStripMenuItem.Name = "налаштуванняToolStripMenuItem";
             this.налаштуванняToolStripMenuItem.Size = new System.Drawing.Size(101, 20);
             this.налаштуванняToolStripMenuItem.Text = "Налаштування";
             // 
-            // m_item_TempDraw
+            // item_TempDraw
             // 
-            this.m_item_TempDraw.Name = "m_item_TempDraw";
-            this.m_item_TempDraw.Size = new System.Drawing.Size(267, 22);
-            this.m_item_TempDraw.Text = "Тимчасове відображення кварталу";
-            this.m_item_TempDraw.Click += new System.EventHandler(this.зсувТимчасовогоВідображенняКварталуToolStripMenuItem_Click);
+            this.item_TempDraw.Name = "item_TempDraw";
+            this.item_TempDraw.Size = new System.Drawing.Size(267, 22);
+            this.item_TempDraw.Text = "Тимчасове відображення кварталу";
+            this.item_TempDraw.Click += new System.EventHandler(this.зсувТимчасовогоВідображенняКварталуToolStripMenuItem_Click);
             // 
-            // відображенняДілянкиToolStripMenuItem
+            // item_ParcelDraw
             // 
-            this.відображенняДілянкиToolStripMenuItem.Name = "відображенняДілянкиToolStripMenuItem";
-            this.відображенняДілянкиToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
-            this.відображенняДілянкиToolStripMenuItem.Text = "Відображення ділянки";
+            this.item_ParcelDraw.Name = "item_ParcelDraw";
+            this.item_ParcelDraw.Size = new System.Drawing.Size(267, 22);
+            this.item_ParcelDraw.Text = "Відображення ділянки";
             // 
-            // таблицToolStripMenuItem
+            // item_TableParcel
             // 
-            this.таблицToolStripMenuItem.Name = "таблицToolStripMenuItem";
-            this.таблицToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
-            this.таблицToolStripMenuItem.Text = "Таблиці ділянки";
+            this.item_TableParcel.Name = "item_TableParcel";
+            this.item_TableParcel.Size = new System.Drawing.Size(267, 22);
+            this.item_TableParcel.Text = "Таблиці ділянки";
             // 
-            // розбівочнеКресленняToolStripMenuItem
+            // item_StakeoutParcel
             // 
-            this.розбівочнеКресленняToolStripMenuItem.Name = "розбівочнеКресленняToolStripMenuItem";
-            this.розбівочнеКресленняToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
-            this.розбівочнеКресленняToolStripMenuItem.Text = "Розбівочне креслення";
+            this.item_StakeoutParcel.Name = "item_StakeoutParcel";
+            this.item_StakeoutParcel.Size = new System.Drawing.Size(267, 22);
+            this.item_StakeoutParcel.Text = "Розбівочне креслення";
+            // 
+            // проПрограмуToolStripMenuItem
+            // 
+            this.проПрограмуToolStripMenuItem.Name = "проПрограмуToolStripMenuItem";
+            this.проПрограмуToolStripMenuItem.Size = new System.Drawing.Size(99, 20);
+            this.проПрограмуToolStripMenuItem.Text = "Про програму";
             // 
             // FormLand
             // 
@@ -1049,9 +1057,10 @@
         private System.Windows.Forms.DataGridViewButtonColumn colFindingNearestBasePoint;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem налаштуванняToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem m_item_TempDraw;
-        private System.Windows.Forms.ToolStripMenuItem відображенняДілянкиToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem таблицToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem розбівочнеКресленняToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem item_TempDraw;
+        private System.Windows.Forms.ToolStripMenuItem item_ParcelDraw;
+        private System.Windows.Forms.ToolStripMenuItem item_TableParcel;
+        private System.Windows.Forms.ToolStripMenuItem item_StakeoutParcel;
+        private System.Windows.Forms.ToolStripMenuItem проПрограмуToolStripMenuItem;
     }
 }
