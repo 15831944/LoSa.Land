@@ -66,6 +66,7 @@ namespace LoSa.Land.Forms
     {
 
         private LocalPath localPath = new LocalPath("LoSa_Land");
+        private FormAboutBox formAboutBox = new FormAboutBox();
 
         #region Filde
 
@@ -966,6 +967,20 @@ namespace LoSa.Land.Forms
         private void зсувТимчасовогоВідображенняКварталуToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void mnu_About_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                formAboutBox.Show();
+            }
+            catch (Exception exc)
+            {
+                formAboutBox.Close();
+                this.formAboutBox = new FormAboutBox();
+                formAboutBox.Show();
+            }
         }
     }
 }

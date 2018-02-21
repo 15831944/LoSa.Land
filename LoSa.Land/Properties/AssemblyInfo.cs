@@ -6,8 +6,8 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Losa.Land")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Побудова креслень для кадастру у BricsCAD")]
+[assembly: AssemblyDescription("email: artem.loban@gmail.com")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("LoSa")]
 [assembly: AssemblyProduct("Losa.Land")]

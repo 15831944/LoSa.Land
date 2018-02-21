@@ -89,12 +89,12 @@
             this.comboBoxScaleDrawing = new System.Windows.Forms.ComboBox();
             this.splitContainer = new System.Windows.Forms.SplitContainer();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.налаштуванняToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnu_Settings = new System.Windows.Forms.ToolStripMenuItem();
             this.item_TempDraw = new System.Windows.Forms.ToolStripMenuItem();
             this.item_ParcelDraw = new System.Windows.Forms.ToolStripMenuItem();
             this.item_TableParcel = new System.Windows.Forms.ToolStripMenuItem();
             this.item_StakeoutParcel = new System.Windows.Forms.ToolStripMenuItem();
-            this.проПрограмуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnu_About = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl.SuspendLayout();
             this.tabPageInfoParcel.SuspendLayout();
             this.tabPagePlan.SuspendLayout();
@@ -886,24 +886,24 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.налаштуванняToolStripMenuItem,
-            this.проПрограмуToolStripMenuItem});
+            this.mnu_Settings,
+            this.mnu_About});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(513, 24);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
             // 
-            // налаштуванняToolStripMenuItem
+            // mnu_Settings
             // 
-            this.налаштуванняToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnu_Settings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.item_TempDraw,
             this.item_ParcelDraw,
             this.item_TableParcel,
             this.item_StakeoutParcel});
-            this.налаштуванняToolStripMenuItem.Name = "налаштуванняToolStripMenuItem";
-            this.налаштуванняToolStripMenuItem.Size = new System.Drawing.Size(101, 20);
-            this.налаштуванняToolStripMenuItem.Text = "Налаштування";
+            this.mnu_Settings.Name = "mnu_Settings";
+            this.mnu_Settings.Size = new System.Drawing.Size(101, 20);
+            this.mnu_Settings.Text = "Налаштування";
             // 
             // item_TempDraw
             // 
@@ -930,11 +930,12 @@
             this.item_StakeoutParcel.Size = new System.Drawing.Size(267, 22);
             this.item_StakeoutParcel.Text = "Розбівочне креслення";
             // 
-            // проПрограмуToolStripMenuItem
+            // mnu_About
             // 
-            this.проПрограмуToolStripMenuItem.Name = "проПрограмуToolStripMenuItem";
-            this.проПрограмуToolStripMenuItem.Size = new System.Drawing.Size(99, 20);
-            this.проПрограмуToolStripMenuItem.Text = "Про програму";
+            this.mnu_About.Name = "mnu_About";
+            this.mnu_About.Size = new System.Drawing.Size(99, 20);
+            this.mnu_About.Text = "Про програму";
+            this.mnu_About.Click += new System.EventHandler(this.mnu_About_Click);
             // 
             // FormLand
             // 
@@ -1056,11 +1057,11 @@
         private System.Windows.Forms.DataGridViewComboBoxColumn colBasePoint;
         private System.Windows.Forms.DataGridViewButtonColumn colFindingNearestBasePoint;
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem налаштуванняToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mnu_Settings;
         private System.Windows.Forms.ToolStripMenuItem item_TempDraw;
         private System.Windows.Forms.ToolStripMenuItem item_ParcelDraw;
         private System.Windows.Forms.ToolStripMenuItem item_TableParcel;
         private System.Windows.Forms.ToolStripMenuItem item_StakeoutParcel;
-        private System.Windows.Forms.ToolStripMenuItem проПрограмуToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mnu_About;
     }
 }

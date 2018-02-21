@@ -96,16 +96,16 @@ namespace LoSa.Land
             msgPorgam += "\n--------------------------------------";
             msgPorgam += "\n Land_CreatingPlanLand - ";
             msgPorgam += "\n Land_IntersectionGridLines - ";
-            //msgPorgam += "\n Land_InsertBlocksAlongLine - ";
+            msgPorgam += "\n Land_InsertBlocksAlongLine - ";
             msgPorgam += "\n Land_OrthogonalPolylines - ";
             msgPorgam += "\n Land_BuildingRectangle - ";
             msgPorgam += "\n Land_AddRaster2000 - ";
             msgPorgam += "\n Land_DelRaster2000 - ";
             msgPorgam += "\n--------------------------------------";
 
-            /*
+            
             CurrentCAD.Editor.WriteMessage(msgPorgam);
-
+            /*
             StakeOutParcelPoint so = new StakeOutParcelPoint();
 
             so.Name = "10";

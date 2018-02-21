@@ -13,7 +13,7 @@ namespace LoSa.Land.Forms
         public FormAboutBox()
         {
             InitializeComponent();
-            this.Text = String.Format("About {0}", AssemblyTitle);
+            this.Text = String.Format("Про \"{0}\"", AssemblyTitle);
             this.labelProductName.Text = AssemblyProduct;
             this.labelVersion.Text = String.Format("Version {0}", AssemblyVersion);
             this.labelCopyright.Text = AssemblyCopyright;
@@ -100,5 +100,13 @@ namespace LoSa.Land.Forms
             }
         }
         #endregion
+
+        private void okButton_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        
+        
     }
 }
