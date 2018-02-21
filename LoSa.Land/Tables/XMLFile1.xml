@@ -1,0 +1,73 @@
+﻿<?xml version="1.0"?>
+<Tables>
+  <Table index="1">
+    <MainCol cols="1">
+      <name>"Кількість власників землі та землекористувачів"</name>
+    </MainCol>
+    <MainCol cols="2">
+      <name>"Загальна площа земель, всього (графи 3+21+34+63+66+67+72)"</name>
+    </MainCol>
+    <MainCol cols="3-10">
+      <name>"Сільськогосподарські землі"</name>
+      <MainCol cols="3">
+        <name>"Всього (графи 4+14+15+16+17+18+20)"</name>
+      </MainCol>
+      <MainCol cols="4-10">
+        <name>"у тому числі"</name>
+        <MainCol cols="4-10">
+          <name>"сільськогосподарські угіддя"</name>
+          <MainCol cols="4">
+            <name>"всього (графи 5+6+7+11+12)"</name>
+          </MainCol>
+          <MainCol cols="5-10">
+            <name>"з них"</name>
+          </MainCol>
+        </MainCol>
+      </MainCol>
+    </MainCol>
+  </Table>
+  <Table index="2">
+    <MainCol cols="11-20">
+      <name>"Сільськогосподарські землі"</name>
+    </MainCol>
+  </Table>
+  <Table index="3">
+    <MainCol cols="21-33">
+      <name>"Ліси та інші лісовкриті площі"</name>
+    </MainCol>
+  </Table>
+  <Table index="4">
+    <MainCol cols="34-44">
+      <name>"Забудовані  землі"</name>
+    </MainCol>
+  </Table>
+  <Table index="5">
+    <MainCol cols="45-54">
+      <name>"Забудовані  землі"</name>
+    </MainCol>
+  </Table>
+  <Table index="6">
+    <MainCol cols="55-62">
+      <name>"Забудовані  землі"</name>
+    </MainCol>
+  </Table>
+  <Table index="7">
+    <MainCol cols="63-65">
+      <name>"Відкриті заболочені землі"</name>
+    </MainCol>
+    <MainCol cols="66">
+      <name>"Сухі відкриті землі з особливим рослинним покривом"</name>
+    </MainCol>
+    <MainCol cols="67-71">
+      <name>"Відкриті землі без рослинного покриву або з незначним рослинним покривом"</name>
+    </MainCol>
+  </Table>
+  <Table index="8">
+    <MainCol cols="72-77">
+      <name>"Води"</name>
+    </MainCol>
+    <MainCol cols="78-81">
+      <name>"З усіх земель"</name>
+    </MainCol>
+  </Table>
+</Tables>
