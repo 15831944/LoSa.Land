@@ -94,22 +94,6 @@ namespace LoSa.Land.Parcel
             "С ", "Т ", "У ", "Ф ", "Х ", "Ц ", "Ч ", "Ш ", "Щ ", "Ю ", "Я "
         };
         
-        //private static List<string> letterNeighbor = new ;
-        /*
-        private static string[] letterNeighbor = new string[]
-           {
-                "А ", "Б ", "В ", "Г ", "Д ", "Е ", "Є ", "Ж ", "З ", "И ",
-                "І ", "Ї ", "Й ", "К ", "Л ", "М ", "Н ", "О ", "П ", "Р ",
-                "С ", "Т ", "У ", "Ф ", "Х ", "Ц ", "Ч ", "Ш ", "Щ ", "Ю ", "Я ",
-                "А1", "Б1", "В1", "Г1", "Д1", "Е1", "Є1", "Ж1", "З1", "И1",
-                "І1", "Ї1", "Й1", "К1", "Л1", "М1", "Н1", "О1", "П1", "Р1",
-                "С1", "Т1", "У1", "Ф1", "Х1", "Ц1", "Ч1", "Ш1", "Щ1", "Ю1", "Я1",
-                "А2", "Б2", "В2", "Г2", "Д2", "Е2", "Є2", "Ж2", "З2", "И2",
-                "І2", "Ї2", "Й2", "К2", "Л2", "М2", "Н2", "О2", "П2", "Р2",
-                "С2", "Т2", "У2", "Ф2", "Х2", "Ц2", "Ч2", "Ш2", "Щ2", "Ю2", "Я2"
-           };
-          */
-
         private string GetLetterNeighbor()
         {
             List<string> letterNeighbor = new List<string>();
@@ -135,15 +119,6 @@ namespace LoSa.Land.Parcel
             }
             return letterNeighbor[currentLetterNeighbor-1];
         }
-
-        //private int currentColorIndex = 11;
-
-        //private int GetColorIndexFills()
-        //{
-        //    currentColorIndex += 30;
-        //    if (currentColorIndex > 241) currentColorIndex = 11;
-        //    return currentColorIndex;
-        //}
 
         private void AddFills()
         {
@@ -486,8 +461,7 @@ namespace LoSa.Land.Parcel
             AcDb.MText oMText = new AcDb.MText();
             oMText.TextHeight = 2.5 * this.SettingsForm.ScaleDrawing;
             oMText.Attachment = AcDb.AttachmentPoint.MiddleCenter;
-            //oMText.Layer = settingsDrawing.Plan.LengthLine.Layer;
-
+ 
             if (SettingsForm.DisplayArea && SettingsForm.UnitArea)
             {
                 oMText.Contents = borderParcel.Area.ToString("Площа ділянки: S=0.00") + " кв.м";
@@ -503,7 +477,10 @@ namespace LoSa.Land.Parcel
                                     borderParcel.Length.ToString("Периметр: 0.00") + " м";
             }
 
-            oMText.Contents = oMText.Contents.Replace(',', '.');
+            if ( SettingsForm.DisplayArea || SettingsForm.UnitArea)
+            {
+                oMText.Contents = oMText.Contents.Replace(',', '.');
+            }
 
             ServiceSimpleElements.ManualInsertMText(oMText);
         }

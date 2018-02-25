@@ -4,23 +4,10 @@ namespace LoSa.Land.Tables
 {
     public class SettingsFormLand
     {
+       
+        public double ScaleDrawing { get; set; }
+
         public int IndexTabControl { get; set; }
-
-        private double scaleDrawing = 1;
-
-        public double ScaleDrawing 
-        {
-            get 
-            {
-                //if (scaleDrawing < 1) scaleDrawing = 1.0;
-                return scaleDrawing; 
-            }
-            set 
-            {
-                //if (value < 1) value = 1.0;
-                scaleDrawing = value; 
-            } 
-        }
 
         public bool DisplayPointNumbers { get; set; }
         public bool AutomaticDisplayPointNumbers { get; set; }
@@ -45,16 +32,18 @@ namespace LoSa.Land.Tables
         public SettingsFormLand()
         {
             this.IndexTabControl = 0;
+            this.ScaleDrawing = 1;
         }
 
+        /*
         public static SettingsFormLand Default
         {
             get
             {
-                SettingsFormLand setsDefault = new SettingsFormLand();
-                setsDefault.ScaleDrawing = 1.0;
-                return setsDefault;
+                SettingsFormLand defaultSettingsFormLand = new SettingsFormLand();
+                return defaultSettingsFormLand;
             }
         }
+        */
     }
 }

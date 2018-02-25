@@ -77,7 +77,7 @@ namespace LoSa.Land.Forms
         private SettingsFormLand formSettings;
         private SettingsTable tableSettings;
         private SettingsLand boxDrawingSettings;
-        private SettingsDrawing settingsDrawing;
+        public SettingsDrawing settingsDrawing;
 
         //
         //      variables for Plan
@@ -485,6 +485,8 @@ namespace LoSa.Land.Forms
 
                         stakeOutParcelPoint = new StakeOutParcelPoint();
 
+                        stakeOutParcelPoint.ScaleDrawing = this.settingsDrawing.Scale.Value;
+
                         stakeOutParcelPoint.Name = indexPoint.ToString(); 
                         stakeOutParcelPoint.Coordinates = point;
 
@@ -503,6 +505,11 @@ namespace LoSa.Land.Forms
                     String strScaleDrawing = this.comboBoxScaleDrawing.SelectedItem.ToString();
 
                     this.formSettings.ScaleDrawing = Convert.ToDouble(strScaleDrawing.Replace("1 : ", "")) / 1000;
+
+                    foreach (StakeOutParcelPoint spp in this.stakeOutParcelPoints)
+                    {
+                        spp.ScaleDrawing = this.formSettings.ScaleDrawing;
+                    }
                 }
 
                 private void checkBoxPointsDisplay_CheckedChanged(object sender, EventArgs e)
@@ -794,7 +801,7 @@ namespace LoSa.Land.Forms
             this.formSettings = LoadSettings<SettingsFormLand>(localPath.FindFullPathFromXml("PathFormLand"));
             if (this.formSettings == null)
             {
-                this.formSettings = SettingsFormLand.Default;
+                this.formSettings = new SettingsFormLand();
             }
 
             this.tableSettings = LoadSettings<SettingsTable>(localPath.FindFullPathFromXml("PathTables"));
@@ -918,9 +925,6 @@ namespace LoSa.Land.Forms
                 goto reStart_SelectionChanged;
             }
             
-            labelFileBasePoint.Text 
-                            = (string)this.dataGridView_StakeOut[1, this.dataGridView_StakeOut.SelectedRows[0].Index].Value;
-
             UpdateStakeOut();
 
         }
@@ -940,6 +944,18 @@ namespace LoSa.Land.Forms
                 }
 
                 this.stakeOutParcelPoints[i].Visible = (bool)this.dataGridView_StakeOut[0, i].Value;
+
+                if ((int)this.dataGridView_StakeOut.CurrentRow.Index < this.dataGridView_StakeOut.RowCount-1)
+                {
+                    this.dataGridView_StakeOut.Rows[(int)this.dataGridView_StakeOut.CurrentRow.Index + 1].Selected = true;
+                }
+                else if ((int)this.dataGridView_StakeOut.CurrentRow.Index == this.dataGridView_StakeOut.RowCount)
+                {
+                    this.dataGridView_StakeOut.Rows[(int)this.dataGridView_StakeOut.CurrentRow.Index - 1].Selected = true;
+                }
+
+                this.dataGridView_StakeOut.Rows[(int)this.dataGridView_StakeOut.CurrentRow.Index].Selected = true;
+
                 this.stakeOutParcelPoints[i].Regen();
             }
         }
@@ -981,6 +997,11 @@ namespace LoSa.Land.Forms
                 this.formAboutBox = new FormAboutBox();
                 formAboutBox.Show();
             }
+        }
+
+        private void btnAddTableStakeoutPoints_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

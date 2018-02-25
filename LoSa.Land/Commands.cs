@@ -105,19 +105,7 @@ namespace LoSa.Land
 
             
             CurrentCAD.Editor.WriteMessage(msgPorgam);
-            /*
-            StakeOutParcelPoint so = new StakeOutParcelPoint();
-
-            so.Name = "10";
-            so.Coordinates = new AcGe.Point2d(45570.210, 25455.011);
-            so.BasePoint = new BasePoint("ПП12055", 45687.322, 25778.001, 102.333, "PP_3_class");
-
-            CurrentCAD.Editor.WriteMessage("\n" + so.ToString(AcRx.AngularUnitFormat.DegreesMinutesSeconds) );
-
-            CurrentCAD.Editor.WriteMessage("\n" + so.ToString(AcRx.AngularUnitFormat.Degrees));
-
-            CurrentCAD.Editor.WriteMessage("\n" + so.ToString(AcRx.AngularUnitFormat.Surveyor));
-            */
+           
         }
 
         public void Terminate()
@@ -131,23 +119,17 @@ namespace LoSa.Land
 
         }
 
-#if BCAD
+        public FormLand frmLand = new FormLand();
+
         [AcTrx.CommandMethod("Land_CreatingPlanLand")]
-#endif
-#if NCAD
-        [CommandMethod("Land_CreatingPlanLand")]
-#endif
         public void CreatingPlanLand()
         {
-
-            FormLand frmLand = new FormLand();
             frmLand.Show();
         }
 
         [AcTrx.CommandMethod("Land_CreatingLocalPaths")]
         public void CreatingLocalPaths()
         {
-
             LocalPath localPath = new LocalPath();
 
             localPath.Paths.Add(new Setting("key1", "name1", "description1"));

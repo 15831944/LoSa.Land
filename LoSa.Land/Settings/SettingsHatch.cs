@@ -153,44 +153,7 @@ namespace LoSa.Land.Tables
         }
     }
 
-    /*
-    public class SettingsHatch
-    {
-        public List<SettingHatch> Settings { get; set; }
-
-        public SettingsHatch()
-        {
-            this.Settings = new List<SettingHatch>();
-        }
-
-        public SettingHatch FindKey(HatchPolygon key)
-        {
-            return this.Settings.Find
-                (
-                    delegate(SettingHatch setHatch)
-                    {
-                        return setHatch.Key == key;
-                    }
-                );
-        }
-
-        public static void СreatingSettings()
-        {
-            SettingsHatch setsHatch = new SettingsHatch();
-
-            setsHatch.Settings.Add(new SettingHatch( HatchPolygon.Parcel, 0, new PatternHatch(HatchPatternType.UserDefined, "_User", Math.PI / 4, 1)));
-
-            ServiceXml.WriteXml<SettingsHatch>(setsHatch, ServiceBricsCAD.GetPathLoSaLand() + SettingLocalPath.PathHatchSettings);
-        }
-
-
-        internal static SettingHatch GetPatcelHatch()
-        {
-            SettingsHatch settingsHatch = ServiceXml.ReadXml<SettingsHatch>(SettingLocalPath.PathHatchSettings);
-            return settingsHatch.FindKey(HatchPolygon.Parcel); 
-        }
-    }
-    */
+ 
 
     public class SettingHatch
     {

@@ -54,20 +54,16 @@ namespace LoSa.Land.ObjectGeo
 
     public class StakeOutParcelPoint
     {
-        private AcDb.ObjectId txtDistanceID = AcDb.ObjectId.Null;
-        private AcDb.ObjectId txtDirAngleID = AcDb.ObjectId.Null;
+        private AcDb.ObjectId txtID = AcDb.ObjectId.Null;
         private AcDb.ObjectId lineID = AcDb.ObjectId.Null;
-        //private bool visible;
 
         public string Name { get; set; }
         public AcGe.Point2d Coordinates { get; set; }
         public BasePoint PointStation { get; set; }
         public BasePoint PointOrientation { get; set; }
-
         public bool Visible { get; set; }
-       
-        public AcDb.ObjectId TextDistanceID { get { return this.txtDistanceID; } }
-        public AcDb.ObjectId TextDirAngleID { get { return this.txtDirAngleID; } }
+        public double ScaleDrawing { get; set; }
+
         public AcDb.ObjectId LineStakeOutID { get { return this.lineID; } }
 
         public void Regen()
@@ -95,35 +91,33 @@ namespace LoSa.Land.ObjectGeo
 
             AcGe.Point3d pntMiddle = new AcGe.LineSegment3d(pntStart, pntEnd).MidPoint;
 
-            AcDb.DBText txtDistance = new AcDb.DBText();
-            txtDistance.TextString = this.DistanceToString(AcRx.DistanceUnitFormat.Decimal);
-            txtDistance.Rotation = line.Angle;
-            txtDistance.Justify = AcDb.AttachmentPoint.BottomCenter;
-            txtDistance.Position = pntMiddle;
-            txtDistance.AlignmentPoint = pntMiddle;
+            double angleTXT = line.Angle;
 
-            AcDb.DBText txtDirAngle = new AcDb.DBText();
-            txtDirAngle.TextString = this.DirAngleToString(AcRx.AngularUnitFormat.DegreesMinutesSeconds);
-            txtDirAngle.Rotation  = line.Angle;
-            txtDirAngle.Justify = AcDb.AttachmentPoint.TopCenter;
-            txtDirAngle.Position = pntMiddle;
-            txtDirAngle.AlignmentPoint = pntMiddle;
+            if (angleTXT > Math.PI/2  && angleTXT < Math.PI * 3 / 2)
+            {
+                angleTXT += Math.PI;
+            }
+
+            AcDb.MText text = new AcDb.MText();
+            text.Contents = this.DistanceToString(AcRx.DistanceUnitFormat.Decimal) + "\r\n" + this.DirAngleToString(AcRx.AngularUnitFormat.DegreesMinutesSeconds);
+            text.Rotation = angleTXT;
+            text.Location = pntMiddle;
+            text.Attachment = AcDb.AttachmentPoint.MiddleCenter;
+            text.Width = 25;
+            text.TextHeight = 1.8 * this.ScaleDrawing;
+
 
             this.lineID = ServiceCAD.InsertObject(line);
-            this.txtDistanceID = ServiceCAD.InsertObject(txtDistance);
-            this.txtDirAngleID = ServiceCAD.InsertObject(txtDirAngle);
+            this.txtID = ServiceCAD.InsertObject(text);
 
-            //CurrentCAD.Editor.Regen();
         }
 
         private void DeleteDrawingStakeOut()
         {
             ServiceCAD.DeleteObject(this.lineID);
-            ServiceCAD.DeleteObject(this.txtDistanceID);
-            ServiceCAD.DeleteObject(this.txtDirAngleID);
+            ServiceCAD.DeleteObject(this.txtID);
 
-            this.txtDistanceID = AcDb.ObjectId.Null;
-            this.txtDirAngleID = AcDb.ObjectId.Null;
+            this.txtID = AcDb.ObjectId.Null;
             this.lineID = AcDb.ObjectId.Null;
         }
 
@@ -165,22 +159,18 @@ namespace LoSa.Land.ObjectGeo
             return AcRx.Converter.DistanceToString(this.Distance, format, 3);
         }
         
-        public int IndexNearestPointStation(List<BasePoint> basePoints)
-        {
-            return -1;
-        }
-
         public BasePoint NearestPointStation(List<BasePoint> basePoints)
         {
+            if (basePoints.Count > 0)
+            {
+                return this.SortingByDistanceFromPoint(basePoints)[0];
+            }
+
             return null;
         }
 
         public List<BasePoint> SortingByDistanceFromPoint(List<BasePoint> basePoints)
         {
-            //BasePoint curPoint = new BasePoint(this.Name, this.Coordinates.Y, this.Coordinates.X, 0,"ParcelPoint");
-
-            //double minDist = Double.MaxValue;
-
             basePoints.Sort(    delegate (BasePoint x, BasePoint y)
             {
                 double dist_X = this.Coordinates.GetDistanceTo(new AcGe.Point2d(x.E, x.N));
@@ -191,14 +181,6 @@ namespace LoSa.Land.ObjectGeo
                 return result;
             });
 
-            /*
-            basePoints.Sort(
-                                delegate (double minDist, double curDist)
-                                {
-                                    return minDist.CompareTo(curDist);
-                                }
-                            );
-            */
             return basePoints;
         }
         

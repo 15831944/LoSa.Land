@@ -95,6 +95,7 @@
             this.item_TableParcel = new System.Windows.Forms.ToolStripMenuItem();
             this.item_StakeoutParcel = new System.Windows.Forms.ToolStripMenuItem();
             this.mnu_About = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnAddTableStakeoutPoints = new System.Windows.Forms.Button();
             this.tabControl.SuspendLayout();
             this.tabPageInfoParcel.SuspendLayout();
             this.tabPagePlan.SuspendLayout();
@@ -140,7 +141,7 @@
             this.tabControl.Multiline = true;
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(509, 399);
+            this.tabControl.Size = new System.Drawing.Size(450, 399);
             this.tabControl.TabIndex = 0;
             this.tabControl.SelectedIndexChanged += new System.EventHandler(this.tabControl_SelectedIndexChanged);
             this.tabControl.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabControl_Selected);
@@ -640,7 +641,7 @@
             this.tabPageBreakdownPoints.Controls.Add(this.tableLayoutPanel4);
             this.tabPageBreakdownPoints.Location = new System.Drawing.Point(4, 22);
             this.tabPageBreakdownPoints.Name = "tabPageBreakdownPoints";
-            this.tabPageBreakdownPoints.Size = new System.Drawing.Size(501, 373);
+            this.tabPageBreakdownPoints.Size = new System.Drawing.Size(442, 373);
             this.tabPageBreakdownPoints.TabIndex = 4;
             this.tabPageBreakdownPoints.Text = "Разбивочне креслення";
             this.tabPageBreakdownPoints.UseVisualStyleBackColor = true;
@@ -660,17 +661,18 @@
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 86.92098F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 13.07902F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(498, 367);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(439, 367);
             this.tableLayoutPanel4.TabIndex = 11;
             // 
             // flowLayoutPanel4
             // 
             this.flowLayoutPanel4.Controls.Add(this.btnSelectAll);
             this.flowLayoutPanel4.Controls.Add(this.btnRemoveSelectionAll);
+            this.flowLayoutPanel4.Controls.Add(this.btnAddTableStakeoutPoints);
             this.flowLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Top;
             this.flowLayoutPanel4.Location = new System.Drawing.Point(3, 322);
             this.flowLayoutPanel4.Name = "flowLayoutPanel4";
-            this.flowLayoutPanel4.Size = new System.Drawing.Size(492, 41);
+            this.flowLayoutPanel4.Size = new System.Drawing.Size(433, 41);
             this.flowLayoutPanel4.TabIndex = 8;
             // 
             // btnSelectAll
@@ -707,7 +709,7 @@
             this.tableLayoutPanel5.RowCount = 2;
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(492, 313);
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(433, 313);
             this.tableLayoutPanel5.TabIndex = 9;
             // 
             // dataGridView_StakeOut
@@ -727,7 +729,7 @@
             this.dataGridView_StakeOut.Location = new System.Drawing.Point(3, 53);
             this.dataGridView_StakeOut.MultiSelect = false;
             this.dataGridView_StakeOut.Name = "dataGridView_StakeOut";
-            this.dataGridView_StakeOut.Size = new System.Drawing.Size(486, 257);
+            this.dataGridView_StakeOut.Size = new System.Drawing.Size(427, 257);
             this.dataGridView_StakeOut.TabIndex = 8;
             this.dataGridView_StakeOut.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_StakeOut_CellContentClick);
             this.dataGridView_StakeOut.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_StakeOut_CellValueChanged);
@@ -769,7 +771,7 @@
             this.groupBox1.Controls.Add(this.btnSelectBasePoints);
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(486, 44);
+            this.groupBox1.Size = new System.Drawing.Size(427, 44);
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Точки планового обгрунтування:";
@@ -879,7 +881,7 @@
             this.splitContainer.Panel2.Controls.Add(this.tabControl);
             this.splitContainer.Panel2.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.splitContainer.Panel2MinSize = 100;
-            this.splitContainer.Size = new System.Drawing.Size(513, 480);
+            this.splitContainer.Size = new System.Drawing.Size(454, 480);
             this.splitContainer.SplitterDistance = 70;
             this.splitContainer.TabIndex = 4;
             // 
@@ -890,7 +892,7 @@
             this.mnu_About});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(513, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(454, 24);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -937,17 +939,27 @@
             this.mnu_About.Text = "Про програму";
             this.mnu_About.Click += new System.EventHandler(this.mnu_About_Click);
             // 
+            // btnAddTableStakeoutPoints
+            // 
+            this.btnAddTableStakeoutPoints.Location = new System.Drawing.Point(291, 3);
+            this.btnAddTableStakeoutPoints.Name = "btnAddTableStakeoutPoints";
+            this.btnAddTableStakeoutPoints.Size = new System.Drawing.Size(138, 32);
+            this.btnAddTableStakeoutPoints.TabIndex = 7;
+            this.btnAddTableStakeoutPoints.Text = "Додати таблицю";
+            this.btnAddTableStakeoutPoints.UseVisualStyleBackColor = true;
+            this.btnAddTableStakeoutPoints.Click += new System.EventHandler(this.btnAddTableStakeoutPoints_Click);
+            // 
             // FormLand
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(513, 504);
+            this.ClientSize = new System.Drawing.Size(454, 504);
             this.Controls.Add(this.splitContainer);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(380, 500);
+            this.MinimumSize = new System.Drawing.Size(470, 500);
             this.Name = "FormLand";
             this.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.ShowIcon = false;
@@ -1063,5 +1075,6 @@
         private System.Windows.Forms.ToolStripMenuItem item_TableParcel;
         private System.Windows.Forms.ToolStripMenuItem item_StakeoutParcel;
         private System.Windows.Forms.ToolStripMenuItem mnu_About;
+        private System.Windows.Forms.Button btnAddTableStakeoutPoints;
     }
 }
