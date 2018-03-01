@@ -56,15 +56,37 @@ namespace LoSa.Land.Tables
         SettingTable Setting { get; set; }
         void сreate(LandParcel landPolygon, double scaleTable);
     }
-    /*
-    public abstract class StrategyTable : IStrategyTable
+     
+
+    public class StrategyTableStakeOutPoints : IStrategyTable
     {
-        private DBObjectCollection objects = new DBObjectCollection(); 
+        private AcDb.DBObjectCollection objects = new AcDb.DBObjectCollection();
+
         public SettingTable Setting { get; set; }
-        public virtual void сreate(LandPolygon polygon) { }
-        public virtual void GetDataTable(LandPolygon polygon, double offsetBasePoint) { }
+
+        public StrategyTableStakeOutPoints()
+        {
+            this.Setting = new SettingTable();
+        }
+
+        public void сreate(LandParcel polygon, double scale)
+        {
+            string titleTable = ServiceTable.ReplaceValueCodeInTitle(polygon, this.Setting);
+
+            foreach (AcDb.DBObject obj in ServiceTable.GetCapTables(titleTable, this.Setting))
+            { objects.Add(obj); }
+
+            foreach (AcDb.DBObject obj in ServiceTable.GetBoundTable(polygon.Points.Count + 1, this.Setting.TextHeight * 2, this.Setting))
+            { objects.Add(obj); }
+
+            foreach (AcDb.DBObject obj in ServiceTable.GetDataTableBorderPolygon(polygon, this.Setting))
+            { objects.Add(obj); }
+
+            string nameBlockTable = ServiceBlockElements.CreateBlock(this.objects, this.Setting.KeyTable);
+            ServiceBlockElements.ManualInsertBlock(nameBlockTable, scale);
+            objects = new AcDb.DBObjectCollection();
+        }
     }
-    */
 
     public class StrategyTableBorder : IStrategyTable
     {

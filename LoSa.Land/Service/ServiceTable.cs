@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LoSa.Utility;
+using LoSa.Land.ObjectGeo;
 
 
 #if BCAD
@@ -59,7 +60,17 @@ namespace LoSa.Land.Service
 {
     public class ServiceTable
     {
-        internal static string ReplaceValueCodeInTitle(LandParcel polygon, SettingTable settingTable)
+
+        /// <summary>
+        /// Замінює у заголовку таблиці кода на відповідні їм значення.
+        /// </summary>
+        /// <param name="polygon">Ділянка, що є вихідною для таблиці.</param>
+        /// <param name="settingTable">Налаштування таблиці.</param>
+        /// <returns>
+        /// Повертає  <see cref="T:System.Sting"/> після заміни кодів на відповідні їм значення.
+        /// </returns>
+
+        internal static String ReplaceValueCodeInTitle(LandParcel polygon, SettingTable settingTable)
         {
             string titleTable = settingTable.Title;
 
@@ -68,13 +79,27 @@ namespace LoSa.Land.Service
             foreach (string key in keys)
             {
                 LandInfo info = polygon.FindInfo(key);
+
                 if (info != null)
+                {
                     titleTable = titleTable.Replace("/*" + info.Key + "*/", info.Value);
+                }
                 else
+                {
                     titleTable = titleTable.Replace("/*" + key + "*/", "< Невірний код /*" + key + "*/>");
+                }
             }
             return titleTable;
         }
+
+        /// <summary>
+        /// Створює коллекцію мультітекстових обектів заголовку таблиці та заголовків колонок таблиці.
+        /// </summary>
+        /// <param name="titleTable">Заголовок таблиці.</param>
+        /// <param name="settingTable">Налаштування таблиці.</param>
+        /// <returns>
+        /// Повертає <see cref="T:AcDb.DBObjectCollection"/>, що містить мультитекстові обекти заголовку таблиці та заголовків колонок таблиці
+        /// </returns>
 
         internal static AcDb.DBObjectCollection GetCapTables(string titleTable, SettingTable settingTable)
         {
@@ -83,16 +108,18 @@ namespace LoSa.Land.Service
             AcDb.MText textValue;
             AcGe.Point3d insertPoint = AcGe.Point3d.Origin;
 
+            /*Заголовок таблиці*/
             textValue = new AcDb.MText();
             textValue.TextHeight = settingTable.TextHeight;
             textValue.LineSpaceDistance = settingTable.TextHeight * 1.5;
             textValue.Attachment = AcDb.AttachmentPoint.BottomCenter;
             textValue.Contents = titleTable;
-            textValue.Location = settingTable.BasePoint
+            textValue.Location = settingTable.BasePointDrawing
                 .Add(new AcGe.Vector3d(settingTable.GetWidthTable() / 2, settingTable.TextHeight, 0));
 
             objects.Add(textValue);
 
+            /*Заголовоки колонок таблиці*/
             double colWidth = 0;
             foreach (ColumnTable value in settingTable.Columns)
             {
@@ -104,33 +131,43 @@ namespace LoSa.Land.Service
                 textValue.LineSpaceDistance = settingTable.TextHeight * 2;
                 textValue.Attachment = AcDb.AttachmentPoint.TopCenter;
                 textValue.Contents = value.Name;
-                textValue.Location = settingTable.BasePoint.Add(insertPoint.GetAsVector());
+                textValue.Location = settingTable.BasePointDrawing.Add(insertPoint.GetAsVector());
 
                 objects.Add(textValue);
             }
             return objects;
         }
 
-        internal static AcDb.DBObjectCollection GetBoundTable(int iRows, double stepRows, SettingTable settingTable)
+        /// <summary>
+        /// Створює коллекцію лінійних обектів таблиці.
+        /// </summary>
+        /// <param name="numberRows">Кількість рядків таблиці.</param>
+        /// <param name="stepRows">Крок рядків таблиці.</param>
+        /// <param name="settingTable">Налаштування таблиці.</param>
+        /// <returns>
+        /// Повертає <see cref="T:AcDb.DBObjectCollection"/>, що містить лінійні обекти  таблиці.
+        /// </returns>
+        
+        internal static AcDb.DBObjectCollection GetBoundTable(int numberRows, double stepRows, SettingTable settingTable)
         {
             AcDb.DBObjectCollection objects = new AcDb.DBObjectCollection();
 
-            double hTable = settingTable.GetHeightTable(iRows, stepRows) * -1;
+            double hTable = settingTable.GetHeightTable(numberRows, stepRows) * -1;
             double wTable = settingTable.GetWidthTable();
 
             AcGe.Point2dCollection pointsBoundTable =
                 new AcGe.Point2dCollection(new AcGe.Point2d[] 
                 { 
-                    settingTable.BasePoint.Convert2d( new AcGe.Plane() )
+                    settingTable.BasePointDrawing.Convert2d( new AcGe.Plane() )
                     .Add( new AcGe.Vector2d(0,0)),
 
-                    settingTable.BasePoint.Convert2d( new AcGe.Plane() )
+                    settingTable.BasePointDrawing.Convert2d( new AcGe.Plane() )
                     .Add( new AcGe.Vector2d(wTable,0)),
 
-                    settingTable.BasePoint.Convert2d( new AcGe.Plane() )
+                    settingTable.BasePointDrawing.Convert2d( new AcGe.Plane() )
                     .Add( new AcGe.Vector2d(wTable,hTable)),
 
-                    settingTable.BasePoint.Convert2d( new AcGe.Plane() )
+                    settingTable.BasePointDrawing.Convert2d( new AcGe.Plane() )
                     .Add( new AcGe.Vector2d(0,hTable))
                 });
 
@@ -139,10 +176,10 @@ namespace LoSa.Land.Service
             AcGe.Point2dCollection pointsLine =
                 new AcGe.Point2dCollection(new AcGe.Point2d[] 
                 { 
-                    settingTable.BasePoint.Convert2d( new AcGe.Plane() )
+                    settingTable.BasePointDrawing.Convert2d( new AcGe.Plane() )
                     .Add( new AcGe.Vector2d(wTable,settingTable.GetHeightCapTable() * -1)),
 
-                    settingTable.BasePoint.Convert2d( new AcGe.Plane() )
+                    settingTable.BasePointDrawing.Convert2d( new AcGe.Plane() )
                     .Add( new AcGe.Vector2d(0,settingTable.GetHeightCapTable() * -1))
                 });
 
@@ -157,10 +194,10 @@ namespace LoSa.Land.Service
                 pointsLine =
                     new AcGe.Point2dCollection(new AcGe.Point2d[] 
                     { 
-                        settingTable.BasePoint.Convert2d( new AcGe.Plane() )
+                        settingTable.BasePointDrawing.Convert2d( new AcGe.Plane() )
                         .Add( new AcGe.Vector2d(widthCur,0)),
 
-                        settingTable.BasePoint.Convert2d( new AcGe.Plane() )
+                        settingTable.BasePointDrawing.Convert2d( new AcGe.Plane() )
                         .Add( new AcGe.Vector2d(widthCur,hTable))
                     });
                 objects.Add(ServiceSimpleElements.CreatePolyline2d(pointsLine, false));
@@ -168,6 +205,15 @@ namespace LoSa.Land.Service
 
             return objects;
         }
+
+        /// <summary>
+        /// Створює коллекцію текстових обектів значень данних таблиці межі земельної ділянки.
+        /// </summary>
+        /// <param name="polygon">Ділянка, що є вихідною для таблиці.</param>
+        /// <param name="settingTable">Налаштування таблиці.</param>
+        /// <returns>
+        ///  Повертає <see cref="T:AcDb.DBObjectCollection"/>, що містить текстові значення данний таблиці межі земельної ділянки.
+        /// </returns>
 
         internal static AcDb.DBObjectCollection GetDataTableBorderPolygon(LandParcel polygon, SettingTable settingTable)
         {
@@ -221,7 +267,7 @@ namespace LoSa.Land.Service
 
                     textValue.Height = settingTable.TextHeight;
                     textValue.Justify = AcDb.AttachmentPoint.BottomCenter;
-                    textValue.Position = settingTable.BasePoint.Add(insertPoint.GetAsVector());
+                    textValue.Position = settingTable.BasePointDrawing.Add(insertPoint.GetAsVector());
                     textValue.AlignmentPoint = textValue.Position;
 
                     if (col.Format.IndexOf("Number") > -1)
@@ -291,6 +337,134 @@ namespace LoSa.Land.Service
 
             return objects;
         }
+
+
+        /// <summary>
+        /// Створює коллекцію текстових обектів значень данних таблиці виносу внатуру меж земельної ділянки.
+        /// </summary>
+        /// <param name="stakeoutPoints">Данні розбивки меж земельної ділянки.</param>
+        /// <param name="settingTable">Налаштування таблиці.</param>
+        /// <returns>
+        ///  Повертає <see cref="T:AcDb.DBObjectCollection"/>, що містить текстові значення данний таблиці виносу внатуру меж земельної ділянки.
+        /// </returns>
+
+        internal static AcDb.DBObjectCollection GetDataTableStakeOutParcelPoints(List<StakeOutParcelPoint> stakeoutPoints, SettingTable settingTable)
+        {
+            stakeoutPoints.Sort((x, y) => x.PointStation.Name.CompareTo(y.PointStation.Name));
+
+            AcDb.DBObjectCollection objects = new AcDb.DBObjectCollection();
+
+            AcDb.DBText textValue;
+            AcGe.Point3d insertPoint;
+
+            //AcGe.Point2d backPoint, stationPoint, parcelPoint;
+
+            double heightTable = (settingTable.GetHeightCapTable() + settingTable.TextHeight) * -1;
+
+            int index = -1;
+            foreach (StakeOutParcelPoint stakeoutPoint in stakeoutPoints)
+            {
+                index++;
+                double colWidth = 0;
+                heightTable += settingTable.TextHeight * 2 * index;
+                /*
+                if (index == 0)
+                {
+                    backPoint = polygon.Points.ToArray()[polygon.Points.Count - 1];
+                    currentPoint = polygon.Points.ToArray()[index];
+                    frontPoint = polygon.Points.ToArray()[index + 1];
+                }
+                else if (index == polygon.Points.Count - 1)
+                {
+                    backPoint = polygon.Points.ToArray()[index - 1];
+                    currentPoint = polygon.Points.ToArray()[index];
+                    frontPoint = polygon.Points.ToArray()[0];
+                }
+                else if (index == polygon.Points.Count)
+                {
+                    backPoint = polygon.Points.ToArray()[index - 1];
+                    currentPoint = polygon.Points.ToArray()[0];
+                    frontPoint = polygon.Points.ToArray()[1];
+                }
+                else
+                {
+                    backPoint = polygon.Points.ToArray()[index - 1];
+                    currentPoint = polygon.Points.ToArray()[index];
+                    frontPoint = polygon.Points.ToArray()[index + 1];
+                }
+                */
+                foreach (ColumnTable col in settingTable.Columns)
+                {
+                    colWidth += col.Width;
+
+                    insertPoint = new AcGe.Point3d();
+                    insertPoint = new AcGe.Point3d(colWidth - col.Width / 2, (settingTable.GetHeightCapTable() + (index + 1) * settingTable.TextHeight * 2) * -1, 0);
+
+                    textValue = new AcDb.DBText();
+
+                    textValue.Height = settingTable.TextHeight;
+                    textValue.Justify = AcDb.AttachmentPoint.BottomCenter;
+                    textValue.Position = settingTable.BasePointDrawing.Add(insertPoint.GetAsVector());
+                    textValue.AlignmentPoint = textValue.Position;
+
+                    if (col.Format.IndexOf("Number") > -1)
+                    {
+                        textValue.TextString = stakeoutPoint.Name;
+                    }
+                    else if (col.Format.IndexOf("X") > -1)
+                    {
+                        textValue.TextString = stakeoutPoint.Coordinates.X.ToString("0.00");
+                    }
+                    else if (col.Format.IndexOf("Y") > -1)
+                    {
+                        textValue.TextString = stakeoutPoint.Coordinates.Y.ToString("0.00");
+                    }
+                    else if (col.Format.IndexOf("LengthLine") > -1)
+                    {
+                        textValue.TextString = stakeoutPoint.Distance.ToString("0.00");
+                    }
+                    else if (col.Format.IndexOf("DirAngle") > -1)
+                    {
+                        textValue.TextString = stakeoutPoint.DirlAngle;
+                    }
+                    else if (col.Format.IndexOf("InnerAngle") > -1)
+                    {
+                        double angle = ServiceGeodesy.GetRightAngle(backPoint, currentPoint, frontPoint);
+                        textValue.TextString = AcRx.Converter.AngleToString(angle, AcRx.AngularUnitFormat.DegreesMinutesSeconds, 3);
+                    }
+                    else
+                    {
+                        textValue.TextString = "None";
+                    }
+
+                    textValue.TextString = textValue.TextString.Replace(",", ".");
+
+                    for (int i = 0; i < 10; i++)
+                    {
+                        textValue.TextString = textValue.TextString
+                            .Replace("°" + i.ToString() + "'", "°" + i.ToString("00") + "'");
+                    }
+                    for (int i = 0; i < 10; i++)
+                    {
+                        textValue.TextString = textValue.TextString
+                            .Replace("'" + i.ToString() + "\"", "'" + i.ToString("00") + "\"");
+                    }
+
+                    objects.Add(textValue);
+                }
+            }
+
+            return objects;
+        }
+
+        /// <summary>
+        /// Створює коллекцію текстових обектів значень данних таблиці обмежень земельної ділянки.
+        /// </summary>
+        /// <param name="polygon">Ділянка, що є вихідною для таблиці.</param>
+        /// <param name="settingTable">Налаштування таблиці.</param>
+        /// <returns>
+        ///  Повертає <see cref="T:AcDb.DBObjectCollection"/>, що містить текстові значення данний таблиці обмежень земельної ділянки.
+        /// </returns>
 
         internal static AcDb.DBObjectCollection GetDataTableLimiting(LandParcel parcel, SettingTable settingTable)
         {
@@ -408,13 +582,20 @@ namespace LoSa.Land.Service
             return objects;
         }
 
+        /// <summary>
+        /// Об'єднуе площі однотипних обмежень.
+        /// </summary>
+        /// <param name="parcel">Ділянка з обмеженнями.</param>
+        /// <returns>
+        /// Повертає <see cref="T:LoSa.Land.Parcel.LandParcel"/>, що містить обеднані площі однотипних обмежень.
+        /// </returns>
+
         internal static LandParcel СombinedLimiting(LandParcel parcel)
         {
             LandParcel newParcel = new LandParcel();
 
             bool isNewLimiting = true;
 
-            
             foreach (LandPolygon limiting in parcel.Limiting)
             {
                 if (newParcel.Limiting.Count == 0)
@@ -452,6 +633,14 @@ namespace LoSa.Land.Service
 
             return newParcel;
         }
+
+        /// <summary>
+        /// Об'єднуе площі однотипних угідь.
+        /// </summary>
+        /// <param name="parcel">Ділянка з обмеженнями.</param>
+        /// <returns>
+        /// Повертає <see cref="T:LoSa.Land.Parcel.LandParcel"/>, що містить обеднані площі однотипних угідь.
+        /// </returns>
 
         internal static LandParcel СombinedLand(LandParcel parcel)
         {
@@ -494,5 +683,6 @@ namespace LoSa.Land.Service
             }
             return newParcel;
         }
+
     } // end class ServiceTable
 }

@@ -980,11 +980,6 @@ namespace LoSa.Land.Forms
             }
         }
 
-        private void зсувТимчасовогоВідображенняКварталуToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void mnu_About_Click(object sender, EventArgs e)
         {
             try

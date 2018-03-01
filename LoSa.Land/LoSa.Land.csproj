@@ -105,8 +105,7 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile>bin\BCAD\LoSa.Land.xml</DocumentationFile>
     <RegisterForComInterop>false</RegisterForComInterop>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
   </PropertyGroup>

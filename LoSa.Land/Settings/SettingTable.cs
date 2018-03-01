@@ -118,7 +118,7 @@ namespace LoSa.Land.Tables
             set { this.title = value.Replace("\n", "&#x13&#x10;" ); }
         }
         public List<ColumnTable> Columns { get; set; }
-        public AcGe.Point3d BasePoint { get; set; }
+        public AcGe.Point3d BasePointDrawing { get; set; }
 
         public SettingTable()
         {
@@ -127,7 +127,7 @@ namespace LoSa.Land.Tables
             this.title = "None";
             this.TextHeight = 2;
             this.Columns = new List<ColumnTable>();
-            this.BasePoint = AcGe.Point3d.Origin;
+            this.BasePointDrawing = AcGe.Point3d.Origin;
         }
 
 

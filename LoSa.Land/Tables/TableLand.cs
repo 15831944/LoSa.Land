@@ -68,24 +68,37 @@ namespace LoSa.Land.Tables
 
         public IStrategyTable StrategyTable 
         {
-            get 
+            get
             {
-                if (this.Setting == null) return null;
+                if (this.Setting == null)
+                {
+                    return null;
+                }
 
-                if (this.Setting.TypeTable == TypeTable.TableBorderParcel) 
+                if (this.Setting.TypeTable == TypeTable.TableBorderParcel)
+                {
                     strategyTable = new StrategyTableBorderParcel();
-
-                else if (this.Setting.TypeTable == TypeTable.TableBorderLimiting) 
+                }
+                else if (this.Setting.TypeTable == TypeTable.TableBorderLimiting)
+                {
                     strategyTable = new StrategyTableBorderLimiting();
-
-                else if (this.Setting.TypeTable == TypeTable.TableLimiting) 
-                    strategyTable = new StrategyTableLimiting();
-
+                }
+                else if (this.Setting.TypeTable == TypeTable.TableLimiting)
+                { 
+                strategyTable = new StrategyTableLimiting();
+                }
                 else if (this.Setting.TypeTable == TypeTable.TableLans)
+                { 
                     strategyTable = new StrategyTableExplicationLands();
-
-                else if (this.Setting.TypeTable == TypeTable.TableForm6Zem) 
+                }
+                else if (this.Setting.TypeTable == TypeTable.TableForm6Zem)
+                { 
                     strategyTable = new StrategyTableExplicationLandForm6Zem();
+                }
+                else if (this.Setting.TypeTable == TypeTable.TableStakeOutPoints)
+                {
+                    strategyTable = new StrategyTableStakeOutPoints();
+                }
 
                 strategyTable.Setting = this.Setting;
 
@@ -121,6 +134,7 @@ namespace LoSa.Land.Tables
         TableBorderLimiting,
         TableLimiting,
         TableLans,
-        TableForm6Zem
+        TableForm6Zem,
+        TableStakeOutPoints
     }
 }

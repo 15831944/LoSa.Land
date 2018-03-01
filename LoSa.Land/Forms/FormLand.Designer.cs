@@ -912,7 +912,7 @@
             this.item_TempDraw.Name = "item_TempDraw";
             this.item_TempDraw.Size = new System.Drawing.Size(267, 22);
             this.item_TempDraw.Text = "Тимчасове відображення кварталу";
-            this.item_TempDraw.Click += new System.EventHandler(this.зсувТимчасовогоВідображенняКварталуToolStripMenuItem_Click);
+
             // 
             // item_ParcelDraw
             // 
