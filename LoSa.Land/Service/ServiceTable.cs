@@ -425,12 +425,11 @@ namespace LoSa.Land.Service
                     }
                     else if (col.Format.IndexOf("DirAngle") > -1)
                     {
-                        textValue.TextString = stakeoutPoint.DirlAngle;
+                        textValue.TextString = stakeoutPoint.DirAngleToString(AcRx.AngularUnitFormat.DegreesMinutesSeconds);
                     }
                     else if (col.Format.IndexOf("InnerAngle") > -1)
                     {
-                        double angle = ServiceGeodesy.GetRightAngle(backPoint, currentPoint, frontPoint);
-                        textValue.TextString = AcRx.Converter.AngleToString(angle, AcRx.AngularUnitFormat.DegreesMinutesSeconds, 3);
+                        textValue.TextString = stakeoutPoint.LeftlAngleToString(AcRx.AngularUnitFormat.DegreesMinutesSeconds);
                     }
                     else
                     {
