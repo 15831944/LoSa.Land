@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ using System.Xml.Serialization;
 
 namespace LoSa.Land.Tables
 {
-    public class SettingsDrawing
+    public class SettingsDrawing :Settings.ISettings
     {
         public SettingsDrawingScale Scale { get; set; }
         public SettingsDrawingPlan Plan { get; set; }
@@ -31,7 +32,7 @@ namespace LoSa.Land.Tables
         }
     }
 
-    public partial class SettingsDrawingScale
+    public partial class SettingsDrawingScale : Settings.ISettings
     {
         [XmlAttributeAttribute()]
         public double Value { get; set; }
@@ -47,7 +48,7 @@ namespace LoSa.Land.Tables
         }
     }
 
-    public class SettingsDrawingPlan
+    public class SettingsDrawingPlan : Settings.ISettings
     {
         public SettingsDrawingBlock Point { get; set; }
         public SettingsDrawingText NumberPoint { get; set; }
@@ -76,7 +77,7 @@ namespace LoSa.Land.Tables
         }
     }
 
-    public class SettingsDrawingTables
+    public class SettingsDrawingTables : Settings.ISettings
     {
         public SettingsDrawingBlock Parcel { get; set; }
         public SettingsDrawingBlock Land { get; set; }
@@ -95,7 +96,7 @@ namespace LoSa.Land.Tables
         }
     }
 
-    public class SettingsDrawingBlock
+    public class SettingsDrawingBlock : Settings.ISettings
     {
         [XmlAttributeAttribute()]
         public string Layer { get; set; }
@@ -115,7 +116,7 @@ namespace LoSa.Land.Tables
         }
     }
 
-    public class SettingsDrawingText
+    public class SettingsDrawingText : Settings.ISettings
     {
         [XmlAttributeAttribute()]
         public string TextStyleName { get; set; }
@@ -143,7 +144,7 @@ namespace LoSa.Land.Tables
         }
     }
 
-    public class SettingsDrawingFillPolygon
+    public class SettingsDrawingFillPolygon : Settings.ISettings
     {
         [XmlAttributeAttribute()]
         public string Layer { get; set; }

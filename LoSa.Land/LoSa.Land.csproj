@@ -288,6 +288,7 @@
     <Compile Include="ObjectExport\SokkiaSDR.cs" />
     <Compile Include="Service\ServiceNeighborsSegments.cs" />
     <Compile Include="Service\ServiceXml.cs" />
+    <Compile Include="Settings\ISettings.cs" />
     <Compile Include="Settings\FormEditTables.cs">
       <SubType>Form</SubType>
     </Compile>

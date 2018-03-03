@@ -12,7 +12,7 @@ namespace LoSa.Land.Tables
 {
     [Serializable()]
     [DataContract]
-    public class SettingsLand
+    public class SettingsLand 
     {
         [XmlElementAttribute("Setting")]
         public List<SettingLand> Setting { get; set; }
@@ -44,6 +44,7 @@ namespace LoSa.Land.Tables
                 );
         }
 
+       
         public static SettingsLand Default
         {
             get
@@ -90,7 +91,7 @@ namespace LoSa.Land.Tables
     }
 
     [Serializable()]
-    public class SettingLand
+    public class SettingLand : Settings.ASettings
     {
         [XmlAttributeAttribute()]
         public string Key { get; set; }
@@ -111,7 +112,13 @@ namespace LoSa.Land.Tables
             this.Description = description;
         }
 
-        public static SettingLand Default 
+        /// <summary>
+        /// Gets the default.
+        /// </summary>
+        /// <value>
+        /// The default.
+        /// </value>
+        public new static SettingLand Default
         {
             get
             {

@@ -119,11 +119,12 @@ namespace LoSa.Land
 
         }
 
-        public FormLand frmLand = new FormLand();
+        private FormLand frmLand;
 
         [AcTrx.CommandMethod("Land_CreatingPlanLand")]
         public void CreatingPlanLand()
         {
+            frmLand = new FormLand();
             frmLand.Show();
         }
 

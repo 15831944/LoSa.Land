@@ -342,14 +342,14 @@ namespace LoSa.Land.Service
         /// <summary>
         /// Створює коллекцію текстових обектів значень данних таблиці виносу внатуру меж земельної ділянки.
         /// </summary>
-        /// <param name="stakeoutPoints">Данні розбивки меж земельної ділянки.</param>
+        /// <param name="polygon">Земельна ділянка.</param>
         /// <param name="settingTable">Налаштування таблиці.</param>
         /// <returns>
         ///  Повертає <see cref="T:AcDb.DBObjectCollection"/>, що містить текстові значення данний таблиці виносу внатуру меж земельної ділянки.
         /// </returns>
-
-        internal static AcDb.DBObjectCollection GetDataTableStakeOutParcelPoints(List<StakeOutParcelPoint> stakeoutPoints, SettingTable settingTable)
+        internal static AcDb.DBObjectCollection GetDataTableStakeOutParcelPoints(LandParcel polygon, SettingTable settingTable)
         {
+            List<StakeOutParcelPoint> stakeoutPoints = polygon.StakeOutParcelPoints;
             stakeoutPoints.Sort((x, y) => x.PointStation.Name.CompareTo(y.PointStation.Name));
 
             AcDb.DBObjectCollection objects = new AcDb.DBObjectCollection();
@@ -398,7 +398,12 @@ namespace LoSa.Land.Service
                     colWidth += col.Width;
 
                     insertPoint = new AcGe.Point3d();
-                    insertPoint = new AcGe.Point3d(colWidth - col.Width / 2, (settingTable.GetHeightCapTable() + (index + 1) * settingTable.TextHeight * 2) * -1, 0);
+                    insertPoint = new AcGe.Point3d
+                                        ( 
+                                            colWidth - col.Width / 2, 
+                                            (settingTable.GetHeightCapTable() + (index + 1) * settingTable.TextHeight * 2) * -1, 
+                                            0
+                                        );
 
                     textValue = new AcDb.DBText();
 
@@ -431,6 +436,16 @@ namespace LoSa.Land.Service
                     {
                         textValue.TextString = stakeoutPoint.LeftlAngleToString(AcRx.AngularUnitFormat.DegreesMinutesSeconds);
                     }
+                    else if (col.Format.IndexOf("BasePoints_dirAngle") > -1)
+                    {
+                        textValue.TextString = stakeoutPoint.PointStation.Name;
+                    }
+                    else if (col.Format.IndexOf("BasePoints_innerAngle") > -1)
+                    {
+                        textValue.TextString = stakeoutPoint.PointStation.Name 
+                                                + " -> " 
+                                                + stakeoutPoint.PointOrientation.Name;
+                    }
                     else
                     {
                         textValue.TextString = "None";
@@ -459,7 +474,7 @@ namespace LoSa.Land.Service
         /// <summary>
         /// Створює коллекцію текстових обектів значень данних таблиці обмежень земельної ділянки.
         /// </summary>
-        /// <param name="polygon">Ділянка, що є вихідною для таблиці.</param>
+        /// <param name="parcel">Ділянка, що є вихідною для таблиці.</param>
         /// <param name="settingTable">Налаштування таблиці.</param>
         /// <returns>
         ///  Повертає <see cref="T:AcDb.DBObjectCollection"/>, що містить текстові значення данний таблиці обмежень земельної ділянки.

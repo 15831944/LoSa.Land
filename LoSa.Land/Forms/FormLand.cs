@@ -62,6 +62,10 @@ using System.Data;
 
 namespace LoSa.Land.Forms
 {
+    /// <summary>
+    /// Forms for LoSa.Land
+    /// </summary>
+    /// <seealso cref="System.Windows.Forms.Form" />
     public partial class FormLand: Form
     {
 
@@ -70,18 +74,39 @@ namespace LoSa.Land.Forms
 
         #region Filde
 
-        //
-        //      variables for Settings
-        //
-        private SettingsLand userSettings;
-        private SettingsFormLand formSettings;
-        private SettingsTable tableSettings;
-        private SettingsLand boxDrawingSettings;
-        public SettingsDrawing settingsDrawing;
+        /*      
+         *      Filde for Settings  
+         */
+         
+        /// <summary>
+        /// The User settings
+        /// </summary>
+        private SettingsLand userSettings;          // Налаштування користувача
+        
+        /// <summary>
+        /// The FormLand settings
+        /// </summary>
+        private SettingsFormLand formSettings;      // Налаштування FormLand
+        
+        /// <summary>
+        /// The Tables settings
+        /// </summary>
+        private SettingsTable tableSettings;        // Налаштування таблиць
+        
+        /// <summary>
+        /// The Frames Drawing settings
+        /// </summary>
+        private SettingsLand frameDrawingSettings;    // Налаштування рамок та штампів креслень
+        
+        /// <summary>
+        /// The Drawing settings
+        /// </summary>
+        public SettingsDrawing drawingSettings;     // Налаштування креслень
 
-        //
-        //      variables for Plan
-        //
+        /*
+         *      Filde for Plan
+         */      
+
         private AcGe.Vector2d offsetBlockLandView = new AcGe.Vector2d(500, 500);
         private ServiceParcel serviceParcel = null;
 
@@ -93,8 +118,8 @@ namespace LoSa.Land.Forms
         //
         //      variables for Parcel
         //
-        private LandParcel currentParcel = null;
-        private List<StakeOutParcelPoint> stakeOutParcelPoints = new List<StakeOutParcelPoint>();
+        private LandParcel currentParcel = new LandParcel();// null;
+        //private List<StakeOutParcelPoint> stakeOutParcelPoints = new List<StakeOutParcelPoint>();
 
         //
         //      variables for ObjectId
@@ -107,6 +132,9 @@ namespace LoSa.Land.Forms
 
         #region Costructor
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FormLand"/> class.
+        /// </summary>
         public FormLand()
         {
             InitializeComponent();
@@ -117,66 +145,71 @@ namespace LoSa.Land.Forms
 
         #region Events
 
-            private void FormLand_Load(object sender, EventArgs e)
-            {
-                this.comboBoxScaleDrawing.Items.Add("1 : 100");
-                this.comboBoxScaleDrawing.Items.Add("1 : 200");
-                this.comboBoxScaleDrawing.Items.Add("1 : 500");
-                this.comboBoxScaleDrawing.Items.Add("1 : 1000");
-                this.comboBoxScaleDrawing.Items.Add("1 : 2000");
-                this.comboBoxScaleDrawing.Items.Add("1 : 5000");
+        /// <summary>
+        /// Handles the Load event of the FormLand control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void FormLand_Load(object sender, EventArgs e)
+        {
+            this.comboBoxScaleDrawing.Items.Add("1 : 100");
+            this.comboBoxScaleDrawing.Items.Add("1 : 200");
+            this.comboBoxScaleDrawing.Items.Add("1 : 500");
+            this.comboBoxScaleDrawing.Items.Add("1 : 1000");
+            this.comboBoxScaleDrawing.Items.Add("1 : 2000");
+            this.comboBoxScaleDrawing.Items.Add("1 : 5000");
 
-                this.comboBoxScaleDrawing.SelectedIndex = 3;
+            this.comboBoxScaleDrawing.SelectedIndex = 3;
 
-                LoadAllSettings();
-                LoadTableSettings();
-                LoadBoxDriwingSettings();
-                UpdatSettingsOnForm();
-            }
+            //LoadAllSettings();
+            LoadTableSettings();
+            LoadFrameDrawingSettings();
+            this.UpdateFormLandByFormSettings();
+        }
 
-            private void FormLand_FormClosing(object sender, FormClosingEventArgs e)
-            {
-                PurgeFromElementsBlockLand();
-                SaveAllSettings();
-            }
+        private void FormLand_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            PurgeFromElementsBlockLand();
+            SaveAllSettings();
+        }
 
         #region Events Buttons
 
         internal List<BasePoint> basePoints = new List<BasePoint>();
 
-                private void btnSelectBasePoints_Click(object sender, EventArgs e)
+        private void btnSelectBasePoints_Click(object sender, EventArgs e)
+        {
+            Stream myStream = null;
+            OpenFileDialog openDialogBasePoints = new OpenFileDialog();
+
+            //openDialogBasePoints.InitialDirectory = localPath.FindFullPathFromXml("PathBasePoints");
+            openDialogBasePoints.Filter = "Файл обміну (*.nxyhc)|*.nxyhc|Усі файли (*.*)|*.*";
+
+            if (openDialogBasePoints.ShowDialog() == DialogResult.OK)
+            {
+                try
                 {
-                    Stream myStream = null;
-                    OpenFileDialog openDialogBasePoints = new OpenFileDialog();
-
-                    //openDialogBasePoints.InitialDirectory = localPath.FindFullPathFromXml("PathBasePoints");
-                    openDialogBasePoints.Filter = "Файл обміну (*.nxyhc)|*.nxyhc|Усі файли (*.*)|*.*";
-
-                    if (openDialogBasePoints.ShowDialog() == DialogResult.OK)
+                    if ((myStream = openDialogBasePoints.OpenFile()) != null)
                     {
-                        try
-                        {
-                            if ((myStream = openDialogBasePoints.OpenFile()) != null)
-                            {
-                                basePoints.Clear();
-                                basePoints.AddRange(LoadBasePoints(openDialogBasePoints.FileName));
+                        basePoints.Clear();
+                        basePoints.AddRange(LoadBasePoints(openDialogBasePoints.FileName));
 
-                                this.labelFileBasePoint.Text = openDialogBasePoints.FileName;
-                                List<string> namesBasePoint = new List<string>();
+                        this.labelFileBasePoint.Text = openDialogBasePoints.FileName;
+                        List<string> namesBasePoint = new List<string>();
 
-                                foreach (BasePoint basePoint in this.basePoints)
-                                {
-                                    namesBasePoint.Add(basePoint.Name);
-                                    this.colBasePoint.Items.Add((object)basePoint.Name);
-                                }
-                            }
-                        }
-                        catch (System.Exception ex)
+                        foreach (BasePoint basePoint in this.basePoints)
                         {
-                            MessageBox.Show("Помилка: " + ex.Message);
+                            namesBasePoint.Add(basePoint.Name);
+                            this.colBasePoint.Items.Add((object)basePoint.Name);
                         }
                     }
                 }
+                catch (System.Exception ex)
+                {
+                    MessageBox.Show("Помилка: " + ex.Message);
+                }
+            }
+        }
 
         private List<BasePoint> LoadBasePoints(string fileNameBasePoints)
         {
@@ -301,7 +334,7 @@ namespace LoSa.Land.Forms
 
                     if (this.serviceParcel != null)
                     {
-                        this.settingsDrawing.Scale.Value = this.formSettings.ScaleDrawing;
+                        this.drawingSettings.Scale.Value = this.formSettings.ScaleDrawing;
                         this.serviceParcel.BuildingPlan();
                     }
                     //ServiceCAD.ZoomAll();
@@ -309,86 +342,115 @@ namespace LoSa.Land.Forms
 
         private void btnExportToFile_Click(object sender, EventArgs e)
         {
-                    SaveFileDialog saveDialogSDR = new SaveFileDialog();
+            SaveFileDialog saveDialogSDR = new SaveFileDialog();
 
-                    string directoryExport = localPath.FindFullPathFromXml("PathExpotr");
-                    Directory.CreateDirectory(directoryExport);
+            string directoryExport = localPath.FindFullPathFromXml("PathExpotr");
 
-                    saveDialogSDR.InitialDirectory = directoryExport;
-                    saveDialogSDR.FileName = this.currentParcel.FindInfo("SC").Value.Replace(":", "_");
-                    saveDialogSDR.Filter =  "Файл для Sokkia SDR2x (*.sdr)|*.sdr|"+             // 1
-                                            "Файл для Sokkia SDR33 (*.sdr)|*.sdr|" +            // 2
-                                            "Файл текстовый формата NXYZC (*.nxyzc)|*.nxyzc|" + // 3
-                                            "Файл текстовый формата NYXZC (*.nyxzc)|*.nyxzc|" +  // 4
-                                            "Обменный формат Credo_Dat (*.top)|*.top";  // 5
-                                                               //saveDialogSDR.RestoreDirectory = true;
+            Directory.CreateDirectory(directoryExport);
 
-                    if (saveDialogSDR.ShowDialog() == DialogResult.OK)
-                    {
-                        ExportFileFormat formatExpotr = ExportFileFormat.NXYZC;
-                      
-                        if (saveDialogSDR.FilterIndex == 1)         formatExpotr = ExportFileFormat.SDR20;
-                        else if (saveDialogSDR.FilterIndex == 2)    formatExpotr = ExportFileFormat.SDR33;
-                        else if (saveDialogSDR.FilterIndex == 3)    formatExpotr = ExportFileFormat.NXYZC;
-                        else if (saveDialogSDR.FilterIndex == 4)    formatExpotr = ExportFileFormat.NYXZC;
-                        else if (saveDialogSDR.FilterIndex == 5)    formatExpotr = ExportFileFormat.CREDO_DAT_TOP;
+            saveDialogSDR.InitialDirectory = directoryExport;
+            saveDialogSDR.FileName = this.currentParcel.FindInfo("SC").Value.Replace(":", "_");
+            saveDialogSDR.Filter =  "Файл для Sokkia SDR2x (*.sdr)|*.sdr|"+             // 1   
+                                    "Файл для Sokkia SDR33 (*.sdr)|*.sdr|" +            // 2
+                                    "Файл текстовый формата NXYZC (*.nxyzc)|*.nxyzc|" + // 3
+                                    "Файл текстовый формата NYXZC (*.nyxzc)|*.nyxzc|" +  // 4
+                                    "Обменный формат Credo_Dat (*.top)|*.top";  // 5
+            //saveDialogSDR.RestoreDirectory = true;
 
-                        ServiceExport.ToFile(this.currentParcel, saveDialogSDR.FileName, formatExpotr);
-                    }
+            if (saveDialogSDR.ShowDialog() == DialogResult.OK)
+            {
+                ExportFileFormat formatExpotr = ExportFileFormat.NXYZC;
+
+                if (saveDialogSDR.FilterIndex == 1)
+                {
+                    formatExpotr = ExportFileFormat.SDR20;
+                }
+                else if (saveDialogSDR.FilterIndex == 2)
+                {
+                    formatExpotr = ExportFileFormat.SDR33;
+                }
+                else if (saveDialogSDR.FilterIndex == 3)
+                {
+                    formatExpotr = ExportFileFormat.NXYZC;
+                }
+                else if (saveDialogSDR.FilterIndex == 4)
+                {
+                    formatExpotr = ExportFileFormat.NYXZC;
+                }
+                else if (saveDialogSDR.FilterIndex == 5)
+                {
+                    formatExpotr = ExportFileFormat.CREDO_DAT_TOP;
+                }
+                    
+            
+                ServiceExport.ToFile(this.currentParcel, saveDialogSDR.FileName, formatExpotr);
+            }
         }
 
-                private void btnBuildingTable_Click(object sender, EventArgs e)
+        private void btnBuildingTable_Click(object sender, EventArgs e)
+        {
+            if (this.currentParcel == null)
+            {
+                return;
+            }
+
+            BlockTableLand table = new BlockTableLand(); 
+
+            foreach (string keyTable in this.checkedListBox_TypeTable.CheckedItems)
+            {
+
+                SettingTable setTable =  this.tableSettings.FindKeyTable(keyTable);
+                table.Setting = setTable;
+                table.Scale = this.formSettings.ScaleDrawing;
+
+                if (table.Setting == null)
                 {
-                    if (this.currentParcel == null) return;
+                    return;
+                }
 
-                    BlockTableLand table = new BlockTableLand(); 
-
-                    foreach (string keyTable in this.checkedListBox_TypeTable.CheckedItems)
+                if (table.StrategyTable.GetType().Equals(typeof(StrategyTableBorderParcel)))
+                {
+                    table.Parcel = this.currentParcel;
+                    table.сreate();
+                }
+                else if (table.StrategyTable.GetType().Equals(typeof(StrategyTableBorderLimiting)))
+                {
+                    foreach (LandPolygon polygon in this.currentParcel.Limiting)
                     {
-                        SettingTable setTable =  this.tableSettings.FindKeyTable(keyTable);
-                        table.Setting = setTable;
-                        table.Scale = this.formSettings.ScaleDrawing;
-
-                        if (table.Setting == null) return;
-
-                        if (table.StrategyTable.GetType().Equals(typeof(StrategyTableBorderParcel)))
-                        {
-                            table.Parcel = this.currentParcel;
-                            table.сreate();
-                        }
-                        else if (table.StrategyTable.GetType().Equals(typeof(StrategyTableBorderLimiting)))
-                        {
-                            foreach (LandPolygon polygon in this.currentParcel.Limiting)
-                            {
-                                LandParcel  parcel =  new LandParcel();
-                                            parcel.Info = polygon.Info;
-                                            parcel.Points = polygon.Points;
-                                table.Parcel = parcel;
-                                table.сreate();
-                            }
-                        }
-                        else if (table.StrategyTable.GetType().Equals(typeof(StrategyTableLimiting)))
-                        {
-                            table.Parcel = this.currentParcel;
-                            table.сreate();
-                        }
+                        LandParcel parcel = new LandParcel();
+                        parcel.Info = polygon.Info;
+                        parcel.Points = polygon.Points;
+                        table.Parcel = parcel;
+                        table.сreate();
                     }
                 }
-
-                private void btnEditTypeTable_Click(object sender, EventArgs e)
+                else if (table.StrategyTable.GetType().Equals(typeof(StrategyTableLimiting)))
                 {
-                    //new FormEditTables().Show();
-                    LoadTableSettings();
-                    //string pathXml = SettingLocalPath.PathTableSettings + ".xml";
-                    //ServiceXML.WriteXML<SettingsTable>(this.tableSettings, pathXml);
+                    table.Parcel = this.currentParcel;
+                    table.сreate();
                 }
+                else if (table.StrategyTable.GetType().Equals(typeof(StrategyTableStakeOutPoints)))
+                {
+                    table.Parcel = this.currentParcel;
+                    table.сreate();
+                }
+            }
+        }
+
+        private void btnEditTypeTable_Click(object sender, EventArgs e)
+        {
+            //new FormEditTables().Show();
+            LoadTableSettings();
+            //string pathXml = SettingLocalPath.PathTableSettings + ".xml";
+            //ServiceXML.WriteXML<SettingsTable>(this.tableSettings, pathXml);
+        }
 
                 private void btnBuildingBoxDrawing_Click(object sender, EventArgs e)
                 {
                     if ( this.checkedListBoxTypeBoxDrawing.CheckedItems.Count < 1 ) { return; }
                     foreach (string nameBoxDrawing in this.checkedListBoxTypeBoxDrawing.CheckedItems)
                     {
-                        SettingLand setBoxDrawing = this.boxDrawingSettings.FindName(nameBoxDrawing);
+                        SettingLand setBoxDrawing = this.frameDrawingSettings.FindName(nameBoxDrawing);
 
                         Dictionary<string,string> tags = new Dictionary<string,string>();
 
@@ -407,11 +469,11 @@ namespace LoSa.Land.Forms
                         tags);
                 */
 
-                AcDb.ObjectId idBoxDrawing =
+        AcDb.ObjectId idBoxDrawing =
                            ServiceBlockElements.InsertBlock(
                                setBoxDrawing.Key,
                                CurrentCAD.Editor.GetPoint(">>>>>>").Value,
-                               this.settingsDrawing.Scale.Value,
+                               this.drawingSettings.Scale.Value,
                                0,
                                AcDb.ObjectId.Null,
                                tags);
@@ -426,7 +488,7 @@ namespace LoSa.Land.Forms
 
                 private void btnEditTypeBoxDrawing_Click(object sender, EventArgs e)
                 {
-                    LoadBoxDriwingSettings();
+                    //LoadBoxDriwingSettings();
                 }
 
             #endregion Events Buttons
@@ -460,7 +522,7 @@ namespace LoSa.Land.Forms
                     /// =======================================================
                     /// 
 
-                    if (this.stakeOutParcelPoints != null) { this.stakeOutParcelPoints.Clear(); }
+                    if (this.currentParcel.StakeOutParcelPoints != null) { this.currentParcel.StakeOutParcelPoints.Clear(); }
                     StakeOutParcelPoint stakeOutParcelPoint;
 
                     this.dataGridView_StakeOut.ClearSelection(); 
@@ -485,12 +547,12 @@ namespace LoSa.Land.Forms
 
                         stakeOutParcelPoint = new StakeOutParcelPoint();
 
-                        stakeOutParcelPoint.ScaleDrawing = this.settingsDrawing.Scale.Value;
+                        stakeOutParcelPoint.ScaleDrawing = this.drawingSettings.Scale.Value;
 
                         stakeOutParcelPoint.Name = indexPoint.ToString(); 
                         stakeOutParcelPoint.Coordinates = point;
 
-                        this.stakeOutParcelPoints.Add(stakeOutParcelPoint);
+                        this.currentParcel.StakeOutParcelPoints.Add(stakeOutParcelPoint);
                     }
 
                     this.dataGridView_StakeOut.Update();
@@ -506,7 +568,7 @@ namespace LoSa.Land.Forms
 
                     this.formSettings.ScaleDrawing = Convert.ToDouble(strScaleDrawing.Replace("1 : ", "")) / 1000;
 
-                    foreach (StakeOutParcelPoint spp in this.stakeOutParcelPoints)
+                    foreach (StakeOutParcelPoint spp in this.currentParcel.StakeOutParcelPoints)
                     {
                         spp.ScaleDrawing = this.formSettings.ScaleDrawing;
                     }
@@ -588,14 +650,14 @@ namespace LoSa.Land.Forms
         #region Events TabControl
 
         private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
-                {
-                    this.formSettings.IndexTabControl = this.tabControl.TabIndex;
-                }
+        {
+            this.formSettings.IndexTabControl = this.tabControl.TabIndex;
+        }
 
-                private void tabControl_Selected(object sender, TabControlEventArgs e)
-                {
-                    this.formSettings.IndexTabControl = this.tabControl.SelectedIndex;
-                }
+        private void tabControl_Selected(object sender, TabControlEventArgs e)
+        {
+            this.formSettings.IndexTabControl = this.tabControl.SelectedIndex;
+        }
 
         #endregion Events TabControl
 
@@ -742,38 +804,42 @@ namespace LoSa.Land.Forms
             }
         }
 
+        /*
         private void AddTableSettings(SettingTable setting)
         {
             this.tableSettings.Settings.Add(setting);
             LoadTableSettings();
         }
+        */
 
         #endregion TableSettings
 
         //  for BoxDriwingSettings
         #region BoxDriwingSettings
 
-        private void LoadBoxDriwingSettings()
+        private void LoadFrameDrawingSettings()
         {
-            this.boxDrawingSettings = null;
-            this.boxDrawingSettings = LoadSettings<SettingsLand>(localPath.FindFullPathFromXml("PathBoxDrawing"));
-            if (this.boxDrawingSettings == null)
+            this.frameDrawingSettings = null;
+            this.frameDrawingSettings = LoadSettings<SettingsLand>(localPath.FindFullPathFromXml("PathFrameDrawing"));
+            if (this.frameDrawingSettings == null)
             {
-                this.boxDrawingSettings = SettingsLand.Default;
-                ServiceXml.WriteXml<SettingsLand>(this.boxDrawingSettings, localPath.FindFullPathFromXml("PathBoxDrawing"));
+                this.frameDrawingSettings = SettingsLand.Default;
+                ServiceXml.WriteXml<SettingsLand>(this.frameDrawingSettings, localPath.FindFullPathFromXml("PathFrameDrawing"));
             }
             this.checkedListBoxTypeBoxDrawing.Items.Clear();
-            foreach (SettingLand setting in this.boxDrawingSettings.Setting)
+            foreach (SettingLand setting in this.frameDrawingSettings.Setting)
             {
                 this.checkedListBoxTypeBoxDrawing.Items.Add(setting.Name);
             }
         }
 
-        private void AddBoxDriwingSettings(SettingLand setting)
+        /*
+        private void _AddBoxDriwingSettings(SettingLand setting)
         {
-            this.boxDrawingSettings.Setting.Add(setting);
-            LoadBoxDriwingSettings();
+            this.frameDrawingSettings.Setting.Add(setting);
+            LoadFrameDrawingSettings();
         }
+        */
 
         #endregion TableSettings
 
@@ -787,10 +853,11 @@ namespace LoSa.Land.Forms
         
         private void LoadAllSettings()
         {
-
-
-            String pathDrawing = localPath.FindFullPathFromXml("PathDrawing");
-            this.settingsDrawing = ServiceXml.ReadXml<SettingsDrawing>(pathDrawing);
+            this.drawingSettings = LoadSettings<SettingsDrawing>(localPath.FindFullPathFromXml("PathDrawing"));
+            if (this.drawingSettings == null)
+            {
+                this.drawingSettings = SettingsDrawing.Default;
+            }
 
             this.userSettings = LoadSettings<SettingsLand>(localPath.FindFullPathFromXml("PathUsers"));
             if (this.userSettings == null) 
@@ -805,24 +872,53 @@ namespace LoSa.Land.Forms
             }
 
             this.tableSettings = LoadSettings<SettingsTable>(localPath.FindFullPathFromXml("PathTables"));
-            this.boxDrawingSettings = LoadSettings<SettingsLand>(localPath.FindFullPathFromXml("PathBoxDrawing"));
-        }
-        
-        private void SaveSettings<T>(T settings, string pathSettings)
-        {
-            ServiceXml.WriteXml<T>(settings, pathSettings);
+            if (this.formSettings == null)
+            {
+                this.tableSettings = SettingsTable.Default;
+            }
+
+            this.frameDrawingSettings = LoadSettings<SettingsLand>(localPath.FindFullPathFromXml("PathFrameDrawing"));
+            if (this.formSettings == null)
+            {
+                this.frameDrawingSettings = SettingsLand.Default;
+            }
         }
 
+        /// <summary>
+        /// Saves the settings.
+        /// </summary>
+        /// <typeparam name="T">Type settings.</typeparam>
+        /// <param name="settings">The settings.</param>
+        /// <param name="pathSettings">The path settings.</param>
+        private void SaveSettings<T>(T settings, string pathSettings)
+        {
+            try
+            {
+                ServiceXml.WriteXml<T>(settings, pathSettings);
+            }
+            catch(Exception exc)
+            {
+                CurrentCAD.Editor.WriteMessage("* Error * SaveSettings<" + settings.GetType().Name + ">");
+                CurrentCAD.Editor.WriteMessage("* " + exc.ToString());
+            }
+            
+        }
+
+        /// <summary>
+        /// Saves all settings.
+        /// </summary>
         private void SaveAllSettings()
         {
             SaveSettings(this.userSettings, localPath.FindFullPathFromXml("PathUsers"));
             SaveSettings<SettingsFormLand>(this.formSettings, localPath.FindFullPathFromXml("PathFormLand"));
-            //SaveSettings<SettingsTable>(this.tableSettings, pathLoSaLand + LocalPathSetting.PathTableSettings);
-            //SaveSettings(this.boxDrawingSettings,  + LocalPathSetting.PathBoxDrawingSettings);
+            SaveSettings<SettingsTable>(this.tableSettings, localPath.FindFullPathFromXml("PathTableSettings"));
+            SaveSettings(this.frameDrawingSettings, localPath.FindFullPathFromXml("PathFrameDrawingSettings"));
         }
-        #endregion Settings
 
-        private void UpdateFormOnSettings()
+        /// <summary>
+        /// Updates the form settings.
+        /// </summary>
+        private void UpdateFormSettings()
         {
             this.formSettings = new SettingsFormLand();
 
@@ -851,21 +947,41 @@ namespace LoSa.Land.Forms
             this.formSettings.DisplayPerimeter = this.checkBoxPerimeter.Checked;
         }
 
-        private  void UpdatSettingsOnForm()
+        /// <summary>
+        /// Updates <see cref="T:Losa.Land.Forms.FormLand"/> the by form settings.
+        /// </summary>
+        private void UpdateFormLandByFormSettings()
         {
+            string strScale = "1 : " + (this.formSettings.ScaleDrawing * 1000).ToString("0");
+            int indexScale = this.comboBoxScaleDrawing.Items.IndexOf(strScale);
+
+            if (indexScale > 0)
+            {
+                this.comboBoxScaleDrawing.SelectedIndex = indexScale;
+            }
+            else
+            {
+                MessageBox.Show (
+                                    "Помилка налаштувань масштабу '" + strScale + "'",
+                                    "Помилка UpdateByFormSettings()",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Error
+                                );
+            }
+            /*
             int i = -1;  
             foreach ( string obj in this.comboBoxScaleDrawing.Items)
             {
-                i += 1;
+                i ++;
                 double dblScale = Convert.ToDouble(obj.Replace("1 : ", "")) / 1000;
-                string strScale = dblScale.ToString("0");
+                //string strScale = dblScale.ToString("0");
                 if ( dblScale == this.formSettings.ScaleDrawing ) 
                 {
                     this.comboBoxScaleDrawing.SelectedIndex = i;
                     break;
                 }
             }
- 
+            */
             this.tabControl.SelectedIndex = this.formSettings.IndexTabControl+1;
 
             this.checkBoxPointsDisplay.Checked = this.formSettings.DisplayPointNumbers;
@@ -886,12 +1002,7 @@ namespace LoSa.Land.Forms
             this.checkBoxPerimeter.Checked = this.formSettings.DisplayPerimeter;
         }
 
-        private void treeView_Parcel_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-
-        }
-
-
+        #endregion Settings
 
         private void dataGridView_StakeOut_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -902,10 +1013,10 @@ namespace LoSa.Land.Forms
                 this.basePoints.Count > 0)
             {
                 int indexRow = (int)this.dataGridView_StakeOut.CurrentRow.Index;
-                List<BasePoint> sortBasePoints = this.stakeOutParcelPoints[indexRow].SortingByDistanceFromPoint(this.basePoints);
-                this.stakeOutParcelPoints[indexRow].PointStation = sortBasePoints[0];
-                this.dataGridView_StakeOut[3, indexRow].Value = this.stakeOutParcelPoints[indexRow].PointStation.Name;
-                this.dataGridView_StakeOut[2, indexRow].Value = this.stakeOutParcelPoints[indexRow].PointStation.Name;
+                List<BasePoint> sortBasePoints = this.currentParcel.StakeOutParcelPoints[indexRow].SortingByDistanceFromPoint(this.basePoints);
+                this.currentParcel.StakeOutParcelPoints[indexRow].PointStation = sortBasePoints[0];
+                this.dataGridView_StakeOut[3, indexRow].Value = this.currentParcel.StakeOutParcelPoints[indexRow].PointStation.Name;
+                this.dataGridView_StakeOut[2, indexRow].Value = this.currentParcel.StakeOutParcelPoints[indexRow].PointStation.Name;
             }
         }
 
@@ -940,10 +1051,10 @@ namespace LoSa.Land.Forms
                 {
                     nameBasePoint = this.dataGridView_StakeOut[2, i].Value.ToString();
                     bp = this.basePoints.Find(x => x.Name.Contains(nameBasePoint));
-                    this.stakeOutParcelPoints[i].PointStation = bp;
+                    this.currentParcel.StakeOutParcelPoints[i].PointStation = bp;
                 }
 
-                this.stakeOutParcelPoints[i].Visible = (bool)this.dataGridView_StakeOut[0, i].Value;
+                this.currentParcel.StakeOutParcelPoints[i].Visible = (bool)this.dataGridView_StakeOut[0, i].Value;
 
                 if ((int)this.dataGridView_StakeOut.CurrentRow.Index < this.dataGridView_StakeOut.RowCount-1)
                 {
@@ -956,7 +1067,7 @@ namespace LoSa.Land.Forms
 
                 this.dataGridView_StakeOut.Rows[(int)this.dataGridView_StakeOut.CurrentRow.Index].Selected = true;
 
-                this.stakeOutParcelPoints[i].Regen();
+                this.currentParcel.StakeOutParcelPoints[i].Regen();
             }
         }
 
@@ -964,9 +1075,9 @@ namespace LoSa.Land.Forms
         {
             for (int i = 0; i < this.dataGridView_StakeOut.RowCount; i++)
             {
-                this.stakeOutParcelPoints[i].Visible = true;
+                this.currentParcel.StakeOutParcelPoints[i].Visible = true;
                 this.dataGridView_StakeOut[0, i].Value = true;
-                this.stakeOutParcelPoints[i].Regen();
+                this.currentParcel.StakeOutParcelPoints[i].Regen();
             }
         }
 
@@ -974,9 +1085,9 @@ namespace LoSa.Land.Forms
         {
             for (int i = 0; i < this.dataGridView_StakeOut.RowCount; i++)
             {
-                this.stakeOutParcelPoints[i].Visible = false;
+                this.currentParcel.StakeOutParcelPoints[i].Visible = false;
                 this.dataGridView_StakeOut[0, i].Value = false;
-                this.stakeOutParcelPoints[i].Regen();
+                this.currentParcel.StakeOutParcelPoints[i].Regen();
             }
         }
 
@@ -996,7 +1107,12 @@ namespace LoSa.Land.Forms
 
         private void btnAddTableStakeoutPoints_Click(object sender, EventArgs e)
         {
-
+            this.tabControl.SelectedIndex=2;
+            this.checkedListBox_TypeTable.Update();          
+            var indexFind = this.checkedListBox_TypeTable.Items
+                                    .IndexOf("Винос меж зем.ділянки (Дир. Кути)");
+            this.checkedListBox_TypeTable.SelectedIndex = indexFind;
+            this.checkedListBox_TypeTable.SetItemCheckState(indexFind ,CheckState.Checked);
         }
     }
 }

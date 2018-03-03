@@ -73,6 +73,7 @@
             this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
             this.btnSelectAll = new System.Windows.Forms.Button();
             this.btnRemoveSelectionAll = new System.Windows.Forms.Button();
+            this.btnAddTableStakeoutPoints = new System.Windows.Forms.Button();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.dataGridView_StakeOut = new System.Windows.Forms.DataGridView();
             this.colVisible = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -95,7 +96,6 @@
             this.item_TableParcel = new System.Windows.Forms.ToolStripMenuItem();
             this.item_StakeoutParcel = new System.Windows.Forms.ToolStripMenuItem();
             this.mnu_About = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnAddTableStakeoutPoints = new System.Windows.Forms.Button();
             this.tabControl.SuspendLayout();
             this.tabPageInfoParcel.SuspendLayout();
             this.tabPagePlan.SuspendLayout();
@@ -154,7 +154,7 @@
             this.tabPageInfoParcel.Margin = new System.Windows.Forms.Padding(2);
             this.tabPageInfoParcel.Name = "tabPageInfoParcel";
             this.tabPageInfoParcel.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPageInfoParcel.Size = new System.Drawing.Size(501, 373);
+            this.tabPageInfoParcel.Size = new System.Drawing.Size(442, 373);
             this.tabPageInfoParcel.TabIndex = 0;
             this.tabPageInfoParcel.Tag = "0";
             this.tabPageInfoParcel.Text = "Інформація";
@@ -169,7 +169,6 @@
             this.treeView_Parcel.Name = "treeView_Parcel";
             this.treeView_Parcel.Size = new System.Drawing.Size(496, 327);
             this.treeView_Parcel.TabIndex = 0;
-            this.treeView_Parcel.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_Parcel_AfterSelect);
             // 
             // tabPagePlan
             // 
@@ -179,7 +178,7 @@
             this.tabPagePlan.Margin = new System.Windows.Forms.Padding(2);
             this.tabPagePlan.Name = "tabPagePlan";
             this.tabPagePlan.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPagePlan.Size = new System.Drawing.Size(501, 373);
+            this.tabPagePlan.Size = new System.Drawing.Size(442, 373);
             this.tabPagePlan.TabIndex = 1;
             this.tabPagePlan.Tag = "1";
             this.tabPagePlan.Text = "План ділянки";
@@ -507,7 +506,7 @@
             this.tabPageTable.Location = new System.Drawing.Point(4, 22);
             this.tabPageTable.Margin = new System.Windows.Forms.Padding(2);
             this.tabPageTable.Name = "tabPageTable";
-            this.tabPageTable.Size = new System.Drawing.Size(501, 373);
+            this.tabPageTable.Size = new System.Drawing.Size(442, 373);
             this.tabPageTable.TabIndex = 2;
             this.tabPageTable.Tag = "2";
             this.tabPageTable.Text = "Таблиці";
@@ -525,7 +524,7 @@
             this.tableLayoutPanel2.RowCount = 2;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 88.6747F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.3253F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(501, 373);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(442, 373);
             this.tableLayoutPanel2.TabIndex = 9;
             // 
             // flowLayoutPanel3
@@ -536,7 +535,7 @@
             this.flowLayoutPanel3.Controls.Add(this.btnEditTypeTable);
             this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 333);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-            this.flowLayoutPanel3.Size = new System.Drawing.Size(495, 37);
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(436, 37);
             this.flowLayoutPanel3.TabIndex = 8;
             // 
             // btnBuildingTable
@@ -565,7 +564,7 @@
             this.checkedListBox_TypeTable.FormattingEnabled = true;
             this.checkedListBox_TypeTable.Location = new System.Drawing.Point(3, 3);
             this.checkedListBox_TypeTable.Name = "checkedListBox_TypeTable";
-            this.checkedListBox_TypeTable.Size = new System.Drawing.Size(495, 324);
+            this.checkedListBox_TypeTable.Size = new System.Drawing.Size(436, 324);
             this.checkedListBox_TypeTable.TabIndex = 5;
             // 
             // tabPageBoxDrawing
@@ -574,7 +573,7 @@
             this.tabPageBoxDrawing.Location = new System.Drawing.Point(4, 22);
             this.tabPageBoxDrawing.Margin = new System.Windows.Forms.Padding(2);
             this.tabPageBoxDrawing.Name = "tabPageBoxDrawing";
-            this.tabPageBoxDrawing.Size = new System.Drawing.Size(501, 373);
+            this.tabPageBoxDrawing.Size = new System.Drawing.Size(442, 373);
             this.tabPageBoxDrawing.TabIndex = 3;
             this.tabPageBoxDrawing.Tag = "3";
             this.tabPageBoxDrawing.Text = "Рамки креслень";
@@ -592,7 +591,7 @@
             this.tableLayoutPanel3.RowCount = 2;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 87.8481F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.1519F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(501, 373);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(442, 373);
             this.tableLayoutPanel3.TabIndex = 10;
             // 
             // checkedListBoxTypeBoxDrawing
@@ -601,7 +600,7 @@
             this.checkedListBoxTypeBoxDrawing.FormattingEnabled = true;
             this.checkedListBoxTypeBoxDrawing.Location = new System.Drawing.Point(3, 3);
             this.checkedListBoxTypeBoxDrawing.Name = "checkedListBoxTypeBoxDrawing";
-            this.checkedListBoxTypeBoxDrawing.Size = new System.Drawing.Size(495, 321);
+            this.checkedListBoxTypeBoxDrawing.Size = new System.Drawing.Size(436, 321);
             this.checkedListBoxTypeBoxDrawing.TabIndex = 5;
             // 
             // flowLayoutPanel2
@@ -613,7 +612,7 @@
             this.flowLayoutPanel2.Location = new System.Drawing.Point(3, 332);
             this.flowLayoutPanel2.MinimumSize = new System.Drawing.Size(0, 25);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(495, 38);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(436, 38);
             this.flowLayoutPanel2.TabIndex = 8;
             // 
             // btnBuildingBoxDrawing
@@ -694,6 +693,16 @@
             this.btnRemoveSelectionAll.Text = "Відмінити вибір всього";
             this.btnRemoveSelectionAll.UseVisualStyleBackColor = true;
             this.btnRemoveSelectionAll.Click += new System.EventHandler(this.btnRemoveSelectionAll_Click);
+            // 
+            // btnAddTableStakeoutPoints
+            // 
+            this.btnAddTableStakeoutPoints.Location = new System.Drawing.Point(291, 3);
+            this.btnAddTableStakeoutPoints.Name = "btnAddTableStakeoutPoints";
+            this.btnAddTableStakeoutPoints.Size = new System.Drawing.Size(138, 32);
+            this.btnAddTableStakeoutPoints.TabIndex = 7;
+            this.btnAddTableStakeoutPoints.Text = "Додати таблицю";
+            this.btnAddTableStakeoutPoints.UseVisualStyleBackColor = true;
+            this.btnAddTableStakeoutPoints.Click += new System.EventHandler(this.btnAddTableStakeoutPoints_Click);
             // 
             // tableLayoutPanel5
             // 
@@ -912,7 +921,6 @@
             this.item_TempDraw.Name = "item_TempDraw";
             this.item_TempDraw.Size = new System.Drawing.Size(267, 22);
             this.item_TempDraw.Text = "Тимчасове відображення кварталу";
-
             // 
             // item_ParcelDraw
             // 
@@ -938,16 +946,6 @@
             this.mnu_About.Size = new System.Drawing.Size(99, 20);
             this.mnu_About.Text = "Про програму";
             this.mnu_About.Click += new System.EventHandler(this.mnu_About_Click);
-            // 
-            // btnAddTableStakeoutPoints
-            // 
-            this.btnAddTableStakeoutPoints.Location = new System.Drawing.Point(291, 3);
-            this.btnAddTableStakeoutPoints.Name = "btnAddTableStakeoutPoints";
-            this.btnAddTableStakeoutPoints.Size = new System.Drawing.Size(138, 32);
-            this.btnAddTableStakeoutPoints.TabIndex = 7;
-            this.btnAddTableStakeoutPoints.Text = "Додати таблицю";
-            this.btnAddTableStakeoutPoints.UseVisualStyleBackColor = true;
-            this.btnAddTableStakeoutPoints.Click += new System.EventHandler(this.btnAddTableStakeoutPoints_Click);
             // 
             // FormLand
             // 

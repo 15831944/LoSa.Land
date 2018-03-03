@@ -127,7 +127,7 @@ namespace LoSa.Land.ObjectGeo
         /// Повертає ID лінії вектору виносу точки в натуру.
         /// </summary>
         /// <value>
-        /// <see cref="global::ThisAssembly:AcDb.ObjectId"/> ID лінії вектору виносу точки в натуру.
+        /// <see cref="T:AcDb.ObjectId"/> ID лінії вектору виносу точки в натуру.
         /// </value>
         public AcDb.ObjectId LineStakeOutID { get { return this.lineID; } }
 

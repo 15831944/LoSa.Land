@@ -53,9 +53,10 @@ using System.Runtime.InteropServices;
 
 namespace LoSa.CAD
 {
-    
-    
 
+    /// <summary>
+    /// Current CAD
+    /// </summary>
     public static class CurrentCAD
     {
         private static AcAp.Document doc = AcApp.DocumentManager.MdiActiveDocument;
@@ -63,13 +64,55 @@ namespace LoSa.CAD
         private static AcEd.Editor ed = doc.Editor;
         private static AcPApp.AcadApplication app = (AcPApp.AcadApplication)AcApp.AcadApplication;
 
+        /// <summary>
+        /// Gets the acad document.
+        /// </summary>
+        /// <value>
+        /// The acad document.
+        /// </value>
+        public static AcPApp.AcadDocument AcadDocument
+        {
+            get { return (AcPApp.AcadDocument)doc.AcadDocument; }
+        }
 
-        public static AcPApp.AcadDocument AcadDocument { get { return (AcPApp.AcadDocument)doc.AcadDocument; } }
+        /// <summary>
+        /// Gets the application.
+        /// </summary>
+        /// <value>
+        /// The application.
+        /// </value>
         public static AcPApp.AcadApplication Application { get { return app; } }
 
+        /// <summary>
+        /// Gets the document.
+        /// </summary>
+        /// <value>
+        /// The document.
+        /// </value>
         public static AcAp.Document Document { get { return doc; } }
+
+        /// <summary>
+        /// Gets the editor.
+        /// </summary>
+        /// <value>
+        /// The editor.
+        /// </value>
         public static AcEd.Editor Editor { get { return ed; } }
+
+        /// <summary>
+        /// Gets the database.
+        /// </summary>
+        /// <value>
+        /// The database.
+        /// </value>
         public static AcDb.Database Database { get { return db; } }
+
+        /// <summary>
+        /// Gets the version.
+        /// </summary>
+        /// <value>
+        /// The version.
+        /// </value>
         public static string Version { get { return app.version; } }
     }
     

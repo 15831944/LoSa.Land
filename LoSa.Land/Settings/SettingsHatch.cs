@@ -58,7 +58,7 @@ using LoSa.Utility;
 
 namespace LoSa.Land.Tables
 {
-    public class HatchPolygon
+    public class HatchPolygon 
     {
         LocalPath localPath = new LocalPath("LoSa_Land");
 
@@ -155,7 +155,7 @@ namespace LoSa.Land.Tables
 
  
 
-    public class SettingHatch
+    public class SettingHatch : Settings.ISettings
     {
         [XmlAttributeAttribute()]
         public HatchPolygon Key { get; set; }

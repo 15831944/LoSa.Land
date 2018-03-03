@@ -99,7 +99,7 @@ namespace LoSa.Land.Tables
         }
     }
 
-    public class SettingTable
+    public class SettingTable : Settings.ASettings
     {
         [XmlAttributeAttribute()]
         public string KeyTable { get; set; }

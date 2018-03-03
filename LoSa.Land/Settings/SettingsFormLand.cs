@@ -2,7 +2,7 @@
 
 namespace LoSa.Land.Tables
 {
-    public class SettingsFormLand
+    public class SettingsFormLand : Settings.ISettings
     {
        
         public double ScaleDrawing { get; set; }

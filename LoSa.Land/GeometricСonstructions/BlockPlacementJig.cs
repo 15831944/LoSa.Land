@@ -126,9 +126,10 @@ namespace LoSa.Land.GeometricСonstructions
             public AcGe.Point3d Position;
             public AcGe.Point3d Alignment;
             private double rotation;
-            public bool IsAligned;
+            private bool isAligned;
 
             public double Rotation { get => rotation; set => rotation = value; }
+            public bool IsAligned { get => isAligned; set => isAligned = value; }
         }
 
         private AcDb.BlockReference _br;

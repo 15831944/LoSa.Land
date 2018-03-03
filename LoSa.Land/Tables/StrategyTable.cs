@@ -79,7 +79,7 @@ namespace LoSa.Land.Tables
             foreach (AcDb.DBObject obj in ServiceTable.GetBoundTable(polygon.Points.Count + 1, this.Setting.TextHeight * 2, this.Setting))
             { objects.Add(obj); }
 
-            foreach (AcDb.DBObject obj in ServiceTable.GetDataTableBorderPolygon(polygon, this.Setting))
+            foreach (AcDb.DBObject obj in ServiceTable.GetDataTableStakeOutParcelPoints(polygon, this.Setting))
             { objects.Add(obj); }
 
             string nameBlockTable = ServiceBlockElements.CreateBlock(this.objects, this.Setting.KeyTable);

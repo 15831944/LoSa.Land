@@ -52,16 +52,36 @@ using System.Threading.Tasks;
 
 namespace LoSa.Land.ObjectExport
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public interface ISokkiaSDR
     {
+        /// <summary>
+        /// Gets the identifier.
+        /// </summary>
+        /// <value>
+        /// The identifier.
+        /// </value>
         [FormatSDR20(2)]
         [FormatSDR33(2)]
         string ID { get; }
 
+        /// <summary>
+        /// Gets the code.
+        /// </summary>
+        /// <value>
+        /// The code.
+        /// </value>
         [FormatSDR20(2)]
         [FormatSDR33(2)]
         string Code { get; }
 
+        /// <summary>
+        /// To the string SDR.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         string ToStringSDR<T>() where T: IFormatSDR;
     }
 
@@ -110,9 +130,19 @@ namespace LoSa.Land.ObjectExport
         }
     }
 
+    /// <summary>
+    /// Alignment text. 
+    /// Вирівнювання тексту.
+    /// </summary>
     public enum AlignmentText
     {
+        /// <summary>
+        /// To right
+        /// </summary>
         ToRight,
+        /// <summary>
+        /// To left
+        /// </summary>
         ToLeft
     }
 

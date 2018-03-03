@@ -79,7 +79,7 @@ namespace LoSa.Land.Tables
             lPath.Paths.Add(new SettingLand("PathFormLand", "\\settings\\FormLand.xml", "*"));
             lPath.Paths.Add(new SettingLand("PathDrawing", "\\settings\\Drawing.xml", "*"));
             lPath.Paths.Add(new SettingLand("PathTables", "\\settings\\Tables.xml", "*"));
-            lPath.Paths.Add(new SettingLand("PathBoxDrawing", "\\settings\\BoxDrawing.xml", "*"));
+            lPath.Paths.Add(new SettingLand("PathFrameDrawing", "\\settings\\BoxDrawing.xml", "*"));
             lPath.Paths.Add(new SettingLand("PathHatchPolygon", "\\settings\\HatchPolygon.xml", "*"));
 
             lPath.Paths.Add(new SettingLand("PathBlockPoint", "\\blocks\\Точка_Межі.dwg", "*"));

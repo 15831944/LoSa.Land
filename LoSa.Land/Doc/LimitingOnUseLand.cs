@@ -7,13 +7,35 @@ using LoSa.Utility;
 
 namespace LoSa.Land.Doc
 {
+    /// <summary>
+    /// Обмеження на використання земельної ділянки
+    /// </summary>
     public class LimitingOnUseLand
     {
+        /// <summary>
+        /// Gets or sets the Сode.
+        /// </summary>
+        /// <value>
+        /// The Сode.
+        /// </value>
         [XmlAttributeAttribute()]
         public string Code { get; set; }
 
+        /// <summary>
+        /// Gets or sets the Name.
+        /// </summary>
+        /// <value>
+        /// The Name.
+        /// </value>
+        [XmlAttributeAttribute()]
         public string Name { get; set; }
 
+        /// <summary>
+        /// Gets the limiting on use land from text.
+        /// </summary>
+        /// <returns>
+        /// List<LimitingOnUseLand>
+        /// </returns>
         public static List<LimitingOnUseLand> GetLimitingOnUseLandFromText()
         {
             string filePath = new LocalPath("LoSa_Land").FindLocalPathFromXml("PathLimitingOnUseLand").Name
@@ -34,6 +56,12 @@ namespace LoSa.Land.Doc
             return list;
         }
 
+        /// <summary>
+        /// Gets the limiting on use land from XML.
+        /// </summary>
+        /// <returns>
+        /// List<LimitingOnUseLand>
+        /// </returns>
         public static List<LimitingOnUseLand> GetLimitingOnUseLandFromXml()
         {
             return ServiceXml.ReadXml<List<LimitingOnUseLand>>

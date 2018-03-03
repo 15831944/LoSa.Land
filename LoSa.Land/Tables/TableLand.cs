@@ -99,7 +99,7 @@ namespace LoSa.Land.Tables
                 {
                     strategyTable = new StrategyTableStakeOutPoints();
                 }
-
+                
                 strategyTable.Setting = this.Setting;
 
                 return strategyTable;
