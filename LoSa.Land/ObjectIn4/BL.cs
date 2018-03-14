@@ -4,8 +4,19 @@ using System.Collections.Generic;
 
 namespace LoSa.Land.ObjectIn4
 {
-    public class BL: In4Polygon
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <seealso cref="LoSa.Land.ObjectIn4.In4Polygon" />
+    public class BL : In4Polygon
     {
+
+        /// <summary>
+        /// Gets or sets the bs.
+        /// </summary>
+        /// <value>
+        /// The bs.
+        /// </value>
         public String BS { get; set; }
         public String BC { get; set; }
         public String DS { get; set; }
@@ -17,7 +28,7 @@ namespace LoSa.Land.ObjectIn4
         public BR BR { get; set; }
         public List<NB> NB { get; set; }
 
-        public BL() : base() 
+        public BL() : base()
         {
             this.SR = new List<SR>();
             this.BR = null;

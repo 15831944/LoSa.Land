@@ -80,10 +80,23 @@ namespace LoSa.Land.Parcel
             AddNeighbors();
             AcDb.ObjectId idBorderParcel = AddBorders();
             AddPoints(idBorderParcel);
-            if (SettingsForm.DisplayPointNumbers)  AddNumdersPoints();
-            if (SettingsForm.DisplayLengthLine)  AddLengthLine();
-            AddAreaAndPerimetr();
-            if (SettingsForm.DisplayFillNeighbors) AddTextNeighbors();
+            if (SettingsForm.DisplayPointNumbers)
+            {
+                AddNumdersPoints();
+            }
+            if (SettingsForm.DisplayLengthLine)
+            {
+                AddLengthLine();
+            } 
+            if (SettingsForm.DisplayArea || SettingsForm.DisplayPerimeter)
+            {
+                AddAreaAndPerimetr();
+            }
+            if (SettingsForm.DisplayFillNeighbors)
+            {
+                AddTextNeighbors();
+            }
+           
         }
 
         private int currentLetterNeighbor = 0;
@@ -493,12 +506,29 @@ namespace LoSa.Land.Parcel
             oMText.Height = 100;
             oMText.Attachment = AcDb.AttachmentPoint.MiddleLeft;
             //oMText.Layer = settingsDrawing.Plan.Neighbors.Layer;
-            oMText.Contents = "     Опис меж:"   ;
+
+            oMText.Contents = "\\LОпис меж:\\l" + "{{\\H1.5x; Big text}\\A2; over text\\A1;/\\A0;under text}";
+
+            int indexContentsNeighbors = -1;
+
             foreach ( TextNeighbors textNeighbors in this.allTextNeighbors)
             {
-                oMText.Contents += "\r\n";
-                oMText.Contents += " - - - - - - - - - - - - - - ";
-                oMText.Contents += "\r\n";
+                indexContentsNeighbors++;
+                if (indexContentsNeighbors > 0)
+                {
+                    oMText.Contents += "\r\n";
+                    if (indexContentsNeighbors == 1)
+                    {
+                        oMText.Contents += "\r\n" + '\r' +  "Інші землекористувачі:";
+                    }
+
+                    if (this.allTextNeighbors.Count > 2)
+                    {
+                        oMText.Contents += "\r\n" + "Контур №" + indexContentsNeighbors.ToString("0");
+                    }
+                    oMText.Contents += "\r\n";
+                }
+                
                 foreach (string value in textNeighbors.ToListValue())
                 {
                     oMText.Contents += "\r\n" + value;
@@ -539,7 +569,10 @@ namespace LoSa.Land.Parcel
 
                         AcGe.Point3d directionPoint;
 
-                        if (contour.Neighbors.Count > 1)
+                        if (
+                                contour.Neighbors.Count > 1 || 
+                                this.Parcel.ContoursNeighbors.Count == 1
+                            )
                         {
                             bPnt = points[0];
                             mPnt = points[1];
@@ -553,21 +586,25 @@ namespace LoSa.Land.Parcel
                             mPnt = points[0];
                             fPnt = points[1];
 
-                            double angLeft = ServiceGeodesy.GetLeftAngle(fPnt, mPnt, bPnt);
-                            double dirFront = ServiceGeodesy.GetDirAngle(mPnt, fPnt);
-
-                            double dirBisector = dirFront + angLeft/2;
-                            if (dirBisector >= Math.PI * 2)
+                            //if (this.Parcel.ContoursNeighbors.Count == 1)
                             {
-                                dirBisector -= Math.PI * 2;
+                                double angLeft = ServiceGeodesy.GetLeftAngle(fPnt, mPnt, bPnt);
+                                double dirFront = ServiceGeodesy.GetDirAngle(mPnt, fPnt);
+
+                                double dirBisector = dirFront + angLeft / 2;
+                                if (dirBisector >= Math.PI * 2)
+                                {
+                                    dirBisector -= Math.PI * 2;
+                                }
+
+                                directionPoint = new AcGe.Point3d
+                                                        (
+                                                            mPnt.X + Math.Sin(dirBisector),
+                                                            mPnt.Y + Math.Cos(dirBisector),
+                                                            0
+                                                        );
                             }
 
-                            directionPoint =new AcGe.Point3d
-                                                    (
-                                                        mPnt.X + Math.Sin(dirBisector),
-                                                        mPnt.Y + Math.Cos(dirBisector),
-                                                        0
-                                                    );
                         }
 
                         AcGe.Point3d insertPoint = new AcGe.Point3d(mPnt.X, mPnt.Y, 0.0);
@@ -596,3 +633,4 @@ namespace LoSa.Land.Parcel
         }
     }
 }
+ 

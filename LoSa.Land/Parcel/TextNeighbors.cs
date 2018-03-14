@@ -56,23 +56,24 @@ namespace LoSa.Land.Parcel
         {
             if (mapText.Count < 0) return null;
 
+            List<string> listLit = mapText.Keys.ToList();
+            List<string> listTxt = mapText.Values.ToList();
+
             List<string> list = new List<string>();
 
+            int indexTxt = 0;
             foreach (KeyValuePair<string, string> entry in mapText)
             {
-                list.Add(entry.Key);
-                list.Add("\t" + entry.Value);
+                indexTxt++;
+                if (indexTxt < mapText.Count )
+                {
+                    list.Add( entry.Key + "-" + listLit[indexTxt] + "\t" + entry.Value);
+                }
+                else if (indexTxt == mapText.Count)
+                {
+                    list.Add(entry.Key + "-" + listLit[0] + "\t" + entry.Value);
+                }
             }
-
-            if (list.Count > 0)
-            {
-                list.Add(list[0]);
-            }
-            else
-            {
-                list.Add("_____________________________________");
-            }
-
             return list;
         }
 

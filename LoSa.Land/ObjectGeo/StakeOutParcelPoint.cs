@@ -48,6 +48,7 @@ using System.Linq;
 using System.Text;
 using LoSa.Utility;
 using LoSa.CAD;
+using LoSa.Land.Service;
 
 namespace LoSa.Land.ObjectGeo
 {
@@ -170,7 +171,8 @@ namespace LoSa.Land.ObjectGeo
             }
 
             AcDb.MText text = new AcDb.MText();
-            text.Contents = this.DistanceToString(AcRx.DistanceUnitFormat.Decimal) + "\r\n" + this.DirAngleToString(AcRx.AngularUnitFormat.DegreesMinutesSeconds);
+            text.Contents =  this.DistanceToString(AcRx.DistanceUnitFormat.Decimal) + "\r\n" 
+                + "л.к. " + ServiceTable.FormatAngleValue(this.LeftlAngleToString(AcRx.AngularUnitFormat.DegreesMinutesSeconds));
             text.Rotation = angleTXT;
             text.Location = pntMiddle;
             text.Attachment = AcDb.AttachmentPoint.MiddleCenter;
@@ -219,7 +221,7 @@ namespace LoSa.Land.ObjectGeo
         /// </returns>
         public string DistanceToString(AcRx.DistanceUnitFormat format)
         {
-            return AcRx.Converter.DistanceToString(this.Distance, format, 3);
+            return AcRx.Converter.DistanceToString(this.Distance, format, 2);
         }
 
         /// <summary>
@@ -321,5 +323,99 @@ namespace LoSa.Land.ObjectGeo
             return basePoints;
         }
 
+
+        /// <summary>
+        /// Automatics the search Station point and Orientation point for the current point parcel.
+        /// </summary>
+        /// <returns>
+        /// <c>true</c> if the values are assigned successfully
+        /// </returns>
+        public bool AutoSetStationAndOrientation(List<BasePoint> basePoints)
+        {
+            if ( basePoints == null || basePoints.Count < 1 )
+            {
+                return false;
+            }
+ 
+                List<BasePoint> sortBasePoints = this.SortingByDistanceFromPoint(basePoints);
+                this.PointStation = sortBasePoints[0];
+
+                int indexPointStation = basePoints.FindIndex( x => x.Name.Equals(this.PointStation.Name) );
+
+                this.PointOrientation = this.GetNearestOrientationPoint(basePoints);
+
+                return true;
+        }
+
+        /// <summary>
+        /// Gets the List orientation points for the current station point.
+        /// </summary>
+        /// <param name="basePoints">The base points.</param>
+        /// <returns>
+        /// Gets the List orientation points for the current station point.
+        /// </returns>
+        public List<BasePoint> GetOrientationPoints(List<BasePoint> basePoints)
+        {
+            List<BasePoint> orientationPoints = null;
+
+            int indexPointStation = basePoints.FindIndex(x => x.Name.Equals(this.PointStation.Name));
+
+            orientationPoints = new List<BasePoint>();
+
+            if (indexPointStation == 0)
+            {
+                orientationPoints.Add(basePoints[indexPointStation + 1]);
+            }
+            else if (indexPointStation == basePoints.Count - 1)
+            {
+                orientationPoints.Add(basePoints[indexPointStation - 1]);
+            }
+            else
+            {
+                orientationPoints.Add(basePoints[indexPointStation - 1]);
+                orientationPoints.Add(basePoints[indexPointStation + 1]);
+            }
+
+            return orientationPoints;
+        }
+
+        /// <summary>
+        /// Gets the nearest orientation point for the current station point.
+        /// </summary>
+        /// <param name="basePoints">The base points.</param>
+        /// <returns>
+        /// Gets the nearest orientation point for the current station point.
+        /// </returns>
+        public BasePoint GetNearestOrientationPoint(List<BasePoint> basePoints)
+        {
+            List<BasePoint> orientationPoints = GetOrientationPoints(basePoints);
+
+            if (orientationPoints == null )
+            {
+                return null;
+            }
+
+            return orientationPoints[0];
+        }
+
+        /// <summary>
+        /// Gets the most distant orientation point for the current station point.
+        /// </summary>
+        /// <param name="basePoints">The base points.</param>
+        /// <returns>
+        /// Gets the most distant orientation point for the current station point.
+        /// </returns>
+        public BasePoint GetMostDistantOrientationPoint(List<BasePoint> basePoints)
+        {
+            List<BasePoint> orientationPoints = GetOrientationPoints(basePoints);
+
+            if (orientationPoints == null)
+            {
+                return null;
+            }
+
+            return orientationPoints[orientationPoints.Count];
+        }
+        
     }
 }

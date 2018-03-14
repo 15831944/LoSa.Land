@@ -69,6 +69,7 @@ namespace LoSa.Land.Forms
     public partial class FormLand: Form
     {
 
+        private List<BasePoint> basePoints = null;
         private LocalPath localPath = new LocalPath("LoSa_Land");
         private FormAboutBox formAboutBox = new FormAboutBox();
 
@@ -175,14 +176,11 @@ namespace LoSa.Land.Forms
 
         #region Events Buttons
 
-        internal List<BasePoint> basePoints = new List<BasePoint>();
-
         private void btnSelectBasePoints_Click(object sender, EventArgs e)
         {
             Stream myStream = null;
             OpenFileDialog openDialogBasePoints = new OpenFileDialog();
 
-            //openDialogBasePoints.InitialDirectory = localPath.FindFullPathFromXml("PathBasePoints");
             openDialogBasePoints.Filter = "Файл обміну (*.nxyhc)|*.nxyhc|Усі файли (*.*)|*.*";
 
             if (openDialogBasePoints.ShowDialog() == DialogResult.OK)
@@ -191,17 +189,14 @@ namespace LoSa.Land.Forms
                 {
                     if ((myStream = openDialogBasePoints.OpenFile()) != null)
                     {
-                        basePoints.Clear();
-                        basePoints.AddRange(LoadBasePoints(openDialogBasePoints.FileName));
+                        this.basePoints = new List<BasePoint>();
+                        this.basePoints.Clear();
+                        this.basePoints.AddRange(LoadBasePoints(openDialogBasePoints.FileName));
 
-                        this.labelFileBasePoint.Text = openDialogBasePoints.FileName;
-                        List<string> namesBasePoint = new List<string>();
+                        SetColPointStationAndOrientationItems();
+                        AutoSearchingStationAndOrientationForAllPoints();
 
-                        foreach (BasePoint basePoint in this.basePoints)
-                        {
-                            namesBasePoint.Add(basePoint.Name);
-                            this.colBasePoint.Items.Add((object)basePoint.Name);
-                        }
+                        this.labelFileBasePoint.Text = openDialogBasePoints.FileName; 
                     }
                 }
                 catch (System.Exception ex)
@@ -209,6 +204,43 @@ namespace LoSa.Land.Forms
                     MessageBox.Show("Помилка: " + ex.Message);
                 }
             }
+        }
+
+        private void SetColPointStationAndOrientationItems()
+        {
+             if (this.basePoints == null) { return; }
+
+            List<string> namesBasePoint = new List<string>();
+
+            foreach (BasePoint basePoint in this.basePoints)
+            {
+                namesBasePoint.Add(basePoint.Name);
+            }
+            this.colPointStation.Items.Clear();
+            this.colPointStation.Items.AddRange(namesBasePoint.ToArray());
+
+            this.colPointOrientation.Items.Clear();
+            this.colPointOrientation.Items.AddRange(namesBasePoint.ToArray());
+        }
+
+        private void AutoSearchingStationAndOrientationForAllPoints()
+        {
+            foreach (StakeOutParcelPoint stakeOutPoint in this.currentParcel.StakeOutParcelPoints)
+            {
+                AutoSearchingStationAndOrientationForPoint(stakeOutPoint);
+            }
+        }
+
+        private void AutoSearchingStationAndOrientationForPoint(StakeOutParcelPoint stakeOutPoint)
+        {
+            int indexRow = this.currentParcel.StakeOutParcelPoints.FindIndex( x => x.Equals(stakeOutPoint) );
+
+            if (stakeOutPoint.AutoSetStationAndOrientation(this.basePoints))
+            {
+                this.dataGridView_StakeOut[2, indexRow].Value = stakeOutPoint.PointStation.Name;
+                this.dataGridView_StakeOut[3, indexRow].Value = stakeOutPoint.PointOrientation.Name;
+            }
+
         }
 
         private List<BasePoint> LoadBasePoints(string fileNameBasePoints)
@@ -491,78 +523,77 @@ namespace LoSa.Land.Forms
                     //LoadBoxDriwingSettings();
                 }
 
-            #endregion Events Buttons
+        #endregion Events Buttons
 
-            #region Events ComboBox
+        #region Events ComboBox
 
-                private void comboBoxNumberParcel_SelectedIndexChanged(object sender, EventArgs e)
-                {
-                    this.Text = this.comboBoxNumberParcel.SelectedItem.ToString();
-                    this.currentParcel = ServiceIn4.GetParcelForCadarstralNumber
-                                            (this.currentBlockLand, this.comboBoxNumberParcel.SelectedItem.ToString());
-                    if (!this.idCurrentHatchParcel.IsNull)
-                    {
-                        ServiceCAD.DeleteObject(this.idCurrentHatchParcel);
-                        ServiceCAD.DeleteObjects(this.idNeighborsCurrenParcel);
-                    }
+        private void comboBoxNumberParcel_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.Text = this.comboBoxNumberParcel.SelectedItem.ToString();
+            this.currentParcel = ServiceIn4.GetParcelForCadarstralNumber
+                                    (this.currentBlockLand, this.comboBoxNumberParcel.SelectedItem.ToString());
+            if (!this.idCurrentHatchParcel.IsNull)
+            {
+                ServiceCAD.DeleteObject(this.idCurrentHatchParcel);
+                ServiceCAD.DeleteObjects(this.idNeighborsCurrenParcel);
+            }
 
-                    serviceParcel = new ServiceParcel(this.currentParcel, this.formSettings);
+            serviceParcel = new ServiceParcel(this.currentParcel, this.formSettings);
 
-                    AcGe.Point2dCollection pointsCurrentHatchParcel =
-                        ServiceSimpleElements.Offset(this.currentParcel.Points, this.offsetBlockLandView);
-                    AcDb.ObjectId idPolyline2d =
-                        ServiceCAD.InsertObject(ServiceSimpleElements.CreatePolyline2d(pointsCurrentHatchParcel, true));
-                    AcDb.Hatch curHatch =
-                        ServiceSimpleElements.CreateHatch(new AcDb.ObjectIdCollection(new AcDb.ObjectId[] { idPolyline2d }));
-                    this.idCurrentHatchParcel =
-                        ServiceCAD.InsertObject(curHatch);
-                        ServiceCAD.DeleteObject(idPolyline2d);
-
-
-                    /// =======================================================
-                    /// 
-
-                    if (this.currentParcel.StakeOutParcelPoints != null) { this.currentParcel.StakeOutParcelPoints.Clear(); }
-                    StakeOutParcelPoint stakeOutParcelPoint;
-
-                    this.dataGridView_StakeOut.ClearSelection(); 
-                    this.dataGridView_StakeOut.Rows.Clear();
-
-                    int indexPoint = 0;
-                    object[] row = new object[3];
-
-                    foreach ( BasePoint basePoint in this.basePoints)
-                    {
-                        this.colBasePoint.Items.Add((object)basePoint.Name);
-                    }
-
-                    foreach (AcGe.Point2d point in this.currentParcel.Points)
-                    {
-                        indexPoint += 1;
-
-                        row[0] = false;
-                        row[1] = indexPoint.ToString();
-
-                        this.dataGridView_StakeOut.Rows.Add(row);
-
-                        stakeOutParcelPoint = new StakeOutParcelPoint();
-
-                        stakeOutParcelPoint.ScaleDrawing = this.drawingSettings.Scale.Value;
-
-                        stakeOutParcelPoint.Name = indexPoint.ToString(); 
-                        stakeOutParcelPoint.Coordinates = point;
-
-                        this.currentParcel.StakeOutParcelPoints.Add(stakeOutParcelPoint);
-                    }
-
-                    this.dataGridView_StakeOut.Update();
-
-                    ReLoad_treeViewParcel();
-                }
+            AcGe.Point2dCollection pointsCurrentHatchParcel =
+                ServiceSimpleElements.Offset(this.currentParcel.Points, this.offsetBlockLandView);
+            AcDb.ObjectId idPolyline2d =
+                ServiceCAD.InsertObject(ServiceSimpleElements.CreatePolyline2d(pointsCurrentHatchParcel, true));
+            AcDb.Hatch curHatch =
+                ServiceSimpleElements.CreateHatch(new AcDb.ObjectIdCollection(new AcDb.ObjectId[] { idPolyline2d }));
+            this.idCurrentHatchParcel =
+                ServiceCAD.InsertObject(curHatch);
+            ServiceCAD.DeleteObject(idPolyline2d);
 
 
+            /// =======================================================
+            /// 
 
-                private void comboBoxScaleDrawing_SelectedIndexChanged(object sender, EventArgs e)
+            if (this.currentParcel.StakeOutParcelPoints != null)
+            {
+                this.currentParcel.StakeOutParcelPoints.Clear();
+            }
+
+            StakeOutParcelPoint stakeOutParcelPoint;
+
+            this.dataGridView_StakeOut.ClearSelection();
+            this.dataGridView_StakeOut.Rows.Clear();
+
+            int indexPoint = 0;
+            object[] row = new object[2];
+
+            foreach (AcGe.Point2d point in this.currentParcel.Points)
+            {
+                indexPoint++;
+
+                stakeOutParcelPoint = new StakeOutParcelPoint();
+
+                stakeOutParcelPoint.ScaleDrawing = this.drawingSettings.Scale.Value;
+
+                stakeOutParcelPoint.Name = indexPoint.ToString();
+                stakeOutParcelPoint.Coordinates = point;
+
+                this.currentParcel.StakeOutParcelPoints.Add(stakeOutParcelPoint);
+                row[0] = false;
+                row[1] = indexPoint.ToString();
+
+                this.dataGridView_StakeOut.Rows.Add(row);
+            }
+
+            SetColPointStationAndOrientationItems();
+            AutoSearchingStationAndOrientationForAllPoints();
+
+            this.dataGridView_StakeOut.Update();
+
+            ReLoad_treeViewParcel();
+        }
+
+        private void comboBoxScaleDrawing_SelectedIndexChanged(object sender, EventArgs e)
                 {
                     String strScaleDrawing = this.comboBoxScaleDrawing.SelectedItem.ToString();
 
@@ -1004,8 +1035,42 @@ namespace LoSa.Land.Forms
 
         #endregion Settings
 
+        #region dataGridView_StakeOut
+
+        private void dataGridView_StakeOut_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            
+        }
+
+        private void dataGridView_StakeOut_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridView senderGrid = (DataGridView)sender;
+
+            int iCol = this.dataGridView_StakeOut.CurrentCell.ColumnIndex;
+            int iRow = this.dataGridView_StakeOut.CurrentCell.RowIndex;
+
+            if (senderGrid.Columns[iCol] is DataGridViewComboBoxColumn &&
+                iRow >= 0 &&
+                this.basePoints != null)
+            {
+                var curCell = senderGrid.CurrentCell;
+                if (senderGrid.CurrentCell.Value.Equals("АвтоПошук"))
+                {
+                    bool isSetStationAndOrientation = this.currentParcel.StakeOutParcelPoints[iRow]
+                                                                .AutoSetStationAndOrientation(this.basePoints);
+                    senderGrid.CurrentCell.Value = this.currentParcel.StakeOutParcelPoints[iRow].PointStation.Name;
+                }
+            }
+        }
+
+
         private void dataGridView_StakeOut_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (this.basePoints == null)
+            {
+                return;
+            }
+
             DataGridView senderGrid = (DataGridView)sender;
 
             if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn &&
@@ -1013,15 +1078,22 @@ namespace LoSa.Land.Forms
                 this.basePoints.Count > 0)
             {
                 int indexRow = (int)this.dataGridView_StakeOut.CurrentRow.Index;
-                List<BasePoint> sortBasePoints = this.currentParcel.StakeOutParcelPoints[indexRow].SortingByDistanceFromPoint(this.basePoints);
-                this.currentParcel.StakeOutParcelPoints[indexRow].PointStation = sortBasePoints[0];
-                this.dataGridView_StakeOut[3, indexRow].Value = this.currentParcel.StakeOutParcelPoints[indexRow].PointStation.Name;
-                this.dataGridView_StakeOut[2, indexRow].Value = this.currentParcel.StakeOutParcelPoints[indexRow].PointStation.Name;
-            }
+                /*
+                if ( this.currentParcel.StakeOutParcelPoints[indexRow].AutoSetStationAndOrientation(this.basePoints) )
+                {
+                    this.dataGridView_StakeOut[2, indexRow].Value = 
+                        this.currentParcel.StakeOutParcelPoints[indexRow].PointStation.Name;
+
+                    this.dataGridView_StakeOut[3, indexRow].Value = 
+                        this.currentParcel.StakeOutParcelPoints[indexRow].PointOrientation.Name;
+                }
+                */
+                AutoSearchingStationAndOrientationForPoint(this.currentParcel.StakeOutParcelPoints[indexRow]);
+            }   
         }
 
         private void dataGridView_StakeOut_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
+        { 
             //UpdateStakeOut();
         }
 
@@ -1030,17 +1102,15 @@ namespace LoSa.Land.Forms
             reStart_SelectionChanged:
             if (this.dataGridView_StakeOut.SelectedRows.Count == 0)
             {
-
                 int indexRow = (int)this.dataGridView_StakeOut.CurrentRow.Index;
                 this.dataGridView_StakeOut.Rows[indexRow].Selected = true;
                 goto reStart_SelectionChanged;
             }
-            
-            UpdateStakeOut();
 
+            UpdateStakeOutByDataGridView();
         }
 
-        private void UpdateStakeOut()
+        private void UpdateStakeOutByDataGridView()
         {
             string nameBasePoint = "";
             BasePoint bp = null;
@@ -1056,21 +1126,25 @@ namespace LoSa.Land.Forms
 
                 this.currentParcel.StakeOutParcelPoints[i].Visible = (bool)this.dataGridView_StakeOut[0, i].Value;
 
-                if ((int)this.dataGridView_StakeOut.CurrentRow.Index < this.dataGridView_StakeOut.RowCount-1)
-                {
-                    this.dataGridView_StakeOut.Rows[(int)this.dataGridView_StakeOut.CurrentRow.Index + 1].Selected = true;
-                }
-                else if ((int)this.dataGridView_StakeOut.CurrentRow.Index == this.dataGridView_StakeOut.RowCount)
-                {
-                    this.dataGridView_StakeOut.Rows[(int)this.dataGridView_StakeOut.CurrentRow.Index - 1].Selected = true;
-                }
-
                 this.dataGridView_StakeOut.Rows[(int)this.dataGridView_StakeOut.CurrentRow.Index].Selected = true;
 
                 this.currentParcel.StakeOutParcelPoints[i].Regen();
             }
         }
 
+        private void UpdateDataGridViewByStakeOut()
+        {
+            int indexRow = -1;
+            foreach ( StakeOutParcelPoint stakeOut in this.currentParcel.StakeOutParcelPoints)
+            {
+                indexRow++;
+                this.dataGridView_StakeOut[0, indexRow].Value = stakeOut.Visible;
+                this.dataGridView_StakeOut[1, indexRow].Value = stakeOut.Name;
+                this.dataGridView_StakeOut[2, indexRow].Value = stakeOut.PointStation;
+                this.dataGridView_StakeOut[3, indexRow].Value = stakeOut.PointOrientation;
+            }
+        }
+ 
         private void btnSelectAll_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < this.dataGridView_StakeOut.RowCount; i++)
@@ -1115,4 +1189,5 @@ namespace LoSa.Land.Forms
             this.checkedListBox_TypeTable.SetItemCheckState(indexFind ,CheckState.Checked);
         }
     }
+    #endregion dataGridView_StakeOut
 }

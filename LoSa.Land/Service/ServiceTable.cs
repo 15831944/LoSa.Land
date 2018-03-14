@@ -111,12 +111,11 @@ namespace LoSa.Land.Service
             /*Заголовок таблиці*/
             textValue = new AcDb.MText();
             textValue.TextHeight = settingTable.TextHeight;
-            textValue.LineSpaceDistance = settingTable.TextHeight * 1.5;
+            textValue.LineSpaceDistance = settingTable.TextHeight * 0.7;
             textValue.Attachment = AcDb.AttachmentPoint.BottomCenter;
             textValue.Contents = titleTable;
             textValue.Location = settingTable.BasePointDrawing
                 .Add(new AcGe.Vector3d(settingTable.GetWidthTable() / 2, settingTable.TextHeight, 0));
-
             objects.Add(textValue);
 
             /*Заголовоки колонок таблиці*/
@@ -350,7 +349,7 @@ namespace LoSa.Land.Service
         internal static AcDb.DBObjectCollection GetDataTableStakeOutParcelPoints(LandParcel polygon, SettingTable settingTable)
         {
             List<StakeOutParcelPoint> stakeoutPoints = polygon.StakeOutParcelPoints;
-            stakeoutPoints.Sort((x, y) => x.PointStation.Name.CompareTo(y.PointStation.Name));
+            //stakeoutPoints.Sort((x, y) => y.PointStation.Name.CompareTo(x.PointStation.Name));
 
             AcDb.DBObjectCollection objects = new AcDb.DBObjectCollection();
 
@@ -367,32 +366,7 @@ namespace LoSa.Land.Service
                 index++;
                 double colWidth = 0;
                 heightTable += settingTable.TextHeight * 2 * index;
-                /*
-                if (index == 0)
-                {
-                    backPoint = polygon.Points.ToArray()[polygon.Points.Count - 1];
-                    currentPoint = polygon.Points.ToArray()[index];
-                    frontPoint = polygon.Points.ToArray()[index + 1];
-                }
-                else if (index == polygon.Points.Count - 1)
-                {
-                    backPoint = polygon.Points.ToArray()[index - 1];
-                    currentPoint = polygon.Points.ToArray()[index];
-                    frontPoint = polygon.Points.ToArray()[0];
-                }
-                else if (index == polygon.Points.Count)
-                {
-                    backPoint = polygon.Points.ToArray()[index - 1];
-                    currentPoint = polygon.Points.ToArray()[0];
-                    frontPoint = polygon.Points.ToArray()[1];
-                }
-                else
-                {
-                    backPoint = polygon.Points.ToArray()[index - 1];
-                    currentPoint = polygon.Points.ToArray()[index];
-                    frontPoint = polygon.Points.ToArray()[index + 1];
-                }
-                */
+
                 foreach (ColumnTable col in settingTable.Columns)
                 {
                     colWidth += col.Width;
@@ -452,23 +426,28 @@ namespace LoSa.Land.Service
                     }
 
                     textValue.TextString = textValue.TextString.Replace(",", ".");
-
-                    for (int i = 0; i < 10; i++)
-                    {
-                        textValue.TextString = textValue.TextString
-                            .Replace("°" + i.ToString() + "'", "°" + i.ToString("00") + "'");
-                    }
-                    for (int i = 0; i < 10; i++)
-                    {
-                        textValue.TextString = textValue.TextString
-                            .Replace("'" + i.ToString() + "\"", "'" + i.ToString("00") + "\"");
-                    }
+                    textValue.TextString = FormatAngleValue(textValue.TextString);
 
                     objects.Add(textValue);
                 }
             }
 
             return objects;
+        }
+
+        public static String FormatAngleValue(String textAngleValue)
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                textAngleValue = textAngleValue
+                    .Replace("°" + i.ToString() + "'", "°" + i.ToString("00") + "'");
+            }
+            for (int i = 0; i < 10; i++)
+            {
+                textAngleValue = textAngleValue
+                    .Replace("'" + i.ToString() + "\"", "'" + i.ToString("00") + "\"");
+            }
+            return textAngleValue;
         }
 
         /// <summary>

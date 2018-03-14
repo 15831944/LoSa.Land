@@ -594,29 +594,103 @@ namespace LoSa.CAD
 
         #region CAD
 
-            public static AcDb.ObjectId CreateLayer(String layerName)
+        public static AcDb.ObjectId CreateFontStyle(String textStyleName, AcGi.FontDescriptor font)
+        {
+            AcDb.ObjectId txtStyleId = AcDb.ObjectId.Null;
+
+            using (AcDb.Transaction tr = doc.Database.TransactionManager.StartTransaction())
             {
-                AcDb.ObjectId layerId;
+                AcDb.TextStyleTable newTextStyleTable = tr.GetObject(doc.Database.TextStyleTableId, AcDb.OpenMode.ForRead) as AcDb.TextStyleTable;
 
-                using (AcDb.Transaction tr = db.TransactionManager.StartTransaction())
+                if (!newTextStyleTable.Has(textStyleName)) 
                 {
-                    AcDb.LayerTable layerTable = (AcDb.LayerTable)tr.GetObject(db.LayerTableId, AcDb.OpenMode.ForWrite);
+                    newTextStyleTable.UpgradeOpen();
+                    AcDb.TextStyleTableRecord newTextStyleTableRecord = new AcDb.TextStyleTableRecord();
+                    //newTextStyleTableRecord.FileName = "romans.shx";
+                    newTextStyleTableRecord.Name = textStyleName;
+                    newTextStyleTableRecord.Font = font;
+                    newTextStyleTable.Add(newTextStyleTableRecord);
+                    tr.AddNewlyCreatedDBObject(newTextStyleTableRecord, true);
 
-                    if (layerTable.Has(layerName))
-                    {
-                        layerId = layerTable[layerName];
-                    }
-                    else
-                    {
-                        AcDb.LayerTableRecord layerTableRecord = new AcDb.LayerTableRecord();
-                        layerTableRecord.Name = layerName;
-                        layerId = layerTable.Add(layerTableRecord);
-                        tr.AddNewlyCreatedDBObject(layerTableRecord, true);
-                    }
+                    txtStyleId = newTextStyleTable[textStyleName];
+                }
+                tr.Commit();
+            }
+
+            return txtStyleId;
+        }
+
+        public static bool MaketLayer(String layerName)
+        {
+            using (AcDb.Transaction tr = db.TransactionManager.StartTransaction())
+            {
+                AcDb.LayerTable layerTable = (AcDb.LayerTable)tr.GetObject(db.LayerTableId, AcDb.OpenMode.ForWrite);
+
+                if (layerTable.Has(layerName))
+                {
+                    db.Clayer   = layerTable[layerName];
                     tr.Commit();
                 }
-                return layerId;
+                else
+                {
+                    return false;
+                }
             }
+            return true;
+        }
+
+        public static bool MaketLayer(String layerName, bool createLayerIfNotFound)
+        {
+            if ( ! MaketLayer(layerName) )
+            {
+                if (!CreateLayer(layerName).Equals(AcDb.ObjectId.Null))
+                {
+                    MaketLayer(layerName);
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public static AcDb.ObjectId CreateLayer(String layerName)
+        {
+            AcDb.ObjectId layerId = AcDb.ObjectId.Null;
+
+            using (AcDb.Transaction tr = db.TransactionManager.StartTransaction())
+            {
+                AcDb.LayerTable layerTable = (AcDb.LayerTable)tr.GetObject(db.LayerTableId, AcDb.OpenMode.ForWrite);
+
+                if (layerTable.Has(layerName))
+                {
+                    layerId = layerTable[layerName];
+                }
+                else
+                {
+                    AcDb.LayerTableRecord layerTableRecord = new AcDb.LayerTableRecord();
+                    layerTableRecord.Name = layerName;
+                    layerId = layerTable.Add(layerTableRecord);
+                    tr.AddNewlyCreatedDBObject(layerTableRecord, true);
+                }
+                tr.Commit();
+            }
+            return layerId;
+        }
+
+        public static List<AcDb.ObjectId> CreateLayers(List<string> layersName)
+        {
+            List<AcDb.ObjectId> layersId = new List<AcDb.ObjectId>();
+
+            foreach (string layerName in layersName)
+            {
+                layersId.Add(CreateLayer(layerName));
+            }
+
+            return layersId;
+        }
+
         #endregion CAD
     }
 

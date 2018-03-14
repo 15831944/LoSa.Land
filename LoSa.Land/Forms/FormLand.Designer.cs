@@ -76,10 +76,6 @@
             this.btnAddTableStakeoutPoints = new System.Windows.Forms.Button();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.dataGridView_StakeOut = new System.Windows.Forms.DataGridView();
-            this.colVisible = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.colPointParcel = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colBasePoint = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.colFindingNearestBasePoint = new System.Windows.Forms.DataGridViewButtonColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.labelFileBasePoint = new System.Windows.Forms.Label();
             this.btnSelectBasePoints = new System.Windows.Forms.Button();
@@ -96,6 +92,11 @@
             this.item_TableParcel = new System.Windows.Forms.ToolStripMenuItem();
             this.item_StakeoutParcel = new System.Windows.Forms.ToolStripMenuItem();
             this.mnu_About = new System.Windows.Forms.ToolStripMenuItem();
+            this.colVisible = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colPointParcel = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPointStation = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.colPointOrientation = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.colAutoSearching = new System.Windows.Forms.DataGridViewButtonColumn();
             this.tabControl.SuspendLayout();
             this.tabPageInfoParcel.SuspendLayout();
             this.tabPagePlan.SuspendLayout();
@@ -141,7 +142,7 @@
             this.tabControl.Multiline = true;
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(450, 399);
+            this.tabControl.Size = new System.Drawing.Size(492, 399);
             this.tabControl.TabIndex = 0;
             this.tabControl.SelectedIndexChanged += new System.EventHandler(this.tabControl_SelectedIndexChanged);
             this.tabControl.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabControl_Selected);
@@ -154,7 +155,7 @@
             this.tabPageInfoParcel.Margin = new System.Windows.Forms.Padding(2);
             this.tabPageInfoParcel.Name = "tabPageInfoParcel";
             this.tabPageInfoParcel.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPageInfoParcel.Size = new System.Drawing.Size(442, 373);
+            this.tabPageInfoParcel.Size = new System.Drawing.Size(484, 373);
             this.tabPageInfoParcel.TabIndex = 0;
             this.tabPageInfoParcel.Tag = "0";
             this.tabPageInfoParcel.Text = "Інформація";
@@ -167,7 +168,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.treeView_Parcel.Location = new System.Drawing.Point(2, 2);
             this.treeView_Parcel.Name = "treeView_Parcel";
-            this.treeView_Parcel.Size = new System.Drawing.Size(496, 327);
+            this.treeView_Parcel.Size = new System.Drawing.Size(479, 365);
             this.treeView_Parcel.TabIndex = 0;
             // 
             // tabPagePlan
@@ -178,7 +179,7 @@
             this.tabPagePlan.Margin = new System.Windows.Forms.Padding(2);
             this.tabPagePlan.Name = "tabPagePlan";
             this.tabPagePlan.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPagePlan.Size = new System.Drawing.Size(442, 373);
+            this.tabPagePlan.Size = new System.Drawing.Size(484, 373);
             this.tabPagePlan.TabIndex = 1;
             this.tabPagePlan.Tag = "1";
             this.tabPagePlan.Text = "План ділянки";
@@ -202,7 +203,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30.75F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 69.25F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(487, 319);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(470, 319);
             this.tableLayoutPanel1.TabIndex = 9;
             // 
             // groupBoxDist
@@ -212,9 +213,9 @@
             this.groupBoxDist.Controls.Add(this.radioButtonDistAutomatic);
             this.groupBoxDist.Controls.Add(this.checkBoxDistDisplay);
             this.groupBoxDist.ForeColor = System.Drawing.Color.Teal;
-            this.groupBoxDist.Location = new System.Drawing.Point(246, 3);
+            this.groupBoxDist.Location = new System.Drawing.Point(238, 3);
             this.groupBoxDist.Name = "groupBoxDist";
-            this.groupBoxDist.Size = new System.Drawing.Size(238, 92);
+            this.groupBoxDist.Size = new System.Drawing.Size(229, 92);
             this.groupBoxDist.TabIndex = 6;
             this.groupBoxDist.TabStop = false;
             this.groupBoxDist.Text = "Довжини сторін межі";
@@ -268,9 +269,9 @@
             this.groupBoxAreaAndPerimeter.Controls.Add(this.checkBoxPerimeter);
             this.groupBoxAreaAndPerimeter.Controls.Add(this.checkBoxArea);
             this.groupBoxAreaAndPerimeter.ForeColor = System.Drawing.Color.DarkViolet;
-            this.groupBoxAreaAndPerimeter.Location = new System.Drawing.Point(246, 101);
+            this.groupBoxAreaAndPerimeter.Location = new System.Drawing.Point(238, 101);
             this.groupBoxAreaAndPerimeter.Name = "groupBoxAreaAndPerimeter";
-            this.groupBoxAreaAndPerimeter.Size = new System.Drawing.Size(238, 215);
+            this.groupBoxAreaAndPerimeter.Size = new System.Drawing.Size(229, 215);
             this.groupBoxAreaAndPerimeter.TabIndex = 8;
             this.groupBoxAreaAndPerimeter.TabStop = false;
             this.groupBoxAreaAndPerimeter.Text = "Площа та периметр";
@@ -335,7 +336,7 @@
             this.groupBoxPoints.ForeColor = System.Drawing.Color.Navy;
             this.groupBoxPoints.Location = new System.Drawing.Point(3, 3);
             this.groupBoxPoints.Name = "groupBoxPoints";
-            this.groupBoxPoints.Size = new System.Drawing.Size(237, 92);
+            this.groupBoxPoints.Size = new System.Drawing.Size(229, 92);
             this.groupBoxPoints.TabIndex = 5;
             this.groupBoxPoints.TabStop = false;
             this.groupBoxPoints.Text = "Номера точок межі";
@@ -391,7 +392,7 @@
             this.groupBoxFillPoligon.ForeColor = System.Drawing.Color.Green;
             this.groupBoxFillPoligon.Location = new System.Drawing.Point(3, 101);
             this.groupBoxFillPoligon.Name = "groupBoxFillPoligon";
-            this.groupBoxFillPoligon.Size = new System.Drawing.Size(237, 215);
+            this.groupBoxFillPoligon.Size = new System.Drawing.Size(229, 215);
             this.groupBoxFillPoligon.TabIndex = 7;
             this.groupBoxFillPoligon.TabStop = false;
             this.groupBoxFillPoligon.Text = "Заливка контурів";
@@ -476,7 +477,7 @@
             this.flowLayoutPanel1.Controls.Add(this.btnExportToFile);
             this.flowLayoutPanel1.Location = new System.Drawing.Point(5, 327);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(490, 44);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(474, 44);
             this.flowLayoutPanel1.TabIndex = 8;
             // 
             // btnBuildingPlan
@@ -506,7 +507,7 @@
             this.tabPageTable.Location = new System.Drawing.Point(4, 22);
             this.tabPageTable.Margin = new System.Windows.Forms.Padding(2);
             this.tabPageTable.Name = "tabPageTable";
-            this.tabPageTable.Size = new System.Drawing.Size(442, 373);
+            this.tabPageTable.Size = new System.Drawing.Size(484, 373);
             this.tabPageTable.TabIndex = 2;
             this.tabPageTable.Tag = "2";
             this.tabPageTable.Text = "Таблиці";
@@ -524,7 +525,7 @@
             this.tableLayoutPanel2.RowCount = 2;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 88.6747F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.3253F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(442, 373);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(484, 373);
             this.tableLayoutPanel2.TabIndex = 9;
             // 
             // flowLayoutPanel3
@@ -535,7 +536,7 @@
             this.flowLayoutPanel3.Controls.Add(this.btnEditTypeTable);
             this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 333);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-            this.flowLayoutPanel3.Size = new System.Drawing.Size(436, 37);
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(478, 37);
             this.flowLayoutPanel3.TabIndex = 8;
             // 
             // btnBuildingTable
@@ -564,7 +565,7 @@
             this.checkedListBox_TypeTable.FormattingEnabled = true;
             this.checkedListBox_TypeTable.Location = new System.Drawing.Point(3, 3);
             this.checkedListBox_TypeTable.Name = "checkedListBox_TypeTable";
-            this.checkedListBox_TypeTable.Size = new System.Drawing.Size(436, 324);
+            this.checkedListBox_TypeTable.Size = new System.Drawing.Size(478, 324);
             this.checkedListBox_TypeTable.TabIndex = 5;
             // 
             // tabPageBoxDrawing
@@ -573,7 +574,7 @@
             this.tabPageBoxDrawing.Location = new System.Drawing.Point(4, 22);
             this.tabPageBoxDrawing.Margin = new System.Windows.Forms.Padding(2);
             this.tabPageBoxDrawing.Name = "tabPageBoxDrawing";
-            this.tabPageBoxDrawing.Size = new System.Drawing.Size(442, 373);
+            this.tabPageBoxDrawing.Size = new System.Drawing.Size(484, 373);
             this.tabPageBoxDrawing.TabIndex = 3;
             this.tabPageBoxDrawing.Tag = "3";
             this.tabPageBoxDrawing.Text = "Рамки креслень";
@@ -591,7 +592,7 @@
             this.tableLayoutPanel3.RowCount = 2;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 87.8481F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.1519F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(442, 373);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(484, 373);
             this.tableLayoutPanel3.TabIndex = 10;
             // 
             // checkedListBoxTypeBoxDrawing
@@ -600,7 +601,7 @@
             this.checkedListBoxTypeBoxDrawing.FormattingEnabled = true;
             this.checkedListBoxTypeBoxDrawing.Location = new System.Drawing.Point(3, 3);
             this.checkedListBoxTypeBoxDrawing.Name = "checkedListBoxTypeBoxDrawing";
-            this.checkedListBoxTypeBoxDrawing.Size = new System.Drawing.Size(436, 321);
+            this.checkedListBoxTypeBoxDrawing.Size = new System.Drawing.Size(478, 321);
             this.checkedListBoxTypeBoxDrawing.TabIndex = 5;
             // 
             // flowLayoutPanel2
@@ -612,7 +613,7 @@
             this.flowLayoutPanel2.Location = new System.Drawing.Point(3, 332);
             this.flowLayoutPanel2.MinimumSize = new System.Drawing.Size(0, 25);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(436, 38);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(478, 38);
             this.flowLayoutPanel2.TabIndex = 8;
             // 
             // btnBuildingBoxDrawing
@@ -640,7 +641,7 @@
             this.tabPageBreakdownPoints.Controls.Add(this.tableLayoutPanel4);
             this.tabPageBreakdownPoints.Location = new System.Drawing.Point(4, 22);
             this.tabPageBreakdownPoints.Name = "tabPageBreakdownPoints";
-            this.tabPageBreakdownPoints.Size = new System.Drawing.Size(442, 373);
+            this.tabPageBreakdownPoints.Size = new System.Drawing.Size(484, 373);
             this.tabPageBreakdownPoints.TabIndex = 4;
             this.tabPageBreakdownPoints.Text = "Разбивочне креслення";
             this.tabPageBreakdownPoints.UseVisualStyleBackColor = true;
@@ -660,7 +661,7 @@
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 86.92098F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 13.07902F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(439, 367);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(481, 367);
             this.tableLayoutPanel4.TabIndex = 11;
             // 
             // flowLayoutPanel4
@@ -671,7 +672,7 @@
             this.flowLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Top;
             this.flowLayoutPanel4.Location = new System.Drawing.Point(3, 322);
             this.flowLayoutPanel4.Name = "flowLayoutPanel4";
-            this.flowLayoutPanel4.Size = new System.Drawing.Size(433, 41);
+            this.flowLayoutPanel4.Size = new System.Drawing.Size(475, 41);
             this.flowLayoutPanel4.TabIndex = 8;
             // 
             // btnSelectAll
@@ -718,7 +719,7 @@
             this.tableLayoutPanel5.RowCount = 2;
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(433, 313);
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(475, 313);
             this.tableLayoutPanel5.TabIndex = 9;
             // 
             // dataGridView_StakeOut
@@ -733,44 +734,19 @@
             this.dataGridView_StakeOut.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colVisible,
             this.colPointParcel,
-            this.colBasePoint,
-            this.colFindingNearestBasePoint});
+            this.colPointStation,
+            this.colPointOrientation,
+            this.colAutoSearching});
             this.dataGridView_StakeOut.Location = new System.Drawing.Point(3, 53);
             this.dataGridView_StakeOut.MultiSelect = false;
             this.dataGridView_StakeOut.Name = "dataGridView_StakeOut";
-            this.dataGridView_StakeOut.Size = new System.Drawing.Size(427, 257);
+            this.dataGridView_StakeOut.Size = new System.Drawing.Size(469, 257);
             this.dataGridView_StakeOut.TabIndex = 8;
+            this.dataGridView_StakeOut.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridView_StakeOut_CellBeginEdit);
             this.dataGridView_StakeOut.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_StakeOut_CellContentClick);
+            this.dataGridView_StakeOut.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_StakeOut_CellEndEdit);
             this.dataGridView_StakeOut.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_StakeOut_CellValueChanged);
             this.dataGridView_StakeOut.Click += new System.EventHandler(this.dataGridView_StakeOut_SelectionChanged);
-            // 
-            // colVisible
-            // 
-            this.colVisible.HeaderText = "Відображати";
-            this.colVisible.Name = "colVisible";
-            this.colVisible.Width = 75;
-            // 
-            // colPointParcel
-            // 
-            this.colPointParcel.HeaderText = "Точки ділянки";
-            this.colPointParcel.MinimumWidth = 50;
-            this.colPointParcel.Name = "colPointParcel";
-            this.colPointParcel.Width = 75;
-            // 
-            // colBasePoint
-            // 
-            this.colBasePoint.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
-            this.colBasePoint.HeaderText = "Точки розбивочної мережі";
-            this.colBasePoint.Items.AddRange(new object[] {
-            ""});
-            this.colBasePoint.MinimumWidth = 50;
-            this.colBasePoint.Name = "colBasePoint";
-            // 
-            // colFindingNearestBasePoint
-            // 
-            this.colFindingNearestBasePoint.HeaderText = "Найблища точка";
-            this.colFindingNearestBasePoint.Name = "colFindingNearestBasePoint";
-            this.colFindingNearestBasePoint.Width = 75;
             // 
             // groupBox1
             // 
@@ -780,7 +756,7 @@
             this.groupBox1.Controls.Add(this.btnSelectBasePoints);
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(427, 44);
+            this.groupBox1.Size = new System.Drawing.Size(469, 44);
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Точки планового обгрунтування:";
@@ -890,7 +866,7 @@
             this.splitContainer.Panel2.Controls.Add(this.tabControl);
             this.splitContainer.Panel2.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.splitContainer.Panel2MinSize = 100;
-            this.splitContainer.Size = new System.Drawing.Size(454, 480);
+            this.splitContainer.Size = new System.Drawing.Size(496, 480);
             this.splitContainer.SplitterDistance = 70;
             this.splitContainer.TabIndex = 4;
             // 
@@ -901,7 +877,7 @@
             this.mnu_About});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(454, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(496, 24);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -947,11 +923,52 @@
             this.mnu_About.Text = "Про програму";
             this.mnu_About.Click += new System.EventHandler(this.mnu_About_Click);
             // 
+            // colVisible
+            // 
+            this.colVisible.Frozen = true;
+            this.colVisible.HeaderText = "Відобр.";
+            this.colVisible.MinimumWidth = 50;
+            this.colVisible.Name = "colVisible";
+            this.colVisible.Width = 50;
+            // 
+            // colPointParcel
+            // 
+            this.colPointParcel.Frozen = true;
+            this.colPointParcel.HeaderText = "Точки ділянки";
+            this.colPointParcel.MinimumWidth = 50;
+            this.colPointParcel.Name = "colPointParcel";
+            this.colPointParcel.Width = 80;
+            // 
+            // colPointStation
+            // 
+            this.colPointStation.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
+            this.colPointStation.HeaderText = "Точка станції";
+            this.colPointStation.Items.AddRange(new object[] {
+            ""});
+            this.colPointStation.MinimumWidth = 50;
+            this.colPointStation.Name = "colPointStation";
+            this.colPointStation.Width = 85;
+            // 
+            // colPointOrientation
+            // 
+            this.colPointOrientation.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
+            this.colPointOrientation.HeaderText = "Точка орієнтування";
+            this.colPointOrientation.MinimumWidth = 50;
+            this.colPointOrientation.Name = "colPointOrientation";
+            this.colPointOrientation.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colPointOrientation.Width = 85;
+            // 
+            // colAutoSearching
+            // 
+            this.colAutoSearching.HeaderText = "Авто пошук";
+            this.colAutoSearching.Name = "colAutoSearching";
+            this.colAutoSearching.Width = 70;
+            // 
             // FormLand
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(454, 504);
+            this.ClientSize = new System.Drawing.Size(496, 504);
             this.Controls.Add(this.splitContainer);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -1062,10 +1079,6 @@
         private System.Windows.Forms.Button btnSelectBasePoints;
         private System.Windows.Forms.DataGridView dataGridView_StakeOut;
         private System.Windows.Forms.Label labelFileBasePoint;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn colVisible;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colPointParcel;
-        private System.Windows.Forms.DataGridViewComboBoxColumn colBasePoint;
-        private System.Windows.Forms.DataGridViewButtonColumn colFindingNearestBasePoint;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem mnu_Settings;
         private System.Windows.Forms.ToolStripMenuItem item_TempDraw;
@@ -1074,5 +1087,10 @@
         private System.Windows.Forms.ToolStripMenuItem item_StakeoutParcel;
         private System.Windows.Forms.ToolStripMenuItem mnu_About;
         private System.Windows.Forms.Button btnAddTableStakeoutPoints;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn colVisible;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colPointParcel;
+        private System.Windows.Forms.DataGridViewComboBoxColumn colPointStation;
+        private System.Windows.Forms.DataGridViewComboBoxColumn colPointOrientation;
+        private System.Windows.Forms.DataGridViewButtonColumn colAutoSearching;
     }
 }
