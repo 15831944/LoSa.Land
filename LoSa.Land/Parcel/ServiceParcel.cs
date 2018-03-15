@@ -507,7 +507,7 @@ namespace LoSa.Land.Parcel
             oMText.Attachment = AcDb.AttachmentPoint.MiddleLeft;
             //oMText.Layer = settingsDrawing.Plan.Neighbors.Layer;
 
-            oMText.Contents = "\\LОпис меж:\\l" + "{{\\H1.5x; Big text}\\A2; over text\\A1;/\\A0;under text}";
+            oMText.Contents = "\\L{\\fArial|b1|i0|c204|p34;Опис меж:}\\l\r\n";
 
             int indexContentsNeighbors = -1;
 
@@ -519,12 +519,12 @@ namespace LoSa.Land.Parcel
                     oMText.Contents += "\r\n";
                     if (indexContentsNeighbors == 1)
                     {
-                        oMText.Contents += "\r\n" + '\r' +  "Інші землекористувачі:";
+                        oMText.Contents += "\r\n" + "\\L{\\fArial|b1|i0|c204|p34;Інші землекористувачі:}\\l" +  "";
                     }
 
                     if (this.allTextNeighbors.Count > 2)
                     {
-                        oMText.Contents += "\r\n" + "Контур №" + indexContentsNeighbors.ToString("0");
+                        oMText.Contents += "\r\n" + "{\\fArial|b1|i0|c204|p34;Контур №" + indexContentsNeighbors.ToString("0")  + "}";
                     }
                     oMText.Contents += "\r\n";
                 }
