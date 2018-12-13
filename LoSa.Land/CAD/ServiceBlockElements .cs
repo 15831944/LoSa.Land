@@ -66,8 +66,10 @@ namespace LoSa.CAD
                 }
 
 
-                AcDb.BlockTableRecord blockTableRecord = new AcDb.BlockTableRecord();
-                blockTableRecord.Name = nameBlock;
+                AcDb.BlockTableRecord blockTableRecord = new AcDb.BlockTableRecord
+                {
+                    Name = nameBlock
+                };
                 blockTable.UpgradeOpen();
                 AcDb.ObjectId btrId = blockTable.Add(blockTableRecord);
                 tr.AddNewlyCreatedDBObject(blockTableRecord, true);
@@ -132,10 +134,12 @@ namespace LoSa.CAD
                     return idBlock;
                 }
                 AcDb.BlockTableRecord curSpace = (AcDb.BlockTableRecord)tr.GetObject(db.CurrentSpaceId, AcDb.OpenMode.ForWrite);
-                AcDb.BlockReference blockReference = new AcDb.BlockReference(insertionPoint, blockTable[nameBlock]);
-                blockReference.LayerId = layerId;
-                blockReference.ScaleFactors = new AcGe.Scale3d(scale, scale, scale);
-                blockReference.Rotation = rotation;
+                AcDb.BlockReference blockReference = new AcDb.BlockReference(insertionPoint, blockTable[nameBlock])
+                {
+                    LayerId = layerId,
+                    ScaleFactors = new AcGe.Scale3d(scale, scale, scale),
+                    Rotation = rotation
+                };
                 blockReference.TransformBy(ed.CurrentUserCoordinateSystem);
                 curSpace.AppendEntity(blockReference);
                 tr.AddNewlyCreatedDBObject(blockReference, true);
@@ -411,9 +415,11 @@ namespace LoSa.CAD
                         return idBlock;
                     }
                     AcDb.BlockTableRecord curSpace = (AcDb.BlockTableRecord)tr.GetObject(db.CurrentSpaceId, AcDb.OpenMode.ForWrite);
-                    AcDb.BlockReference blockReference = new AcDb.BlockReference(AcGe.Point3d.Origin, blockTable[nameBlock]);
-                    blockReference.ScaleFactors = new AcGe.Scale3d(scaleBlock, scaleBlock, scaleBlock);
-                    blockReference.TransformBy(ed.CurrentUserCoordinateSystem);
+                AcDb.BlockReference blockReference = new AcDb.BlockReference(AcGe.Point3d.Origin, blockTable[nameBlock])
+                {
+                    ScaleFactors = new AcGe.Scale3d(scaleBlock, scaleBlock, scaleBlock)
+                };
+                blockReference.TransformBy(ed.CurrentUserCoordinateSystem);
                     curSpace.AppendEntity(blockReference);
 
                     tr.AddNewlyCreatedDBObject(blockReference, true);
@@ -455,10 +461,12 @@ namespace LoSa.CAD
                             AcDb.AttributeDefinition attDef =
                                     (AcDb.AttributeDefinition)tr.GetObject(id, AcDb.OpenMode.ForRead);
 
-                            text = new AcDb.DBText();
-                            text.TextString = "jig_test";
+                        text = new AcDb.DBText
+                        {
+                            TextString = "jig_test"
+                        };
 
-                            TextPlacementJig jig = new TextPlacementJig(text);
+                        TextPlacementJig jig = new TextPlacementJig(text);
 
                             //PromptResult pr = ed.Drag(jig);
 

@@ -48,9 +48,11 @@ namespace LoSa.Land.Doc
             {
                 string[] mas = strBuff.Split('-');
 
-                LimitingOnUseLand limitingOnUseLand = new LimitingOnUseLand();
-                limitingOnUseLand.Code = strBuff.Split('-')[0]; 
-                limitingOnUseLand.Name = strBuff.Split('-')[1];
+                LimitingOnUseLand limitingOnUseLand = new LimitingOnUseLand
+                {
+                    Code = strBuff.Split('-')[0],
+                    Name = strBuff.Split('-')[1]
+                };
                 list.Add(limitingOnUseLand);
             }
             return list;

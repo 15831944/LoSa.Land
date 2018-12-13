@@ -3,6 +3,10 @@
 
 namespace LoSa.Land.ObjectIn4
 {
+    /// <summary>
+    /// In4 CL
+    /// </summary>
+    /// <seealso cref="LoSa.Land.ObjectIn4.In4Polygon" />
     public class CL : In4Polygon
     {
         public String CI { get; set; }
@@ -15,6 +19,9 @@ namespace LoSa.Land.ObjectIn4
         public String AL { get; set; }
         public String PL { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CL"/> class.
+        /// </summary>
         public CL() : base()
         {
         }

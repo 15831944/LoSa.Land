@@ -18,10 +18,40 @@ namespace LoSa.Land.ObjectIn4
         /// The bs.
         /// </value>
         public String BS { get; set; }
+        /// <summary>
+        /// Gets or sets the bc.
+        /// </summary>
+        /// <value>
+        /// The bc.
+        /// </value>
         public String BC { get; set; }
+        /// <summary>
+        /// Gets or sets the ds.
+        /// </summary>
+        /// <value>
+        /// The ds.
+        /// </value>
         public String DS { get; set; }
+        /// <summary>
+        /// Gets or sets the sz.
+        /// </summary>
+        /// <value>
+        /// The sz.
+        /// </value>
         public String SZ { get; set; }
+        /// <summary>
+        /// Gets or sets the ab.
+        /// </summary>
+        /// <value>
+        /// The ab.
+        /// </value>
         public String AB { get; set; }
+        /// <summary>
+        /// Gets or sets the pb.
+        /// </summary>
+        /// <value>
+        /// The pb.
+        /// </value>
         public String PB { get; set; }
 
         public List<SR> SR { get; set; }

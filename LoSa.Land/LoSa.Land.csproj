@@ -246,6 +246,7 @@
     <Compile Include="CAD\CurrentCAD .cs" />
     <Compile Include="CAD\ServiceBlockElements .cs" />
     <Compile Include="CAD\ServiceCAD .cs" />
+    <Compile Include="CAD\ServiceRaster.cs" />
     <Compile Include="CAD\ServiceSimpleElements.cs" />
     <Compile Include="Doc\LimitingOnUseLand.cs" />
     <Compile Include="EnumAttributes\BaseAttribute.cs" />

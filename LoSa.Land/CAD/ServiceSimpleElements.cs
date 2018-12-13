@@ -62,10 +62,12 @@ namespace LoSa.CAD
         
             public static AcDb.DBText CreateText(AcGe.Point3d insertPoint, string textValue)
             {
-                AcDb.DBText text = new AcDb.DBText();
-                text.TextString = textValue;
-                text.Position = insertPoint;
-                return text;
+            AcDb.DBText text = new AcDb.DBText
+            {
+                TextString = textValue,
+                Position = insertPoint
+            };
+            return text;
             }
 
             public static AcDb.Polyline2d CreatePolyline2d(AcGe.Point2dCollection points, bool isClosed)

@@ -267,16 +267,15 @@ namespace LoSa.Land.GeometricСonstructions
         //private double mRotation = 0.0;                             // Factor #2
         //private double mScaleFactor = 1.0;                          // Factor #3
 
-        private double mAngleOffset;
-
-        private Dictionary<AcDb.AttributeReference, AcDb.AttributeDefinition> mRef2DefMap;
+        public double MAngleOffset { get; set; }
+        public Dictionary<AcDb.AttributeReference, AcDb.AttributeDefinition> MRef2DefMap { get; set; }
 
         public BlockAttributesMovingRotatingScaling(AcDb.BlockReference ent, Dictionary<AcDb.AttributeReference, AcDb.AttributeDefinition> dict)
             : base(ent)
         {
             ent.TransformBy(CurrentCAD.Editor.CurrentUserCoordinateSystem);
-            mAngleOffset = (ent as AcDb.BlockReference).Rotation;
-            mRef2DefMap = dict;
+            MAngleOffset = (ent as AcDb.BlockReference).Rotation;
+            MRef2DefMap = dict;
         }
 
         protected override bool Update()
@@ -284,7 +283,7 @@ namespace LoSa.Land.GeometricСonstructions
 
             (Entity as AcDb.BlockReference).Position = mPosition;
 
-            foreach (KeyValuePair<AcDb.AttributeReference, AcDb.AttributeDefinition> ar2ad in mRef2DefMap)
+            foreach (KeyValuePair<AcDb.AttributeReference, AcDb.AttributeDefinition> ar2ad in MRef2DefMap)
                 ar2ad.Key.SetAttributeFromBlock(ar2ad.Value, (Entity as AcDb.BlockReference).BlockTransform);
 
             return true;
