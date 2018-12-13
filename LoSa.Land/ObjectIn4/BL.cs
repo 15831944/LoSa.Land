@@ -7,7 +7,7 @@ namespace LoSa.Land.ObjectIn4
     /// <summary>
     /// 
     /// </summary>
-    /// <seealso cref="LoSa.Land.ObjectIn4.In4Polygon" />
+    /// <seealso cref="In4Polygon" />
     public class BL : In4Polygon
     {
 

@@ -176,12 +176,13 @@ namespace LoSa.Land.Forms
 
         #region Events Buttons
 
-        private void btnSelectBasePoints_Click(object sender, EventArgs e)
+        private void BtnSelectBasePoints_Click(object sender, EventArgs e)
         {
             Stream myStream = null;
-            OpenFileDialog openDialogBasePoints = new OpenFileDialog();
-
-            openDialogBasePoints.Filter = "Файл обміну (*.nxyhc)|*.nxyhc|Усі файли (*.*)|*.*";
+            OpenFileDialog openDialogBasePoints = new OpenFileDialog
+            {
+                Filter = "Файл обміну (*.nxyhc)|*.nxyhc|Усі файли (*.*)|*.*"
+            };
 
             if (openDialogBasePoints.ShowDialog() == DialogResult.OK)
             {
@@ -251,7 +252,6 @@ namespace LoSa.Land.Forms
             StreamReader streamReader = new StreamReader(fileNameBasePoints, Encoding.GetEncoding(866));
 
             string strBuff;
-            BasePoint bp;
 
             while ((strBuff = streamReader.ReadLine()) != null)
             {
@@ -271,13 +271,14 @@ namespace LoSa.Land.Forms
             return basePoints;
         }
 
-        private void btnSelectFile_Click(object sender, EventArgs e)
+        private void BtnSelectFile_Click(object sender, EventArgs e)
         {
             Stream myStream = null;
-            OpenFileDialog openDialogIn4 = new OpenFileDialog();
-
-            openDialogIn4.InitialDirectory = new LocalPath("LoSa_Land").FindFullPathFromXml("PathExpotrSDR");
-            openDialogIn4.Filter = "Файл обміну (*.in4)|*.in4|Усі файли (*.*)|*.*";
+            OpenFileDialog openDialogIn4 = new OpenFileDialog
+            {
+                InitialDirectory = new LocalPath("LoSa_Land").FindFullPathFromXml("PathExpotrSDR"),
+                Filter = "Файл обміну (*.in4)|*.in4|Усі файли (*.*)|*.*"
+            };
 
             if (openDialogIn4.ShowDialog() == DialogResult.OK)
             {
@@ -350,8 +351,10 @@ namespace LoSa.Land.Forms
                 }
                 else
                 {
-                    AcDb.LayerTableRecord layerTableRecord = new AcDb.LayerTableRecord();
-                    layerTableRecord.Name = layerName;
+                    AcDb.LayerTableRecord layerTableRecord = new AcDb.LayerTableRecord
+                    {
+                        Name = layerName
+                    };
                     layerId = layerTable.Add(layerTableRecord);
                     tr.AddNewlyCreatedDBObject(layerTableRecord, true);
                 }
@@ -360,7 +363,7 @@ namespace LoSa.Land.Forms
             return layerId;
         }
 
-        private void btnBuildingPlan_Click(object sender, EventArgs e)
+        private void BtnBuildingPlan_Click(object sender, EventArgs e)
                 {
                     //UpdatSettingsOnForm();
 
@@ -372,7 +375,7 @@ namespace LoSa.Land.Forms
                     //ServiceCAD.ZoomAll();
                 }
 
-        private void btnExportToFile_Click(object sender, EventArgs e)
+        private void BtnExportToFile_Click(object sender, EventArgs e)
         {
             SaveFileDialog saveDialogSDR = new SaveFileDialog();
 
@@ -419,7 +422,7 @@ namespace LoSa.Land.Forms
             }
         }
 
-        private void btnBuildingTable_Click(object sender, EventArgs e)
+        private void BtnBuildingTable_Click(object sender, EventArgs e)
         {
             if (this.currentParcel == null)
             {
@@ -449,9 +452,11 @@ namespace LoSa.Land.Forms
                 {
                     foreach (LandPolygon polygon in this.currentParcel.Limiting)
                     {
-                        LandParcel parcel = new LandParcel();
-                        parcel.Info = polygon.Info;
-                        parcel.Points = polygon.Points;
+                        LandParcel parcel = new LandParcel
+                        {
+                            Info = polygon.Info,
+                            Points = polygon.Points
+                        };
                         table.Parcel = parcel;
                         table.сreate();
                     }
@@ -469,7 +474,7 @@ namespace LoSa.Land.Forms
             }
         }
 
-        private void btnEditTypeTable_Click(object sender, EventArgs e)
+        private void BtnEditTypeTable_Click(object sender, EventArgs e)
         {
             //new FormEditTables().Show();
             LoadTableSettings();
@@ -477,7 +482,7 @@ namespace LoSa.Land.Forms
             //ServiceXML.WriteXML<SettingsTable>(this.tableSettings, pathXml);
         }
 
-                private void btnBuildingBoxDrawing_Click(object sender, EventArgs e)
+                private void BtnBuildingBoxDrawing_Click(object sender, EventArgs e)
                 {
                     if ( this.checkedListBoxTypeBoxDrawing.CheckedItems.Count < 1 ) { return; }
                     foreach (string nameBoxDrawing in this.checkedListBoxTypeBoxDrawing.CheckedItems)
@@ -518,7 +523,7 @@ namespace LoSa.Land.Forms
                     }
                 }
 
-                private void btnEditTypeBoxDrawing_Click(object sender, EventArgs e)
+                private void BtnEditTypeBoxDrawing_Click(object sender, EventArgs e)
                 {
                     //LoadBoxDriwingSettings();
                 }
@@ -527,7 +532,7 @@ namespace LoSa.Land.Forms
 
         #region Events ComboBox
 
-        private void comboBoxNumberParcel_SelectedIndexChanged(object sender, EventArgs e)
+        private void ComboBoxNumberParcel_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.Text = this.comboBoxNumberParcel.SelectedItem.ToString();
             this.currentParcel = ServiceIn4.GetParcelForCadarstralNumber
@@ -551,8 +556,7 @@ namespace LoSa.Land.Forms
             ServiceCAD.DeleteObject(idPolyline2d);
 
 
-            /// =======================================================
-            /// 
+            // =======================================================
 
             if (this.currentParcel.StakeOutParcelPoints != null)
             {
@@ -571,12 +575,12 @@ namespace LoSa.Land.Forms
             {
                 indexPoint++;
 
-                stakeOutParcelPoint = new StakeOutParcelPoint();
-
-                stakeOutParcelPoint.ScaleDrawing = this.drawingSettings.Scale.Value;
-
-                stakeOutParcelPoint.Name = indexPoint.ToString();
-                stakeOutParcelPoint.Coordinates = point;
+                stakeOutParcelPoint = new StakeOutParcelPoint
+                {
+                    ScaleDrawing = this.drawingSettings.Scale.Value,
+                    Name = indexPoint.ToString(),
+                    Coordinates = point
+                };
 
                 this.currentParcel.StakeOutParcelPoints.Add(stakeOutParcelPoint);
                 row[0] = false;
@@ -593,7 +597,7 @@ namespace LoSa.Land.Forms
             ReLoad_treeViewParcel();
         }
 
-        private void comboBoxScaleDrawing_SelectedIndexChanged(object sender, EventArgs e)
+        private void ComboBoxScaleDrawing_SelectedIndexChanged(object sender, EventArgs e)
                 {
                     String strScaleDrawing = this.comboBoxScaleDrawing.SelectedItem.ToString();
 
@@ -605,7 +609,7 @@ namespace LoSa.Land.Forms
                     }
                 }
 
-                private void checkBoxPointsDisplay_CheckedChanged(object sender, EventArgs e)
+                private void CheckBoxPointsDisplay_CheckedChanged(object sender, EventArgs e)
                 {
                     this.formSettings.DisplayPointNumbers = this.checkBoxPointsDisplay.Checked;
                 }
@@ -614,36 +618,36 @@ namespace LoSa.Land.Forms
 
             #region Events CheckBox
 
-                private void checkBoxDistDisplay_CheckedChanged(object sender, EventArgs e)
+                private void CheckBoxDistDisplay_CheckedChanged(object sender, EventArgs e)
                 {
                     this.formSettings.DisplayLengthLine = this.checkBoxDistDisplay.Checked;
                 }
 
-                private void checkBoxFillParcel_CheckedChanged(object sender, EventArgs e)
+                private void CheckBoxFillParcel_CheckedChanged(object sender, EventArgs e)
                 {
                     this.formSettings.DisplayFillParcel = this.checkBoxFillParcel.Checked;
                 }
 
-                private void checkBoxFillLands_CheckedChanged(object sender, EventArgs e)
+                private void CheckBoxFillLands_CheckedChanged(object sender, EventArgs e)
                 {
                     this.formSettings.DisplayFillLand = this.checkBoxFillLands.Checked;
                 }
 
-                private void checkBoxFillLimiting_CheckedChanged(object sender, EventArgs e)
+                private void CheckBoxFillLimiting_CheckedChanged(object sender, EventArgs e)
                 {
                     this.formSettings.DisplayFillLimiting = this.checkBoxFillLimiting.Checked;
                 }
 
-                private void checkBoxFillNeighbors_CheckedChanged(object sender, EventArgs e)
+                private void CheckBoxFillNeighbors_CheckedChanged(object sender, EventArgs e)
                 {
                     this.formSettings.DisplayFillNeighbors = this.checkBoxFillNeighbors.Checked;
                 }
-                private void checkBoxArea_CheckedChanged(object sender, EventArgs e)
+                private void CheckBoxArea_CheckedChanged(object sender, EventArgs e)
                 {
                     this.formSettings.DisplayArea = this.checkBoxArea.Checked;
                 }
 
-                private void checkBoxPerimeter_CheckedChanged(object sender, EventArgs e)
+                private void CheckBoxPerimeter_CheckedChanged(object sender, EventArgs e)
                 {
                     this.formSettings.DisplayPerimeter = this.checkBoxPerimeter.Checked;
                 }
@@ -652,25 +656,25 @@ namespace LoSa.Land.Forms
 
             #region Events RadioButton
 
-        private void radioButtonPointsAutomatic_CheckedChanged(object sender, EventArgs e)
+                private void RadioButtonPointsAutomatic_CheckedChanged(object sender, EventArgs e)
                 {
                     this.formSettings.AutomaticDisplayPointNumbers = this.radioButtonPointsAutomatic.Checked;
                     if (!this.radioButtonPointsAutomatic.Checked) this.radioButtonPointsManually.Checked = true;
                 }
 
-                private void radioButtonDistAutomatic_CheckedChanged(object sender, EventArgs e)
+                private void RadioButtonDistAutomatic_CheckedChanged(object sender, EventArgs e)
                 {
                     this.formSettings.AutomaticDisplayLengthLine = this.radioButtonDistAutomatic.Checked;
                     if (!this.radioButtonDistAutomatic.Checked) this.radioButtonDistManually.Checked = true;
                 }
 
-                private void radioButtonNeighborsStateAct_CheckedChanged(object sender, EventArgs e)
+                private void RadioButtonNeighborsStateAct_CheckedChanged(object sender, EventArgs e)
                 {
                     this.formSettings.DisplayFillNeighborsStateAct = this.radioButtonNeighborsStateAct.Checked;
                     if (this.radioButtonNeighborsStateAct.Checked) this.radioButtonNeighborsAll.Checked = false;
                 }
 
-                private void radioButtonUnitAreaSquareMeter_CheckedChanged(object sender, EventArgs e)
+                private void RadioButtonUnitAreaSquareMeter_CheckedChanged(object sender, EventArgs e)
                 {
                     this.formSettings.UnitArea = this.radioButtonUnitAreaSquareMeter.Checked;
                     if (!this.radioButtonUnitAreaSquareMeter.Checked) this.radioButtonUnitAreaHectare.Checked = true;
@@ -680,12 +684,12 @@ namespace LoSa.Land.Forms
 
         #region Events TabControl
 
-        private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
+        private void TabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.formSettings.IndexTabControl = this.tabControl.TabIndex;
         }
 
-        private void tabControl_Selected(object sender, TabControlEventArgs e)
+        private void TabControl_Selected(object sender, TabControlEventArgs e)
         {
             this.formSettings.IndexTabControl = this.tabControl.SelectedIndex;
         }
@@ -729,12 +733,13 @@ namespace LoSa.Land.Forms
             TreeNode rootNode = new TreeNode();
             rootNode = this.treeView_Parcel.Nodes[0];
 
-            List<string> listFilter = new List<string>();
-
-            listFilter.Add("NM");
-            listFilter.Add("OX");
-            listFilter.Add("CN");
-            listFilter.Add("NB");
+            List<string> listFilter = new List<string>
+            {
+                "NM",
+                "OX",
+                "CN",
+                "NB"
+            };
 
             //
             //      Інформація
@@ -951,31 +956,31 @@ namespace LoSa.Land.Forms
         /// </summary>
         private void UpdateFormSettings()
         {
-            this.formSettings = new SettingsFormLand();
-
-            this.formSettings.ScaleDrawing = 
-                Convert.ToDouble(
+            this.formSettings = new SettingsFormLand
+            {
+                ScaleDrawing =Convert.ToDouble(
                     this.comboBoxScaleDrawing.SelectedItem.ToString().Replace("1 : ", "")
-                ) / 1000;
+                ) / 1000,
 
-            this.formSettings.IndexTabControl = this.tabControl.SelectedIndex;
+                IndexTabControl = this.tabControl.SelectedIndex,
 
-            this.formSettings.DisplayPointNumbers = this.checkBoxPointsDisplay.Checked;
-            this.formSettings.AutomaticDisplayPointNumbers = this.radioButtonPointsAutomatic.Checked;
+                DisplayPointNumbers = this.checkBoxPointsDisplay.Checked,
+                AutomaticDisplayPointNumbers = this.radioButtonPointsAutomatic.Checked,
 
-            this.formSettings.DisplayLengthLine = this.checkBoxDistDisplay.Checked;
-            this.formSettings.AutomaticDisplayLengthLine = this.radioButtonDistAutomatic.Checked;
+                DisplayLengthLine = this.checkBoxDistDisplay.Checked,
+                AutomaticDisplayLengthLine = this.radioButtonDistAutomatic.Checked,
 
-            this.formSettings.DisplayFillParcel = this.checkBoxFillParcel.Checked;
-            this.formSettings.DisplayFillLand = this.checkBoxFillLands.Checked;
-            this.formSettings.DisplayFillLimiting =this.checkBoxFillLimiting.Checked;
-            this.formSettings.DisplayFillNeighbors =this.checkBoxFillNeighbors.Checked;
-            this.formSettings.DisplayFillNeighborsStateAct =this.radioButtonNeighborsStateAct.Checked;
+                DisplayFillParcel = this.checkBoxFillParcel.Checked,
+                DisplayFillLand = this.checkBoxFillLands.Checked,
+                DisplayFillLimiting = this.checkBoxFillLimiting.Checked,
+                DisplayFillNeighbors = this.checkBoxFillNeighbors.Checked,
+                DisplayFillNeighborsStateAct = this.radioButtonNeighborsStateAct.Checked,
 
-            this.formSettings.DisplayArea = this.checkBoxArea.Checked;
-            this.formSettings.UnitArea = this.radioButtonUnitAreaSquareMeter.Checked;
+                DisplayArea = this.checkBoxArea.Checked,
+                UnitArea = this.radioButtonUnitAreaSquareMeter.Checked,
 
-            this.formSettings.DisplayPerimeter = this.checkBoxPerimeter.Checked;
+                DisplayPerimeter = this.checkBoxPerimeter.Checked
+            };
         }
 
         /// <summary>
@@ -1037,12 +1042,12 @@ namespace LoSa.Land.Forms
 
         #region dataGridView_StakeOut
 
-        private void dataGridView_StakeOut_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        private void DataGridView_StakeOut_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
             
         }
 
-        private void dataGridView_StakeOut_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        private void DataGridView_StakeOut_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             DataGridView senderGrid = (DataGridView)sender;
 
@@ -1064,7 +1069,7 @@ namespace LoSa.Land.Forms
         }
 
 
-        private void dataGridView_StakeOut_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void DataGridView_StakeOut_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (this.basePoints == null)
             {
@@ -1092,12 +1097,12 @@ namespace LoSa.Land.Forms
             }   
         }
 
-        private void dataGridView_StakeOut_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        private void DataGridView_StakeOut_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         { 
             //UpdateStakeOut();
         }
 
-        private void dataGridView_StakeOut_SelectionChanged(object sender, EventArgs e)
+        private void DataGridView_StakeOut_SelectionChanged(object sender, EventArgs e)
         {
             reStart_SelectionChanged:
             if (this.dataGridView_StakeOut.SelectedRows.Count == 0)
@@ -1145,7 +1150,7 @@ namespace LoSa.Land.Forms
             }
         }
  
-        private void btnSelectAll_Click(object sender, EventArgs e)
+        private void BtnSelectAll_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < this.dataGridView_StakeOut.RowCount; i++)
             {
@@ -1155,7 +1160,7 @@ namespace LoSa.Land.Forms
             }
         }
 
-        private void btnRemoveSelectionAll_Click(object sender, EventArgs e)
+        private void BtnRemoveSelectionAll_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < this.dataGridView_StakeOut.RowCount; i++)
             {
@@ -1165,13 +1170,14 @@ namespace LoSa.Land.Forms
             }
         }
 
-        private void mnu_About_Click(object sender, EventArgs e)
+        private void Mnu_About_Click(object sender, EventArgs e)
         {
             try
             {
                 formAboutBox.Show();
             }
-            catch (Exception exc)
+            finally
+            //catch (Exception exc)
             {
                 formAboutBox.Close();
                 this.formAboutBox = new FormAboutBox();
@@ -1179,10 +1185,10 @@ namespace LoSa.Land.Forms
             }
         }
 
-        private void btnAddTableStakeoutPoints_Click(object sender, EventArgs e)
+        private void BtnAddTableStakeoutPoints_Click(object sender, EventArgs e)
         {
             this.tabControl.SelectedIndex=2;
-            this.checkedListBox_TypeTable.Update();          
+            checkedListBox_TypeTable.Update();          
             var indexFind = this.checkedListBox_TypeTable.Items
                                     .IndexOf("Винос меж зем.ділянки (Дир. Кути)");
             this.checkedListBox_TypeTable.SelectedIndex = indexFind;

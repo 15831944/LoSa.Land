@@ -53,7 +53,7 @@ namespace LoSa.Land.GeometricСonstructions
         protected double rotation;
         protected double ucsRotation;
         protected Dictionary<string, string> tags;
-        //protected ObjectId layerId;
+        protected AcDb.ObjectId layerId;
 
         public BlockPlacementJig(AcDb.BlockReference br, Dictionary<string, string> tags)
             : base(br)
@@ -66,7 +66,7 @@ namespace LoSa.Land.GeometricСonstructions
             ucsRotation = AcGe.Vector3d.XAxis.GetAngleTo(ucs.Xaxis.TransformBy(ocsMat), ucs.Zaxis);
             rotation = blockReference.Rotation - ucsRotation;
             this.tags = tags;
-            //layerId = blockReference.LayerId;
+            layerId = blockReference.LayerId;
         }
 
         protected override AcEd.SamplerStatus Sampler(AcEd.JigPrompts prompts)
@@ -74,12 +74,14 @@ namespace LoSa.Land.GeometricСonstructions
             System.Windows.Forms.Keys mods = System.Windows.Forms.Control.ModifierKeys;
             if ((mods & System.Windows.Forms.Keys.Control) > 0)
             {
-                AcEd.JigPromptAngleOptions jpao = new AcEd.JigPromptAngleOptions("\nВкажіть обертання: ");
-                jpao.UseBasePoint = true;
-                jpao.BasePoint = blockReference.Position;
-                jpao.Cursor = AcEd.CursorType.RubberBand;
-                jpao.UserInputControls = (AcEd.UserInputControls.Accept3dCoordinates /*|
-                                            UserInputControls.UseBasePointElevation*/);
+                AcEd.JigPromptAngleOptions jpao = new AcEd.JigPromptAngleOptions("\nВкажіть обертання: ")
+                {
+                    UseBasePoint = true,
+                    BasePoint = blockReference.Position,
+                    Cursor = AcEd.CursorType.RubberBand,
+                    UserInputControls = (AcEd.UserInputControls.Accept3dCoordinates /*|
+                                            UserInputControls.UseBasePointElevation*/)
+                };
                 AcEd.PromptDoubleResult pdr = prompts.AcquireAngle(jpao);
 
                 if (rotation == pdr.Value)
@@ -95,9 +97,10 @@ namespace LoSa.Land.GeometricСonstructions
             else
             {
                 AcEd.JigPromptPointOptions jppo =
-                    new AcEd.JigPromptPointOptions("\nВкажіть точку вставки (або натисніть 'Ctrl' для  обертання): ");
-                jppo.UserInputControls =
-                  (AcEd.UserInputControls.Accept3dCoordinates | AcEd.UserInputControls.NullResponseAccepted);
+                    new AcEd.JigPromptPointOptions("\nВкажіть точку вставки (або натисніть 'Ctrl' для  обертання): ")
+                    {
+                        UserInputControls =(AcEd.UserInputControls.Accept3dCoordinates | AcEd.UserInputControls.NullResponseAccepted)
+                    };
                 AcEd.PromptPointResult ppr = prompts.AcquirePoint(jppo);
                 if (position.DistanceTo(ppr.Value) < AcGe.Tolerance.Global.EqualPoint)
                 {
@@ -132,45 +135,47 @@ namespace LoSa.Land.GeometricСonstructions
             public bool IsAligned { get => isAligned; set => isAligned = value; }
         }
 
-        private AcDb.BlockReference _br;
-        private AcDb.AttributeDefinition _attDef;
-        private AcGe.Point3d _position;
-        private AcGe.Point3d _alignment;
-        private double _rotation;
-        private bool _isAligned;
-
-        private Dictionary<string, TextInfo> _attInfos;
+        public AcDb.AttributeDefinition AttDef { get; set; }
+        public bool IsAligned { get; set ; }
+        public AcGe.Point3d Alignment { get; set; }
+        public AcGe.Point3d Position { get; set; }
+        public AcDb.BlockReference BlockReferencer { get; set; }
+        public double Rotation { get; set; }
+        private Dictionary<string, TextInfo> AttInfos { get; set; }
 
         public BlockAttribJig(AcDb.BlockReference br,
                                 Dictionary<string, string> tags)
             : base(br)
         {
-            _br = br;
+            BlockReferencer = br;
             if (tags != null)
             {
                 ServiceBlockElements.ReplaceAttributeBlock(br, tags, true);
             }
-            /*
-            _attInfos = new Dictionary<string, TextInfo>();
-            BlockTableRecord btr = (BlockTableRecord)br.BlockTableRecord.GetObject(OpenMode.ForRead);
+
+            AttInfos = new Dictionary<string, TextInfo>();
+            AcDb.BlockTableRecord btr = (AcDb.BlockTableRecord)br.BlockTableRecord.GetObject(AcDb.OpenMode.ForRead);
             
-            foreach (ObjectId id in btr)
+            foreach (AcDb.ObjectId id in btr)
             {
                 if (id.ObjectClass.Name == "AcDbAttributeDefinition")
                 {
-                    AttributeDefinition attDef = (AttributeDefinition)id.GetObject(OpenMode.ForRead);
-                    TextInfo ti = new TextInfo()
+                    AcDb.AttributeDefinition attDef = (AcDb.AttributeDefinition)id.GetObject(AcDb.OpenMode.ForRead);
+
+                    this.AttDef = attDef;
+
+                    TextInfo ti = new TextInfo
                     {
-                        _attDef = attDef;
-                        _position = attDef.Position;
-                        _alignment = attDef.AlignmentPoint;
-                        _isAligned = attDef.Justify != AttachmentPoint.BaseLeft;
-                        _rotation = attDef.Rotation;
+                        Position = attDef.Position,
+                        Alignment = attDef.AlignmentPoint,
+                        IsAligned = attDef.Justify != AcDb.AttachmentPoint.BaseLeft,
+                        Rotation = attDef.Rotation
                     };
-                    _attInfos.Add(attDef.Tag.ToUpper(), ti);
+
+                    AttInfos.Add(attDef.Tag.ToUpper(), ti); 
                 }
             }
-            */
+            
         }
     
         protected override AcEd.SamplerStatus Sampler(AcEd.JigPrompts prompts)
@@ -178,39 +183,41 @@ namespace LoSa.Land.GeometricСonstructions
             System.Windows.Forms.Keys mods = System.Windows.Forms.Control.ModifierKeys;
             if ((mods & System.Windows.Forms.Keys.Control) > 0)
             {
-                AcEd.JigPromptAngleOptions jpao = new AcEd.JigPromptAngleOptions("\nSpecify the rotation: ");
-                jpao.UseBasePoint = true;
-                jpao.BasePoint = _position;
-                jpao.Cursor = AcEd.CursorType.RubberBand;
-                jpao.UserInputControls = (
-                    AcEd.UserInputControls.Accept3dCoordinates /*|
-                    AcEd.UserInputControls.UseBasePointElevation*/);
+                AcEd.JigPromptAngleOptions jpao = new AcEd.JigPromptAngleOptions("\nSpecify the rotation: ")
+                {
+                    UseBasePoint = true,
+                    BasePoint = Position,
+                    Cursor = AcEd.CursorType.RubberBand,
+                    UserInputControls = (
+                    AcEd.UserInputControls.Accept3dCoordinates /*|AcEd.UserInputControls.UseBasePointElevation*/)
+                };
                 AcEd.PromptDoubleResult pdr = prompts.AcquireAngle(jpao);
 
-                if (_rotation == pdr.Value)
+                if (Rotation == pdr.Value)
                 {
                     return AcEd.SamplerStatus.NoChange;
                 }
                 else
                 {
-                    _rotation = pdr.Value;
+                    Rotation = pdr.Value;
                     return AcEd.SamplerStatus.OK;
                 }
             }
             else
             {
                 AcEd.JigPromptPointOptions jppo =
-                    new AcEd.JigPromptPointOptions("\nSpecify insertion point (or press Ctrl for rotation): ");
-                jppo.UserInputControls =
-                  (AcEd.UserInputControls.Accept3dCoordinates | AcEd.UserInputControls.NullResponseAccepted);
+                    new AcEd.JigPromptPointOptions("\nSpecify insertion point (or press Ctrl for rotation): ")
+                    {
+                        UserInputControls = (AcEd.UserInputControls.Accept3dCoordinates | AcEd.UserInputControls.NullResponseAccepted)
+                    };
                 AcEd.PromptPointResult ppr = prompts.AcquirePoint(jppo);
-                if (_position.DistanceTo(ppr.Value) < AcGe.Tolerance.Global.EqualPoint)
+                if (Position.DistanceTo(ppr.Value) < AcGe.Tolerance.Global.EqualPoint)
                 {
                     return AcEd.SamplerStatus.NoChange;
                 }
                 else
                 {
-                    _position = ppr.Value;
+                    Position = ppr.Value;
                 }
                 return AcEd.SamplerStatus.OK;
             }
@@ -219,29 +226,29 @@ namespace LoSa.Land.GeometricСonstructions
         protected override bool Update()
         {
             AcDb.AttributeDefinition attDef = (AcDb.AttributeDefinition)Entity;
-            _attDef.Position = _position;
-            _attDef.Rotation = _rotation;
+            AttDef.Position = Position;
+            AttDef.Rotation = Rotation;
 
-            foreach (AcDb.ObjectId id in _br.AttributeCollection)
+            foreach (AcDb.ObjectId id in BlockReferencer.AttributeCollection)
             {
                 AcDb.AttributeReference att = (AcDb.AttributeReference)id.GetObject(AcDb.OpenMode.ForWrite);
-                att.Rotation = _br.Rotation;
+                att.Rotation = BlockReferencer.Rotation;
                 string tag = att.Tag.ToUpper();
-                if (_attInfos.ContainsKey(tag))
+                if (AttInfos.ContainsKey(tag))
                 {
-                    TextInfo ti = _attInfos[tag];
-                    att.Position = ti.Position.TransformBy(_br.BlockTransform);
+                    TextInfo ti = AttInfos[tag];
+                    att.Position = ti.Position.TransformBy(BlockReferencer.BlockTransform);
                     if (ti.IsAligned)
                     {
                         att.AlignmentPoint =
-                            ti.Alignment.TransformBy(_br.BlockTransform);
-                        att.AdjustAlignment(_br.Database);
+                            ti.Alignment.TransformBy(BlockReferencer.BlockTransform);
+                        att.AdjustAlignment(BlockReferencer.Database);
                     }
                     if (att.IsMTextAttribute)
                     {
                         att.UpdateMTextAttribute();
                     }
-                    att.Rotation = ti.Rotation + _br.Rotation;
+                    att.Rotation = ti.Rotation + BlockReferencer.Rotation;
                 }
             }
 
@@ -254,11 +261,11 @@ namespace LoSa.Land.GeometricСonstructions
 
         private const double DblTol = 0.0001;
 
-        public int mCurJigFactorNumber = 2;
+        //private int mCurJigFactorNumber = 2;
 
-        private AcGe.Point3d mPosition = new AcGe.Point3d(0,0,0);     // Factor #1
-        //private double mRotation = 0.0;                   // Factor #2
-        //private double mScaleFactor = 1.0;                // Factor #3
+        private AcGe.Point3d mPosition = new AcGe.Point3d(0,0,0);   // Factor #1
+        //private double mRotation = 0.0;                             // Factor #2
+        //private double mScaleFactor = 1.0;                          // Factor #3
 
         private double mAngleOffset;
 
@@ -383,13 +390,13 @@ namespace LoSa.Land.GeometricСonstructions
              */
             #endregion 0
 
-            AcEd.JigPromptPointOptions po = new AcEd.JigPromptPointOptions("\nВкажіть точку вставки:");
-
-            po.UserInputControls =
-              (AcEd.UserInputControls.Accept3dCoordinates |
-                AcEd.UserInputControls.NullResponseAccepted |
-                AcEd.UserInputControls.NoNegativeResponseAccepted |
-                AcEd.UserInputControls.GovernedByOrthoMode);
+            AcEd.JigPromptPointOptions po = new AcEd.JigPromptPointOptions("\nВкажіть точку вставки:")
+            {
+                UserInputControls = (   AcEd.UserInputControls.Accept3dCoordinates |
+                                        AcEd.UserInputControls.NullResponseAccepted |
+                                        AcEd.UserInputControls.NoNegativeResponseAccepted |
+                                        AcEd.UserInputControls.GovernedByOrthoMode)
+            };
 
             AcEd.PromptPointResult ppr = prompts.AcquirePoint(po);
 

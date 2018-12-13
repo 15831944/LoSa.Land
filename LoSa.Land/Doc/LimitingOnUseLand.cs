@@ -34,7 +34,7 @@ namespace LoSa.Land.Doc
         /// Gets the limiting on use land from text.
         /// </summary>
         /// <returns>
-        /// List<LimitingOnUseLand>
+        /// List LimitingOnUseLand 
         /// </returns>
         public static List<LimitingOnUseLand> GetLimitingOnUseLandFromText()
         {
@@ -60,7 +60,7 @@ namespace LoSa.Land.Doc
         /// Gets the limiting on use land from XML.
         /// </summary>
         /// <returns>
-        /// List<LimitingOnUseLand>
+        /// List LimitingOnUseLand
         /// </returns>
         public static List<LimitingOnUseLand> GetLimitingOnUseLandFromXml()
         {

@@ -76,6 +76,11 @@
             this.btnAddTableStakeoutPoints = new System.Windows.Forms.Button();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.dataGridView_StakeOut = new System.Windows.Forms.DataGridView();
+            this.colVisible = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colPointParcel = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPointStation = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.colPointOrientation = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.colAutoSearching = new System.Windows.Forms.DataGridViewButtonColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.labelFileBasePoint = new System.Windows.Forms.Label();
             this.btnSelectBasePoints = new System.Windows.Forms.Button();
@@ -85,18 +90,13 @@
             this.groupBoxScaleDrawing = new System.Windows.Forms.GroupBox();
             this.comboBoxScaleDrawing = new System.Windows.Forms.ComboBox();
             this.splitContainer = new System.Windows.Forms.SplitContainer();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.mnu_Settings = new System.Windows.Forms.ToolStripMenuItem();
             this.item_TempDraw = new System.Windows.Forms.ToolStripMenuItem();
             this.item_ParcelDraw = new System.Windows.Forms.ToolStripMenuItem();
             this.item_TableParcel = new System.Windows.Forms.ToolStripMenuItem();
             this.item_StakeoutParcel = new System.Windows.Forms.ToolStripMenuItem();
             this.mnu_About = new System.Windows.Forms.ToolStripMenuItem();
-            this.colVisible = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.colPointParcel = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPointStation = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.colPointOrientation = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.colAutoSearching = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.tabControl.SuspendLayout();
             this.tabPageInfoParcel.SuspendLayout();
             this.tabPagePlan.SuspendLayout();
@@ -124,7 +124,7 @@
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
             this.splitContainer.SuspendLayout();
-            this.menuStrip1.SuspendLayout();
+            this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl
@@ -142,10 +142,10 @@
             this.tabControl.Multiline = true;
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(492, 399);
+            this.tabControl.Size = new System.Drawing.Size(492, 378);
             this.tabControl.TabIndex = 0;
-            this.tabControl.SelectedIndexChanged += new System.EventHandler(this.tabControl_SelectedIndexChanged);
-            this.tabControl.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabControl_Selected);
+            this.tabControl.SelectedIndexChanged += new System.EventHandler(this.TabControl_SelectedIndexChanged);
+            this.tabControl.Selected += new System.Windows.Forms.TabControlEventHandler(this.TabControl_Selected);
             // 
             // tabPageInfoParcel
             // 
@@ -155,7 +155,7 @@
             this.tabPageInfoParcel.Margin = new System.Windows.Forms.Padding(2);
             this.tabPageInfoParcel.Name = "tabPageInfoParcel";
             this.tabPageInfoParcel.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPageInfoParcel.Size = new System.Drawing.Size(484, 373);
+            this.tabPageInfoParcel.Size = new System.Drawing.Size(484, 352);
             this.tabPageInfoParcel.TabIndex = 0;
             this.tabPageInfoParcel.Tag = "0";
             this.tabPageInfoParcel.Text = "Інформація";
@@ -168,7 +168,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.treeView_Parcel.Location = new System.Drawing.Point(2, 2);
             this.treeView_Parcel.Name = "treeView_Parcel";
-            this.treeView_Parcel.Size = new System.Drawing.Size(479, 365);
+            this.treeView_Parcel.Size = new System.Drawing.Size(479, 344);
             this.treeView_Parcel.TabIndex = 0;
             // 
             // tabPagePlan
@@ -246,7 +246,7 @@
             this.radioButtonDistAutomatic.TabStop = true;
             this.radioButtonDistAutomatic.Text = "Автоматично";
             this.radioButtonDistAutomatic.UseVisualStyleBackColor = true;
-            this.radioButtonDistAutomatic.CheckedChanged += new System.EventHandler(this.radioButtonDistAutomatic_CheckedChanged);
+            this.radioButtonDistAutomatic.CheckedChanged += new System.EventHandler(this.RadioButtonDistAutomatic_CheckedChanged);
             // 
             // checkBoxDistDisplay
             // 
@@ -257,7 +257,7 @@
             this.checkBoxDistDisplay.TabIndex = 0;
             this.checkBoxDistDisplay.Text = "Відображати";
             this.checkBoxDistDisplay.UseVisualStyleBackColor = true;
-            this.checkBoxDistDisplay.CheckedChanged += new System.EventHandler(this.checkBoxDistDisplay_CheckedChanged);
+            this.checkBoxDistDisplay.CheckedChanged += new System.EventHandler(this.CheckBoxDistDisplay_CheckedChanged);
             // 
             // groupBoxAreaAndPerimeter
             // 
@@ -302,7 +302,7 @@
             this.radioButtonUnitAreaSquareMeter.TabStop = true;
             this.radioButtonUnitAreaSquareMeter.Text = "Одиниці площі -  кв. м.";
             this.radioButtonUnitAreaSquareMeter.UseVisualStyleBackColor = true;
-            this.radioButtonUnitAreaSquareMeter.CheckedChanged += new System.EventHandler(this.radioButtonUnitAreaSquareMeter_CheckedChanged);
+            this.radioButtonUnitAreaSquareMeter.CheckedChanged += new System.EventHandler(this.RadioButtonUnitAreaSquareMeter_CheckedChanged);
             // 
             // checkBoxPerimeter
             // 
@@ -313,7 +313,7 @@
             this.checkBoxPerimeter.TabIndex = 2;
             this.checkBoxPerimeter.Text = "Відображеть периметр";
             this.checkBoxPerimeter.UseVisualStyleBackColor = true;
-            this.checkBoxPerimeter.CheckedChanged += new System.EventHandler(this.checkBoxPerimeter_CheckedChanged);
+            this.checkBoxPerimeter.CheckedChanged += new System.EventHandler(this.CheckBoxPerimeter_CheckedChanged);
             // 
             // checkBoxArea
             // 
@@ -324,7 +324,7 @@
             this.checkBoxArea.TabIndex = 0;
             this.checkBoxArea.Text = "Відображать площу";
             this.checkBoxArea.UseVisualStyleBackColor = true;
-            this.checkBoxArea.CheckedChanged += new System.EventHandler(this.checkBoxArea_CheckedChanged);
+            this.checkBoxArea.CheckedChanged += new System.EventHandler(this.CheckBoxArea_CheckedChanged);
             // 
             // groupBoxPoints
             // 
@@ -367,7 +367,7 @@
             this.radioButtonPointsAutomatic.TabStop = true;
             this.radioButtonPointsAutomatic.Text = "Автоматично";
             this.radioButtonPointsAutomatic.UseVisualStyleBackColor = true;
-            this.radioButtonPointsAutomatic.CheckedChanged += new System.EventHandler(this.radioButtonPointsAutomatic_CheckedChanged);
+            this.radioButtonPointsAutomatic.CheckedChanged += new System.EventHandler(this.RadioButtonPointsAutomatic_CheckedChanged);
             // 
             // checkBoxPointsDisplay
             // 
@@ -378,7 +378,7 @@
             this.checkBoxPointsDisplay.TabIndex = 0;
             this.checkBoxPointsDisplay.Text = "Відображати";
             this.checkBoxPointsDisplay.UseVisualStyleBackColor = true;
-            this.checkBoxPointsDisplay.CheckedChanged += new System.EventHandler(this.checkBoxPointsDisplay_CheckedChanged);
+            this.checkBoxPointsDisplay.CheckedChanged += new System.EventHandler(this.CheckBoxPointsDisplay_CheckedChanged);
             // 
             // groupBoxFillPoligon
             // 
@@ -409,7 +409,7 @@
             this.radioButtonNeighborsStateAct.TabStop = true;
             this.radioButtonNeighborsStateAct.Text = "Держ. Акти";
             this.radioButtonNeighborsStateAct.UseVisualStyleBackColor = true;
-            this.radioButtonNeighborsStateAct.CheckedChanged += new System.EventHandler(this.radioButtonNeighborsStateAct_CheckedChanged);
+            this.radioButtonNeighborsStateAct.CheckedChanged += new System.EventHandler(this.RadioButtonNeighborsStateAct_CheckedChanged);
             // 
             // radioButtonNeighborsAll
             // 
@@ -434,7 +434,7 @@
             this.checkBoxFillLimiting.TabIndex = 2;
             this.checkBoxFillLimiting.Text = "Обмеження";
             this.checkBoxFillLimiting.UseVisualStyleBackColor = true;
-            this.checkBoxFillLimiting.CheckedChanged += new System.EventHandler(this.checkBoxFillLimiting_CheckedChanged);
+            this.checkBoxFillLimiting.CheckedChanged += new System.EventHandler(this.CheckBoxFillLimiting_CheckedChanged);
             // 
             // checkBoxFillLands
             // 
@@ -445,7 +445,7 @@
             this.checkBoxFillLands.TabIndex = 1;
             this.checkBoxFillLands.Text = "Угіддя";
             this.checkBoxFillLands.UseVisualStyleBackColor = true;
-            this.checkBoxFillLands.CheckedChanged += new System.EventHandler(this.checkBoxFillLands_CheckedChanged);
+            this.checkBoxFillLands.CheckedChanged += new System.EventHandler(this.CheckBoxFillLands_CheckedChanged);
             // 
             // checkBoxFillNeighbors
             // 
@@ -456,7 +456,7 @@
             this.checkBoxFillNeighbors.TabIndex = 0;
             this.checkBoxFillNeighbors.Text = "Суміжні ділянки";
             this.checkBoxFillNeighbors.UseVisualStyleBackColor = true;
-            this.checkBoxFillNeighbors.CheckedChanged += new System.EventHandler(this.checkBoxFillNeighbors_CheckedChanged);
+            this.checkBoxFillNeighbors.CheckedChanged += new System.EventHandler(this.CheckBoxFillNeighbors_CheckedChanged);
             // 
             // checkBoxFillParcel
             // 
@@ -467,7 +467,7 @@
             this.checkBoxFillParcel.TabIndex = 0;
             this.checkBoxFillParcel.Text = "Земельної ділянки";
             this.checkBoxFillParcel.UseVisualStyleBackColor = true;
-            this.checkBoxFillParcel.CheckedChanged += new System.EventHandler(this.checkBoxFillParcel_CheckedChanged);
+            this.checkBoxFillParcel.CheckedChanged += new System.EventHandler(this.CheckBoxFillParcel_CheckedChanged);
             // 
             // flowLayoutPanel1
             // 
@@ -488,7 +488,7 @@
             this.btnBuildingPlan.TabIndex = 3;
             this.btnBuildingPlan.Text = "Виконати побудову";
             this.btnBuildingPlan.UseVisualStyleBackColor = true;
-            this.btnBuildingPlan.Click += new System.EventHandler(this.btnBuildingPlan_Click);
+            this.btnBuildingPlan.Click += new System.EventHandler(this.BtnBuildingPlan_Click);
             // 
             // btnExportToFile
             // 
@@ -499,7 +499,7 @@
             this.btnExportToFile.TabIndex = 8;
             this.btnExportToFile.Text = "Експорт";
             this.btnExportToFile.UseVisualStyleBackColor = true;
-            this.btnExportToFile.Click += new System.EventHandler(this.btnExportToFile_Click);
+            this.btnExportToFile.Click += new System.EventHandler(this.BtnExportToFile_Click);
             // 
             // tabPageTable
             // 
@@ -547,7 +547,7 @@
             this.btnBuildingTable.TabIndex = 4;
             this.btnBuildingTable.Text = "Виконати побудову";
             this.btnBuildingTable.UseVisualStyleBackColor = true;
-            this.btnBuildingTable.Click += new System.EventHandler(this.btnBuildingTable_Click);
+            this.btnBuildingTable.Click += new System.EventHandler(this.BtnBuildingTable_Click);
             // 
             // btnEditTypeTable
             // 
@@ -557,7 +557,7 @@
             this.btnEditTypeTable.TabIndex = 6;
             this.btnEditTypeTable.Text = "Редагувати типи таблиць";
             this.btnEditTypeTable.UseVisualStyleBackColor = true;
-            this.btnEditTypeTable.Click += new System.EventHandler(this.btnEditTypeTable_Click);
+            this.btnEditTypeTable.Click += new System.EventHandler(this.BtnEditTypeTable_Click);
             // 
             // checkedListBox_TypeTable
             // 
@@ -624,7 +624,7 @@
             this.btnBuildingBoxDrawing.TabIndex = 4;
             this.btnBuildingBoxDrawing.Text = "Виконати побудову";
             this.btnBuildingBoxDrawing.UseVisualStyleBackColor = true;
-            this.btnBuildingBoxDrawing.Click += new System.EventHandler(this.btnBuildingBoxDrawing_Click);
+            this.btnBuildingBoxDrawing.Click += new System.EventHandler(this.BtnBuildingBoxDrawing_Click);
             // 
             // btnEditTypeBoxDrawing
             // 
@@ -634,7 +634,7 @@
             this.btnEditTypeBoxDrawing.TabIndex = 6;
             this.btnEditTypeBoxDrawing.Text = "Редагувати типи таблиць";
             this.btnEditTypeBoxDrawing.UseVisualStyleBackColor = true;
-            this.btnEditTypeBoxDrawing.Click += new System.EventHandler(this.btnEditTypeBoxDrawing_Click);
+            this.btnEditTypeBoxDrawing.Click += new System.EventHandler(this.BtnEditTypeBoxDrawing_Click);
             // 
             // tabPageBreakdownPoints
             // 
@@ -683,7 +683,7 @@
             this.btnSelectAll.TabIndex = 6;
             this.btnSelectAll.Text = "Вибрати все";
             this.btnSelectAll.UseVisualStyleBackColor = true;
-            this.btnSelectAll.Click += new System.EventHandler(this.btnSelectAll_Click);
+            this.btnSelectAll.Click += new System.EventHandler(this.BtnSelectAll_Click);
             // 
             // btnRemoveSelectionAll
             // 
@@ -693,7 +693,7 @@
             this.btnRemoveSelectionAll.TabIndex = 4;
             this.btnRemoveSelectionAll.Text = "Відмінити вибір всього";
             this.btnRemoveSelectionAll.UseVisualStyleBackColor = true;
-            this.btnRemoveSelectionAll.Click += new System.EventHandler(this.btnRemoveSelectionAll_Click);
+            this.btnRemoveSelectionAll.Click += new System.EventHandler(this.BtnRemoveSelectionAll_Click);
             // 
             // btnAddTableStakeoutPoints
             // 
@@ -703,7 +703,7 @@
             this.btnAddTableStakeoutPoints.TabIndex = 7;
             this.btnAddTableStakeoutPoints.Text = "Додати таблицю";
             this.btnAddTableStakeoutPoints.UseVisualStyleBackColor = true;
-            this.btnAddTableStakeoutPoints.Click += new System.EventHandler(this.btnAddTableStakeoutPoints_Click);
+            this.btnAddTableStakeoutPoints.Click += new System.EventHandler(this.BtnAddTableStakeoutPoints_Click);
             // 
             // tableLayoutPanel5
             // 
@@ -742,186 +742,11 @@
             this.dataGridView_StakeOut.Name = "dataGridView_StakeOut";
             this.dataGridView_StakeOut.Size = new System.Drawing.Size(469, 257);
             this.dataGridView_StakeOut.TabIndex = 8;
-            this.dataGridView_StakeOut.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridView_StakeOut_CellBeginEdit);
-            this.dataGridView_StakeOut.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_StakeOut_CellContentClick);
-            this.dataGridView_StakeOut.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_StakeOut_CellEndEdit);
-            this.dataGridView_StakeOut.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_StakeOut_CellValueChanged);
-            this.dataGridView_StakeOut.Click += new System.EventHandler(this.dataGridView_StakeOut_SelectionChanged);
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.labelFileBasePoint);
-            this.groupBox1.Controls.Add(this.btnSelectBasePoints);
-            this.groupBox1.Location = new System.Drawing.Point(3, 3);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(469, 44);
-            this.groupBox1.TabIndex = 7;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Точки планового обгрунтування:";
-            // 
-            // labelFileBasePoint
-            // 
-            this.labelFileBasePoint.AutoSize = true;
-            this.labelFileBasePoint.Location = new System.Drawing.Point(47, 22);
-            this.labelFileBasePoint.Name = "labelFileBasePoint";
-            this.labelFileBasePoint.Size = new System.Drawing.Size(0, 13);
-            this.labelFileBasePoint.TabIndex = 2;
-            // 
-            // btnSelectBasePoints
-            // 
-            this.btnSelectBasePoints.Location = new System.Drawing.Point(6, 19);
-            this.btnSelectBasePoints.Name = "btnSelectBasePoints";
-            this.btnSelectBasePoints.Size = new System.Drawing.Size(39, 19);
-            this.btnSelectBasePoints.TabIndex = 1;
-            this.btnSelectBasePoints.Text = ". . .";
-            this.btnSelectBasePoints.UseVisualStyleBackColor = true;
-            this.btnSelectBasePoints.Click += new System.EventHandler(this.btnSelectBasePoints_Click);
-            // 
-            // groupBoxBlockLand
-            // 
-            this.groupBoxBlockLand.Controls.Add(this.btnSelectFile);
-            this.groupBoxBlockLand.Controls.Add(this.comboBoxNumberParcel);
-            this.groupBoxBlockLand.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.groupBoxBlockLand.Location = new System.Drawing.Point(10, 11);
-            this.groupBoxBlockLand.Margin = new System.Windows.Forms.Padding(2);
-            this.groupBoxBlockLand.Name = "groupBoxBlockLand";
-            this.groupBoxBlockLand.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBoxBlockLand.Size = new System.Drawing.Size(205, 55);
-            this.groupBoxBlockLand.TabIndex = 1;
-            this.groupBoxBlockLand.TabStop = false;
-            this.groupBoxBlockLand.Text = "Ділянка :";
-            // 
-            // btnSelectFile
-            // 
-            this.btnSelectFile.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSelectFile.Location = new System.Drawing.Point(5, 18);
-            this.btnSelectFile.Name = "btnSelectFile";
-            this.btnSelectFile.Size = new System.Drawing.Size(40, 28);
-            this.btnSelectFile.TabIndex = 2;
-            this.btnSelectFile.Text = ". . .";
-            this.btnSelectFile.UseVisualStyleBackColor = true;
-            this.btnSelectFile.Click += new System.EventHandler(this.btnSelectFile_Click);
-            // 
-            // comboBoxNumberParcel
-            // 
-            this.comboBoxNumberParcel.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.comboBoxNumberParcel.BackColor = System.Drawing.SystemColors.Window;
-            this.comboBoxNumberParcel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxNumberParcel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.comboBoxNumberParcel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.comboBoxNumberParcel.ForeColor = System.Drawing.Color.Blue;
-            this.comboBoxNumberParcel.FormattingEnabled = true;
-            this.comboBoxNumberParcel.Location = new System.Drawing.Point(50, 18);
-            this.comboBoxNumberParcel.Name = "comboBoxNumberParcel";
-            this.comboBoxNumberParcel.Size = new System.Drawing.Size(150, 28);
-            this.comboBoxNumberParcel.TabIndex = 1;
-            this.comboBoxNumberParcel.SelectedIndexChanged += new System.EventHandler(this.comboBoxNumberParcel_SelectedIndexChanged);
-            // 
-            // groupBoxScaleDrawing
-            // 
-            this.groupBoxScaleDrawing.Controls.Add(this.comboBoxScaleDrawing);
-            this.groupBoxScaleDrawing.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.groupBoxScaleDrawing.Location = new System.Drawing.Point(222, 11);
-            this.groupBoxScaleDrawing.Margin = new System.Windows.Forms.Padding(2);
-            this.groupBoxScaleDrawing.Name = "groupBoxScaleDrawing";
-            this.groupBoxScaleDrawing.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBoxScaleDrawing.Size = new System.Drawing.Size(130, 55);
-            this.groupBoxScaleDrawing.TabIndex = 3;
-            this.groupBoxScaleDrawing.TabStop = false;
-            this.groupBoxScaleDrawing.Text = "Маштаб :";
-            // 
-            // comboBoxScaleDrawing
-            // 
-            this.comboBoxScaleDrawing.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.comboBoxScaleDrawing.BackColor = System.Drawing.SystemColors.Window;
-            this.comboBoxScaleDrawing.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxScaleDrawing.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.comboBoxScaleDrawing.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.comboBoxScaleDrawing.ForeColor = System.Drawing.Color.Blue;
-            this.comboBoxScaleDrawing.FormattingEnabled = true;
-            this.comboBoxScaleDrawing.Location = new System.Drawing.Point(5, 20);
-            this.comboBoxScaleDrawing.Name = "comboBoxScaleDrawing";
-            this.comboBoxScaleDrawing.Size = new System.Drawing.Size(120, 28);
-            this.comboBoxScaleDrawing.TabIndex = 1;
-            this.comboBoxScaleDrawing.SelectedIndexChanged += new System.EventHandler(this.comboBoxScaleDrawing_SelectedIndexChanged);
-            // 
-            // splitContainer
-            // 
-            this.splitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer.Location = new System.Drawing.Point(0, 24);
-            this.splitContainer.Name = "splitContainer";
-            this.splitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer.Panel1
-            // 
-            this.splitContainer.Panel1.Controls.Add(this.groupBoxBlockLand);
-            this.splitContainer.Panel1.Controls.Add(this.groupBoxScaleDrawing);
-            this.splitContainer.Panel1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.splitContainer.Panel1MinSize = 70;
-            // 
-            // splitContainer.Panel2
-            // 
-            this.splitContainer.Panel2.Controls.Add(this.tabControl);
-            this.splitContainer.Panel2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.splitContainer.Panel2MinSize = 100;
-            this.splitContainer.Size = new System.Drawing.Size(496, 480);
-            this.splitContainer.SplitterDistance = 70;
-            this.splitContainer.TabIndex = 4;
-            // 
-            // menuStrip1
-            // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnu_Settings,
-            this.mnu_About});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(496, 24);
-            this.menuStrip1.TabIndex = 5;
-            this.menuStrip1.Text = "menuStrip1";
-            // 
-            // mnu_Settings
-            // 
-            this.mnu_Settings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.item_TempDraw,
-            this.item_ParcelDraw,
-            this.item_TableParcel,
-            this.item_StakeoutParcel});
-            this.mnu_Settings.Name = "mnu_Settings";
-            this.mnu_Settings.Size = new System.Drawing.Size(101, 20);
-            this.mnu_Settings.Text = "Налаштування";
-            // 
-            // item_TempDraw
-            // 
-            this.item_TempDraw.Name = "item_TempDraw";
-            this.item_TempDraw.Size = new System.Drawing.Size(267, 22);
-            this.item_TempDraw.Text = "Тимчасове відображення кварталу";
-            // 
-            // item_ParcelDraw
-            // 
-            this.item_ParcelDraw.Name = "item_ParcelDraw";
-            this.item_ParcelDraw.Size = new System.Drawing.Size(267, 22);
-            this.item_ParcelDraw.Text = "Відображення ділянки";
-            // 
-            // item_TableParcel
-            // 
-            this.item_TableParcel.Name = "item_TableParcel";
-            this.item_TableParcel.Size = new System.Drawing.Size(267, 22);
-            this.item_TableParcel.Text = "Таблиці ділянки";
-            // 
-            // item_StakeoutParcel
-            // 
-            this.item_StakeoutParcel.Name = "item_StakeoutParcel";
-            this.item_StakeoutParcel.Size = new System.Drawing.Size(267, 22);
-            this.item_StakeoutParcel.Text = "Розбівочне креслення";
-            // 
-            // mnu_About
-            // 
-            this.mnu_About.Name = "mnu_About";
-            this.mnu_About.Size = new System.Drawing.Size(99, 20);
-            this.mnu_About.Text = "Про програму";
-            this.mnu_About.Click += new System.EventHandler(this.mnu_About_Click);
+            this.dataGridView_StakeOut.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.DataGridView_StakeOut_CellBeginEdit);
+            this.dataGridView_StakeOut.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView_StakeOut_CellContentClick);
+            this.dataGridView_StakeOut.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView_StakeOut_CellEndEdit);
+            this.dataGridView_StakeOut.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView_StakeOut_CellValueChanged);
+            this.dataGridView_StakeOut.Click += new System.EventHandler(this.DataGridView_StakeOut_SelectionChanged);
             // 
             // colVisible
             // 
@@ -964,14 +789,189 @@
             this.colAutoSearching.Name = "colAutoSearching";
             this.colAutoSearching.Width = 70;
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.labelFileBasePoint);
+            this.groupBox1.Controls.Add(this.btnSelectBasePoints);
+            this.groupBox1.Location = new System.Drawing.Point(3, 3);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(469, 44);
+            this.groupBox1.TabIndex = 7;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Точки планового обгрунтування:";
+            // 
+            // labelFileBasePoint
+            // 
+            this.labelFileBasePoint.AutoSize = true;
+            this.labelFileBasePoint.Location = new System.Drawing.Point(47, 22);
+            this.labelFileBasePoint.Name = "labelFileBasePoint";
+            this.labelFileBasePoint.Size = new System.Drawing.Size(0, 13);
+            this.labelFileBasePoint.TabIndex = 2;
+            // 
+            // btnSelectBasePoints
+            // 
+            this.btnSelectBasePoints.Location = new System.Drawing.Point(6, 19);
+            this.btnSelectBasePoints.Name = "btnSelectBasePoints";
+            this.btnSelectBasePoints.Size = new System.Drawing.Size(39, 19);
+            this.btnSelectBasePoints.TabIndex = 1;
+            this.btnSelectBasePoints.Text = ". . .";
+            this.btnSelectBasePoints.UseVisualStyleBackColor = true;
+            this.btnSelectBasePoints.Click += new System.EventHandler(this.BtnSelectBasePoints_Click);
+            // 
+            // groupBoxBlockLand
+            // 
+            this.groupBoxBlockLand.Controls.Add(this.btnSelectFile);
+            this.groupBoxBlockLand.Controls.Add(this.comboBoxNumberParcel);
+            this.groupBoxBlockLand.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.groupBoxBlockLand.Location = new System.Drawing.Point(10, 11);
+            this.groupBoxBlockLand.Margin = new System.Windows.Forms.Padding(2);
+            this.groupBoxBlockLand.Name = "groupBoxBlockLand";
+            this.groupBoxBlockLand.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBoxBlockLand.Size = new System.Drawing.Size(205, 55);
+            this.groupBoxBlockLand.TabIndex = 1;
+            this.groupBoxBlockLand.TabStop = false;
+            this.groupBoxBlockLand.Text = "Ділянка :";
+            // 
+            // btnSelectFile
+            // 
+            this.btnSelectFile.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSelectFile.Location = new System.Drawing.Point(5, 18);
+            this.btnSelectFile.Name = "btnSelectFile";
+            this.btnSelectFile.Size = new System.Drawing.Size(40, 28);
+            this.btnSelectFile.TabIndex = 2;
+            this.btnSelectFile.Text = ". . .";
+            this.btnSelectFile.UseVisualStyleBackColor = true;
+            this.btnSelectFile.Click += new System.EventHandler(this.BtnSelectFile_Click);
+            // 
+            // comboBoxNumberParcel
+            // 
+            this.comboBoxNumberParcel.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.comboBoxNumberParcel.BackColor = System.Drawing.SystemColors.Window;
+            this.comboBoxNumberParcel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxNumberParcel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.comboBoxNumberParcel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.comboBoxNumberParcel.ForeColor = System.Drawing.Color.Blue;
+            this.comboBoxNumberParcel.FormattingEnabled = true;
+            this.comboBoxNumberParcel.Location = new System.Drawing.Point(50, 18);
+            this.comboBoxNumberParcel.Name = "comboBoxNumberParcel";
+            this.comboBoxNumberParcel.Size = new System.Drawing.Size(150, 28);
+            this.comboBoxNumberParcel.TabIndex = 1;
+            this.comboBoxNumberParcel.SelectedIndexChanged += new System.EventHandler(this.ComboBoxNumberParcel_SelectedIndexChanged);
+            // 
+            // groupBoxScaleDrawing
+            // 
+            this.groupBoxScaleDrawing.Controls.Add(this.comboBoxScaleDrawing);
+            this.groupBoxScaleDrawing.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.groupBoxScaleDrawing.Location = new System.Drawing.Point(222, 11);
+            this.groupBoxScaleDrawing.Margin = new System.Windows.Forms.Padding(2);
+            this.groupBoxScaleDrawing.Name = "groupBoxScaleDrawing";
+            this.groupBoxScaleDrawing.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBoxScaleDrawing.Size = new System.Drawing.Size(130, 55);
+            this.groupBoxScaleDrawing.TabIndex = 3;
+            this.groupBoxScaleDrawing.TabStop = false;
+            this.groupBoxScaleDrawing.Text = "Маштаб :";
+            // 
+            // comboBoxScaleDrawing
+            // 
+            this.comboBoxScaleDrawing.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.comboBoxScaleDrawing.BackColor = System.Drawing.SystemColors.Window;
+            this.comboBoxScaleDrawing.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxScaleDrawing.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.comboBoxScaleDrawing.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.comboBoxScaleDrawing.ForeColor = System.Drawing.Color.Blue;
+            this.comboBoxScaleDrawing.FormattingEnabled = true;
+            this.comboBoxScaleDrawing.Location = new System.Drawing.Point(5, 20);
+            this.comboBoxScaleDrawing.Name = "comboBoxScaleDrawing";
+            this.comboBoxScaleDrawing.Size = new System.Drawing.Size(120, 28);
+            this.comboBoxScaleDrawing.TabIndex = 1;
+            this.comboBoxScaleDrawing.SelectedIndexChanged += new System.EventHandler(this.ComboBoxScaleDrawing_SelectedIndexChanged);
+            // 
+            // splitContainer
+            // 
+            this.splitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer.Location = new System.Drawing.Point(0, 24);
+            this.splitContainer.Name = "splitContainer";
+            this.splitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer.Panel1
+            // 
+            this.splitContainer.Panel1.Controls.Add(this.groupBoxBlockLand);
+            this.splitContainer.Panel1.Controls.Add(this.groupBoxScaleDrawing);
+            this.splitContainer.Panel1.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.splitContainer.Panel1MinSize = 70;
+            // 
+            // splitContainer.Panel2
+            // 
+            this.splitContainer.Panel2.Controls.Add(this.tabControl);
+            this.splitContainer.Panel2.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.splitContainer.Panel2MinSize = 100;
+            this.splitContainer.Size = new System.Drawing.Size(496, 480);
+            this.splitContainer.SplitterDistance = 70;
+            this.splitContainer.TabIndex = 4;
+            // 
+            // mnu_Settings
+            // 
+            this.mnu_Settings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.item_TempDraw,
+            this.item_ParcelDraw,
+            this.item_TableParcel,
+            this.item_StakeoutParcel});
+            this.mnu_Settings.Name = "mnu_Settings";
+            this.mnu_Settings.Size = new System.Drawing.Size(101, 20);
+            this.mnu_Settings.Text = "Налаштування";
+            // 
+            // item_TempDraw
+            // 
+            this.item_TempDraw.Name = "item_TempDraw";
+            this.item_TempDraw.Size = new System.Drawing.Size(267, 22);
+            this.item_TempDraw.Text = "Тимчасове відображення кварталу";
+            // 
+            // item_ParcelDraw
+            // 
+            this.item_ParcelDraw.Name = "item_ParcelDraw";
+            this.item_ParcelDraw.Size = new System.Drawing.Size(267, 22);
+            this.item_ParcelDraw.Text = "Відображення ділянки";
+            // 
+            // item_TableParcel
+            // 
+            this.item_TableParcel.Name = "item_TableParcel";
+            this.item_TableParcel.Size = new System.Drawing.Size(267, 22);
+            this.item_TableParcel.Text = "Таблиці ділянки";
+            // 
+            // item_StakeoutParcel
+            // 
+            this.item_StakeoutParcel.Name = "item_StakeoutParcel";
+            this.item_StakeoutParcel.Size = new System.Drawing.Size(267, 22);
+            this.item_StakeoutParcel.Text = "Розбівочне креслення";
+            // 
+            // mnu_About
+            // 
+            this.mnu_About.Name = "mnu_About";
+            this.mnu_About.Size = new System.Drawing.Size(99, 20);
+            this.mnu_About.Text = "Про програму";
+            this.mnu_About.Click += new System.EventHandler(this.Mnu_About_Click);
+            // 
+            // menuStrip
+            // 
+            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnu_Settings,
+            this.mnu_About});
+            this.menuStrip.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip.Name = "menuStrip";
+            this.menuStrip.Size = new System.Drawing.Size(496, 24);
+            this.menuStrip.TabIndex = 5;
+            this.menuStrip.Text = "menuStrip1";
+            // 
             // FormLand
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(496, 504);
             this.Controls.Add(this.splitContainer);
-            this.Controls.Add(this.menuStrip1);
-            this.MainMenuStrip = this.menuStrip1;
+            this.Controls.Add(this.menuStrip);
+            this.MainMenuStrip = this.menuStrip;
             this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(470, 500);
@@ -1014,8 +1014,8 @@
             this.splitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
             this.splitContainer.ResumeLayout(false);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this.menuStrip.ResumeLayout(false);
+            this.menuStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1079,18 +1079,18 @@
         private System.Windows.Forms.Button btnSelectBasePoints;
         private System.Windows.Forms.DataGridView dataGridView_StakeOut;
         private System.Windows.Forms.Label labelFileBasePoint;
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem mnu_Settings;
-        private System.Windows.Forms.ToolStripMenuItem item_TempDraw;
-        private System.Windows.Forms.ToolStripMenuItem item_ParcelDraw;
-        private System.Windows.Forms.ToolStripMenuItem item_TableParcel;
-        private System.Windows.Forms.ToolStripMenuItem item_StakeoutParcel;
-        private System.Windows.Forms.ToolStripMenuItem mnu_About;
         private System.Windows.Forms.Button btnAddTableStakeoutPoints;
         private System.Windows.Forms.DataGridViewCheckBoxColumn colVisible;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPointParcel;
         private System.Windows.Forms.DataGridViewComboBoxColumn colPointStation;
         private System.Windows.Forms.DataGridViewComboBoxColumn colPointOrientation;
         private System.Windows.Forms.DataGridViewButtonColumn colAutoSearching;
+        private System.Windows.Forms.ToolStripMenuItem mnu_Settings;
+        private System.Windows.Forms.ToolStripMenuItem item_TempDraw;
+        private System.Windows.Forms.ToolStripMenuItem item_ParcelDraw;
+        private System.Windows.Forms.ToolStripMenuItem item_TableParcel;
+        private System.Windows.Forms.ToolStripMenuItem item_StakeoutParcel;
+        private System.Windows.Forms.ToolStripMenuItem mnu_About;
+        private System.Windows.Forms.MenuStrip menuStrip;
     }
 }

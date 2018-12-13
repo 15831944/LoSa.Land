@@ -24,7 +24,8 @@ namespace LoSa.Utility
             {
                 this.RootDirectory = ServiceCAD.GetSystemVariableSrchPathByName(pathName);
             }
-            catch (Exception exc)
+            finally
+            //catch (Exception exc)
             {
 
             }

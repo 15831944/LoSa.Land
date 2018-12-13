@@ -4,7 +4,6 @@ namespace LoSa.Land.Tables
 {
     public class SettingsFormLand : Settings.ISettings
     {
-       
         public double ScaleDrawing { get; set; }
 
         public int IndexTabControl { get; set; }

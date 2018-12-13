@@ -17,12 +17,23 @@ namespace LoSa.Land.Settings
         /// <value>
         /// The default.
         /// </value>
+        /// 
         ISettings Default { get; }
         */
     }
 
-    public abstract class ASettings :ISettings
+    /// <summary>
+    /// Абстракция Settings
+    /// </summary>
+    /// <seealso cref="LoSa.Land.Settings.ISettings" />
+    public abstract class ASettings  : ISettings
     {
+        /// <summary>
+        /// Gets the default.
+        /// </summary>
+        /// <value>
+        /// The default.
+        /// </value>
         public static ISettings Default { get; }
     }
 }

@@ -118,9 +118,11 @@ namespace LoSa.Land.GeometricСonstructions
 
         public void DisplayAlongLine(AcGe.Point3d directionPoint, double offset, double step, int quantity)
         {
-            AcDb.Ray ray = new AcDb.Ray();
-            ray.BasePoint = this.BasePointArrays;
-            ray.UnitDir = this.BasePointArrays.GetVectorTo(directionPoint);
+            AcDb.Ray ray = new AcDb.Ray
+            {
+                BasePoint = this.BasePointArrays,
+                UnitDir = this.BasePointArrays.GetVectorTo(directionPoint)
+            };
             double length = offset;
             for (int i = 0; i < quantity; i++ )
             {
@@ -132,10 +134,14 @@ namespace LoSa.Land.GeometricСonstructions
         [AcTrx.CommandMethod("Land_IntersectionGridLines")]
         public static void DisplayIntersectionGridLines()
         {
-            AcEd.PromptDoubleOptions pdo = new AcEd.PromptDoubleOptions("Побудова перетину ліній координатної сітки > Масштаб креслення (1:1000 - 1.0, 1:500 - 0.5 ...) :");
-            pdo.AllowNegative = false;
-            pdo.AllowZero = false;
-            pdo.AllowNone = false;
+            string strMsg = "Побудова перетину ліній координатної сітки > Масштаб креслення (1:1000 - 1.0, 1:500 - 0.5 ...) :";
+            AcEd.PromptDoubleOptions pdo = 
+                new AcEd.PromptDoubleOptions(strMsg)
+            {
+                AllowNegative = false,
+                AllowZero = false,
+                AllowNone = false
+            };
 
 
             AcEd.PromptDoubleResult pdr = CurrentCAD.Editor.GetDouble(pdo);
